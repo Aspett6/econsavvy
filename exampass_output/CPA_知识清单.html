@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CPA · 知识清单</title>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\(', '\)']],
+    displayMath: [['$$', '$$'], ['\[', '\]']]
+  }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"></script>
+<style>
+/* === ExamPass Shared Styles === */
+/* Paper-like warm background, clean typography, responsive */
+
+:root {
+  --paper: #fdf6e3;
+  --paper-dark: #f5ecd7;
+  --ink: #2c2c2c;
+  --ink-light: #555;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --divider: #d6c8a8;
+  --card-bg: #fef9ef;
+  --card-border: #e8dcc8;
+  --correct: #22c55e;
+  --correct-bg: #f0fdf4;
+  --wrong: #ef4444;
+  --wrong-bg: #fef2f2;
+  --tag-bg: #fef3c7;
+  --tag-text: #92400e;
+  --radius: 6px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: "Microsoft YaHei", "Noto Sans SC", "SimSun", sans-serif;
+  font-size: 12pt; line-height: 1.75; color: var(--ink);
+  max-width: 860px; margin: auto; padding: 24px 20px 60px;
+  background: var(--paper);
+}
+
+@media print {
+  body { font-size: 10.5pt; background: #fff; }
+  .no-print { display: none !important; }
+  h1, h2, h3 { page-break-after: avoid; }
+}
+
+/* ── Header ── */
+#exampass-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 6px 0; margin-bottom: 0;
+}
+.header-brand { font-size: 1.2em; font-weight: 700; color: #1a1a2e; letter-spacing: 0.3px; }
+.header-url  { font-size: 0.78em; color: #999; }
+.header-divider { border: none; border-top: 2px solid var(--divider); margin: 4px 0 20px 0; }
+
+/* ── Typography ── */
+h1 { font-size: 1.55em; text-align: center; border-bottom: 2px solid var(--divider); padding-bottom: 8px; margin-top: 0; }
+h2 { font-size: 1.25em; border-bottom: 1px solid var(--divider); padding-bottom: 4px; margin-top: 28px; }
+h3 { font-size: 1.08em; margin-top: 20px; color: var(--ink); }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Tables ── */
+table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 0.95em; }
+td, th { border: 1px solid var(--card-border); padding: 5px 9px; text-align: left; }
+th { background: var(--paper-dark); font-weight: 700; }
+
+/* ── Knowledge point vs explanation ── */
+.kp { font-weight: 700; color: var(--ink); }           /* key point: bold dark */
+.exp { font-weight: 400; color: var(--ink-light); }    /* explanation: lighter */
+.exp em, .exp strong { color: var(--ink); }             /* emphasis inside explanation */
+
+/* ── Block elements ── */
+blockquote {
+  border-left: 3px solid #c0392b; background: #fef9ef;
+  padding: 6px 14px; margin: 10px 0; font-size: 0.95em;
+}
+code { background: #f0ede0; padding: 2px 5px; border-radius: 3px; font-size: 0.92em; }
+pre { background: #f0ede0; padding: 10px; border-radius: var(--radius); overflow-x: auto; }
+
+/* ── TOC ── */
+div.toc {
+  background: var(--card-bg); padding: 14px 18px;
+  border: 1px solid var(--card-border); border-radius: var(--radius); margin-bottom: 22px;
+}
+div.toc ul { padding-left: 18px; }
+div.toc li { margin: 3px 0; font-size: 0.95em; }
+
+/* ── Priority tags ── */
+.tag-must   { background: #fee2e2; color: #991b1b; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-key    { background: #fef3c7; color: #92400e; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-freq   { background: #dbeafe; color: #1e40af; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-info   { background: #f0fdf4; color: #166534; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+
+
+</style>
+</head>
+<body>
+
+<header id="exampass-header">
+  <div class="header-left"><span class="header-brand">ExamPass Assistant</span></div>
+  <div class="header-right"><span class="header-url">github.com/WUBING2023/ExamPass-Assistant</span></div>
+</header>
+<hr class="header-divider">
+
+<h1>CPA · 知识清单</h1>
+<div class="toc">
+<h2>目录</h2>
+<ul>
+<li><a href="#s26327341">科目一：会计 必考（CPA最核心）</a></li>
+  <li><a href="#s77944742">收入确认五步法 重点</a></li>
+  <li><a href="#s70413755">长期股权投资 必考</a></li>
+  <li><a href="#s80965700">存货与固定资产</a></li>
+  <li><a href="#s78921428">研发支出</a></li>
+  <li><a href="#s46960792">递延所得税 重点</a></li>
+<li><a href="#s63900745">科目二：审计 重点</a></li>
+<li><a href="#s68308968">科目三：财务成本管理</a></li>
+<li><a href="#s79281471">科目四：税法 高频</a></li>
+<li><a href="#s40836440">科目五：经济法</a></li>
+<li><a href="#s56415503">科目六：公司战略</a></li>
+</ul>
+</div>
+
+<h2 id="s26327341">科目一：会计 <span class="tag-must">必考（CPA最核心）</span></h2>
+<h3 id="s77944742">收入确认五步法 <span class="tag-key">重点</span></h3>
+<p>1.识别合同 2.识别履约义务 3.确定交易价格 4.分摊价格 5.确认收入（时点vs时段）</p>
+<h3 id="s70413755">长期股权投资 <span class="tag-must">必考</span></h3>
+<table><tr><th>持股</th><th>方法</th><th>要点</th></tr>
+<tr><td>>50%（控制）</td><td>成本法</td><td>需编合并报表。宣告股利确认收益</td></tr>
+<tr><td>20-50%（重大影响）</td><td>权益法</td><td>按份额确认净利润，股利冲减账面</td></tr>
+<tr><td><20%</td><td>金融资产</td><td>按CAS22分类</td></tr></table>
+<p>同一控制合并->账面价值法（无商誉，差额调资本公积）。非同一控制->购买法（产生商誉=合并成本-可辨认净资产公允份额）。</p>
+<h3 id="s80965700">存货与固定资产</h3>
+<p>FIFO、移动加权平均、月末一次加权平均、个别计价。LIFO已被禁止。存货减值可转回，固定资产/无形资产/商誉减值不可转回。</p>
+<h3 id="s78921428">研发支出</h3>
+<p>研究阶段全费用化。开发阶段符合五条件可资本化：技术可行、意图完成、预期经济利益、资源充足、支出可靠计量。</p>
+<h3 id="s46960792">递延所得税 <span class="tag-key">重点</span></h3>
+<p>DTA可抵扣暂时性差异（预付税款），DTL应纳税暂时性差异（未来多缴）。税率变化在变化当期确认。</p>
+<h2 id="s63900745">科目二：审计 <span class="tag-key">重点</span></h2>
+<p>AR=IRxCRxDR。RMM=IRxCR（审计师不可控）。重要性：整体=利润5-10%，实际执行=整体50-75%。意见类型：保留（重大不广泛）、否定（重大且广泛）、无法表示（范围受限且广泛）。</p>
+<h2 id="s68308968">科目三：财务成本管理</h2>
+<p>WACC=E/(D+E)Re + D/(D+E)Rd(1-t)。CAPM：Re=Rf+beta(Rm-Rf)。NPV=sum(CFt/(1+r)^t)-I0。</p>
+<p>DOL=边际贡献/EBIT。DFL=EBIT/(EBIT-利息)。DTL=DOLxDFL。</p>
+<p>杜邦：ROE=净利率x资产周转率x权益乘数。EOQ=sqrt(2KD/Kc)。</p>
+<h2 id="s79281471">科目四：税法 <span class="tag-freq">高频</span></h2>
+<p>增值税：13%/9%/6%/0%。一般计税=销项-进项。简易计税=含税销售额/(1+征收率)x征收率。</p>
+<p>企业所得税：25%/15%/20%。研发加计100%（形成无形资产200%摊销）。业务招待费min(发生额60%,收入5permil)。广宣费收入15%。</p>
+<p>个税：综合所得3-45%七级。基本减除6万/年+7项专项附加扣除。</p>
+<h2 id="s40836440">科目五：经济法</h2>
+<p>公司法2024新修订：注册资本5年内缴足。合同法：要约+承诺=成立。保证：一般vs连带。</p>
+<h2 id="s56415503">科目六：公司战略</h2>
+<p>波特五力。三大通用战略：成本领先/差异化/集中化。SWOT。风险应对：回避/降低/转移/承担。</p>
+
+
+
+</body>
+</html>

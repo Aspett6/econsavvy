@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ACCA · 章节测试</title>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\(', '\)']],
+    displayMath: [['$$', '$$'], ['\[', '\]']]
+  }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"></script>
+<style>
+/* === ExamPass Shared Styles === */
+/* Paper-like warm background, clean typography, responsive */
+
+:root {
+  --paper: #fdf6e3;
+  --paper-dark: #f5ecd7;
+  --ink: #2c2c2c;
+  --ink-light: #555;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --divider: #d6c8a8;
+  --card-bg: #fef9ef;
+  --card-border: #e8dcc8;
+  --correct: #22c55e;
+  --correct-bg: #f0fdf4;
+  --wrong: #ef4444;
+  --wrong-bg: #fef2f2;
+  --tag-bg: #fef3c7;
+  --tag-text: #92400e;
+  --radius: 6px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: "Microsoft YaHei", "Noto Sans SC", "SimSun", sans-serif;
+  font-size: 12pt; line-height: 1.75; color: var(--ink);
+  max-width: 860px; margin: auto; padding: 24px 20px 60px;
+  background: var(--paper);
+}
+
+@media print {
+  body { font-size: 10.5pt; background: #fff; }
+  .no-print { display: none !important; }
+  h1, h2, h3 { page-break-after: avoid; }
+}
+
+/* ── Header ── */
+#exampass-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 6px 0; margin-bottom: 0;
+}
+.header-brand { font-size: 1.2em; font-weight: 700; color: #1a1a2e; letter-spacing: 0.3px; }
+.header-url  { font-size: 0.78em; color: #999; }
+.header-divider { border: none; border-top: 2px solid var(--divider); margin: 4px 0 20px 0; }
+
+/* ── Typography ── */
+h1 { font-size: 1.55em; text-align: center; border-bottom: 2px solid var(--divider); padding-bottom: 8px; margin-top: 0; }
+h2 { font-size: 1.25em; border-bottom: 1px solid var(--divider); padding-bottom: 4px; margin-top: 28px; }
+h3 { font-size: 1.08em; margin-top: 20px; color: var(--ink); }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Tables ── */
+table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 0.95em; }
+td, th { border: 1px solid var(--card-border); padding: 5px 9px; text-align: left; }
+th { background: var(--paper-dark); font-weight: 700; }
+
+/* ── Knowledge point vs explanation ── */
+.kp { font-weight: 700; color: var(--ink); }           /* key point: bold dark */
+.exp { font-weight: 400; color: var(--ink-light); }    /* explanation: lighter */
+.exp em, .exp strong { color: var(--ink); }             /* emphasis inside explanation */
+
+/* ── Block elements ── */
+blockquote {
+  border-left: 3px solid #c0392b; background: #fef9ef;
+  padding: 6px 14px; margin: 10px 0; font-size: 0.95em;
+}
+code { background: #f0ede0; padding: 2px 5px; border-radius: 3px; font-size: 0.92em; }
+pre { background: #f0ede0; padding: 10px; border-radius: var(--radius); overflow-x: auto; }
+
+/* ── TOC ── */
+div.toc {
+  background: var(--card-bg); padding: 14px 18px;
+  border: 1px solid var(--card-border); border-radius: var(--radius); margin-bottom: 22px;
+}
+div.toc ul { padding-left: 18px; }
+div.toc li { margin: 3px 0; font-size: 0.95em; }
+
+/* ── Priority tags ── */
+.tag-must   { background: #fee2e2; color: #991b1b; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-key    { background: #fef3c7; color: #92400e; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-freq   { background: #dbeafe; color: #1e40af; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-info   { background: #f0fdf4; color: #166534; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+
+/* === Interactive Test Styles === */
+
+/* ── Score box ── */
+#score-box {
+  display: none; background: var(--paper-dark); color: var(--ink);
+  padding: 16px 20px; border-radius: var(--radius); margin: 14px 0;
+  text-align: center; border: 1px solid var(--card-border);
+}
+#score-box .score-num { font-size: 2.2em; font-weight: 700; }
+#score-box .score-label { font-size: 0.85em; color: var(--ink-light); }
+
+/* ── Question card ── */
+.q-card {
+  background: var(--card-bg); border: 1px solid var(--card-border);
+  border-radius: var(--radius); padding: 12px 14px; margin: 10px 0;
+  transition: all 0.15s;
+}
+.q-card.correct { border-left: 3px solid var(--correct); background: #f7fdf4; }
+.q-card.wrong   { border-left: 3px solid var(--wrong); background: #fef9f9; }
+
+.q-num  { font-weight: 700; font-size: 0.98em; margin-bottom: 4px; }
+.q-text { margin-bottom: 8px; font-size: 0.98em; }
+
+/* ── Options (compact) ── */
+.option {
+  display: block; padding: 4px 10px; margin: 3px 0;
+  border: 1px solid var(--card-border); border-radius: 4px;
+  cursor: pointer; transition: all 0.12s; font-size: 0.93em;
+  background: #fefcf5;
+}
+.option:hover            { background: #f0ede0; }
+.option input            { margin-right: 6px; }
+.option.selected         { border-color: var(--accent); background: #eff6ff; }
+.option.correct-answer   { border-color: var(--correct); background: var(--correct-bg); }
+.option.wrong-answer     { border-color: var(--wrong); background: var(--wrong-bg); }
+
+/* ── Textareas (compact) ── */
+.q-textarea {
+  width: 100%; min-height: 56px; border: 1px solid var(--card-border);
+  border-radius: 4px; padding: 6px 10px; font-family: inherit;
+  font-size: 0.93em; background: #fefcf5; resize: vertical;
+}
+.q-textarea:focus { outline: none; border-color: var(--accent); }
+
+/* ── Result after grading ── */
+.result {
+  display: none; margin-top: 8px; padding: 8px 12px;
+  background: #fefcf5; border: 1px solid var(--card-border);
+  border-radius: 4px; font-size: 0.9em; line-height: 1.6;
+}
+.result .badge {
+  display: inline-block; padding: 1px 9px; border-radius: 3px;
+  font-weight: 700; font-size: 0.82em; margin-right: 6px;
+}
+.badge-ok  { background: var(--correct-bg); color: #166534; }
+.badge-no  { background: var(--wrong-bg); color: #991b1b; }
+.badge-ref { background: #dbeafe; color: #1e40af; }
+
+.result .explanation { margin-top: 4px; color: var(--ink); }
+.result .pitfall { color: #b45309; margin-top: 3px; font-size: 0.9em; }
+
+/* ── Grading button ── */
+.grading-bar { text-align: center; margin: 20px 0; }
+.grading-bar button {
+  font-size: 1em; padding: 8px 32px; background: var(--accent);
+  color: #fff; border: none; border-radius: var(--radius);
+  cursor: pointer; font-weight: 600; letter-spacing: 0.3px;
+}
+.grading-bar button:hover     { background: var(--accent-hover); }
+.grading-bar button:disabled  { background: #bbb; cursor: not-allowed; }
+
+</style>
+</head>
+<body>
+
+<header id="exampass-header">
+  <div class="header-left"><span class="header-brand">ExamPass Assistant</span></div>
+  <div class="header-right"><span class="header-url">github.com/WUBING2023/ExamPass-Assistant</span></div>
+</header>
+<hr class="header-divider">
+
+<h1>ACCA · 章节测试</h1>
+<h2 style="text-align:center">章节测试</h2>
+<p style="text-align:center;color:var(--ink-light);font-size:0.95em">2025考纲 · 28题100分 · 45分钟</p>
+
+<div id="score-box"><div class="score-num" id="score-num">0</div><div class="score-label">总分</div></div>
+<div id="questions-container"></div>
+<div class="grading-bar no-print"><button onclick="gradeAll()" id="grade-btn">提交批改</button></div>
+
+<script>
+var Q = [{"type": "choice", "points": 2, "question": "IFRS16承租人对大多数租赁的处理？", "options": ["全部费用化", "确认使用权资产和租赁负债入表", "仅附注披露", "与IAS17处理一致"], "answer": "确认使用权资产和租赁负债入表", "explanation": "IFRS16取消经营租赁分类->单一模型。除低值(<5000)和短期(<=12月)外全部入表。"}, {"type": "choice", "points": 2, "question": "Tuckman团队发展模型的正确顺序？", "options": ["执行->规范->震荡->形成", "形成->震荡->规范->执行->解散", "形成->规范->震荡->执行", "规范->形成->执行->解散"], "answer": "形成->震荡->规范->执行->解散", "explanation": "Forming->Storming->Norming->Performing->Adjourning。震荡不可跳过。"}, {"type": "choice", "points": 2, "question": "吸收成本法与边际成本法利润差异的根本原因？", "options": ["销售数量变化", "固定制造费用在存货中处理差异", "直接材料核算差异", "管理费用分配差异"], "answer": "固定制造费用在存货中处理差异", "explanation": "吸收法将固定OH分摊入存货(存货含固定成本)，边际法全费用化。利润差=存货变动x单位固定OH。"}, {"type": "choice", "points": 2, "question": "IFRS9债务工具按AC计量的条件是？", "options": ["管理层随意选择", "通过SPPI测试且业务模式为收取现金流", "活跃市场有报价", "持有超过一年"], "answer": "通过SPPI测试且业务模式为收取现金流", "explanation": "AC需两条件：1)SPPI测试(仅本金+利息)；2)业务模式=持有以收取(不打算出售)。"}, {"type": "choice", "points": 2, "question": "优序融资理论的融资优先顺序？", "options": ["债务->内源->股权", "股权->内源->债务", "内源->债务->股权", "债务->股权->内源"], "answer": "内源->债务->股权", "explanation": "基于信息不对称：内部资金->债务->外部股权。发行股票被认最差信号(传递股价被高估)。"}, {"type": "choice", "points": 2, "question": "职业道德中要求保持知识和技能的是？", "options": ["诚信", "客观性", "专业胜任与应有谨慎", "保密"], "answer": "专业胜任与应有谨慎", "explanation": "Competence and Due Care要求持续CPD，保持专业知识跟上发展，勤勉尽责。"}, {"type": "choice", "points": 2, "question": "以下哪个不是IFRS15五步法的步骤？", "options": ["识别合同", "确定交易价格", "评估客户信用风险", "在履约义务完成时确认收入"], "answer": "评估客户信用风险", "explanation": "信用风险评估属IFRS9应收款减值范畴，不在IFRS15五步法内。"}, {"type": "choice", "points": 2, "question": "BSC四个维度不包括？", "options": ["财务维度", "客户维度", "供应商维度", "学习与成长维度"], "answer": "供应商维度", "explanation": "BSC四维：财务->客户->内部流程->学习与成长。供应商属价值链分析范畴。"}, {"type": "choice", "points": 2, "question": "可赎回债券vs不可赎回债券的YTM？", "options": ["可赎回更高", "不可赎回更高", "总是相等", "无关"], "answer": "可赎回更高", "explanation": "赎回条款对发行人有利->投资者承担再投资风险->要求更高收益补偿。"}, {"type": "choice", "points": 2, "question": "根据IAS37哪项符合准备确认条件？", "options": ["下年度预算维修费", "很可能且金额可靠的质保赔偿", "不确定的法律诉讼", "未实施的未来重组"], "answer": "很可能且金额可靠的质保赔偿", "explanation": "IAS37三条件：现时义务+很可能流出(>50%)+金额能可靠估计。质保赔偿同时满足。"}, {"type": "tf", "points": 1, "question": "IFRS16允许承租人继续将大部分租赁分类为经营租赁。", "options": [], "answer": "错误", "explanation": "IFRS16取消经营租赁分类。除豁免外全部入表。"}, {"type": "tf", "points": 1, "question": "产量超过销量时吸收成本法利润高于边际成本法。", "options": [], "answer": "正确", "explanation": "存货增加->吸收法将固定OH锁在存货中->当期费用少->利润高。"}, {"type": "tf", "points": 1, "question": "CAPM中的beta衡量非系统性风险。", "options": [], "answer": "错误", "explanation": "beta衡量系统性风险(市场风险)。非系统性风险在CAPM中不获补偿。"}, {"type": "tf", "points": 1, "question": "MM有税模型下公司价值随债务增加而增加。", "options": [], "answer": "正确", "explanation": "VL=VU+txD。每增1元债务公司价值增t元(税盾现值)。"}, {"type": "tf", "points": 1, "question": "外部审计师的主要职责是防止公司舞弊。", "options": [], "answer": "错误", "explanation": "防止舞弊是管理层责任。审计师只对因舞弊导致重大错报做合理保证检查。"}, {"type": "tf", "points": 1, "question": "IFRS禁止LIFO，允许FIFO和加权平均法。", "options": [], "answer": "正确", "explanation": "IAS2禁止LIFO。US GAAP仍允许。这是IFRS与US GAAP重要差异。"}, {"type": "tf", "points": 1, "question": "替代品的可获得性降低了行业利润率。", "options": [], "answer": "正确", "explanation": "替代品限制行业定价能力。替代品威胁越高利润率越低。"}, {"type": "tf", "points": 1, "question": "ACCA职业道德准则仅适用审计师。", "options": [], "answer": "错误", "explanation": "五项原则适用所有专业会计师——无论公共执业还是企业。"}, {"type": "tf", "points": 1, "question": "短期决策中固定成本总是相关的。", "options": [], "answer": "错误", "explanation": "只有增量(相关)成本才需考虑。沉没成本总是不相关。"}, {"type": "tf", "points": 1, "question": "IFRS15要求收入金额必须固定不可变。", "options": [], "answer": "错误", "explanation": "IFRS15包含可变对价——用期望值法或最可能金额法估计，受不会重大转回限制。"}, {"type": "short", "points": 6, "question": "简述IFRS16核心变化及对承租人财务报表影响。", "answer": "核心变化：取消经营租赁->单一模型。除低值(<5000)和短期(<=12月)外全部入表确认使用权资产+租赁负债。影响：资产负债膨胀(D+E均增)、前期利润降低(折旧+利息>旧租金)、经营现金流改善(租金从经营转筹资)、杠杆率上升、EBITDA改善。"}, {"type": "short", "points": 6, "question": "解释NPV vs IRR的优缺点及互斥下NPV为何优于IRR。", "answer": "NPV：直接量价值创造绝对值($)，正确再投资假设(资本成本)。需事先确定r。IRR：直觉好(%)，不需事先r。但可能多IRR(非传统现金流)、互斥下可能排错序(规模/期限差异)、再投资假设不现实(假设=IRR本身)。互斥：NPV最大化股东财富(选最大$)，IRR偏好高%小规模可能拒大规模略低%但创更多$项目。"}, {"type": "short", "points": 6, "question": "解释审计重要性概念及应用。", "answer": "重要性=可能影响使用者决策的错报阈值。计划阶段：整体=利润5-10%或收入1-3%，实际执行=整体50-75%。执行阶段：分配至账户、识别>明显微小错报并汇总。报告阶段：汇总未更正错报评估是否重大->决定意见类型。定性因素：舞弊/影响盈亏趋势/违反监管。"}, {"type": "short", "points": 6, "question": "比较ACCA和CPA知识体系异同。", "answer": "相同：财务报告、审计、财管、税法、职业道德，核心60-70%共通。不同：准则(ACCA=IFRS全球，CPA=中国CAS)、税法(ACCA可选多国，CPA固定中国)、深vs广(CPA单科极深，ACCA面广13门含战略/全球视野)、语言(ACCA英文)、定位(ACCA全球商业会计，CPA中国法定执业)。CPA转ACCA：补IFRS差异+英文术语+国际法+SBL综合分析。"}, {"type": "essay", "points": 8, "question": "解释ACCA职业道德五项原则及威胁防护。", "answer": "五项：①诚信(坦诚诚实)。②客观性(不因偏见/利益冲突影响判断)。③专业胜任与应有谨慎(持续CPD、勤勉尽责)。④保密(不泄露机密信息、不用机密谋私利)。⑤职业行为(遵守法规、不损职业声誉)。威胁类别：自身利益、自我复核、倡导、密切关系、胁迫。防护：职业/法律/监管->事务所质量控制->个人拒绝/报告。层层递进。"}, {"type": "essay", "points": 8, "question": "解释IFRS9 ECL预期信用损失三阶段模型及改革原因。", "answer": "阶段1(信用良好)：12个月ECL，利息按总额。阶段2(显著恶化SICR)：整个存续期ECL，利息仍按总额。触发：逾期30+天/评级下调。阶段3(信用减值/违约)：整个存续期ECL，利息按净额。触发：逾期90+天/破产。改革：旧IAS39已发生损失需触发事件->2008危机中太少太晚->银行在贷款已恶化时才计提。ECL前瞻性->持续评估信用变化->提前确认预期损失->避免悬崖效应。巴塞尔和IASB共同改革方向。"}, {"type": "essay", "points": 10, "question": "从战略管理角度分析传统零售企业在电商冲击下的战略选择。使用五力+SWOT+Ansoff。", "answer": "五力：新进入者威胁高(电商低门槛)、替代品极高(线上替代线下)、买方议价升(比价容易转换成本低)、竞争强度极高。SWOT：S=品牌/门店/供应链，W=高租金人工/数字化弱，O=O2O全渠道/社交电商/私域流量，T=电商价格压制/消费者习惯变/新技术。Ansoff：市场渗透(优化门店+会员)、市场开发(低线城市)、产品开发(自有品牌+O2O)、多元化(社区团购+即时零售)。平衡：不能全关店(品牌展示+最后一公里物流)+线下利润养线上转型+设数字化KPI+CEO亲自推数字化。"}, {"type": "comprehensive", "points": 20, "question": "XYZ是伦敦上市跨国制造企业。(1)根据IFRS10阐述控制三要素并举例持股超50%也不能合并的情况(6分)。(2)欧元子公司折算为英镑遵循IAS21哪些规则(7分)。(3)美元子公司签5年设备租赁(年租$50万利率6%)，PVIFA(6%,5)=4.2124。计算初始确认及对合并影响(7分)。", "answer": "(1)控制三要素：权力(指挥相关活动)、可变回报(回报随业绩变)、权力影响回报能力。三缺一不可。不能合并：深度价外期权(非实质性)、其他方有罢免权、仅有保护性权利(如否决清算)->需实质性权利才能控制。(2)IAS21：资产/负债=期末汇率。利润表=交易日或平均汇率。权益=历史汇率。折算差额->OCI->累积折算调整CTA(处置子公司时回收至损益)。(3)租赁负债=500000x4.2124=2106200。使用权资产同。第一年：利息126372(进利润)，折旧421240(进利润)。资产+负债各增约2.1M->杠杆率上升+前期利润<旧租金+EBITDA改善+经营现金流改善。"}];
+var LABELS = {"page_title": "章节测试", "section": {"choice": "一、选择题", "tf": "二、判断题", "short": "三、简答题", "essay": "四、问答题", "comprehensive": "五、综合题"}, "section_order": ["choice", "tf", "short", "essay", "comprehensive"], "points_suffix": "分", "true_label": "正确", "false_label": "错误", "placeholder": "在此作答...", "pitfall_prefix": "易错提醒：", "correct_label": "正确", "wrong_label": "错误", "answer_prefix": "正确答案：", "reference_label": "参考答案", "graded_label": "已批改", "grade_button": "提交批改", "score_label": "总分", "duration_prefix": "满分 100 分 | 建议 ", "duration_suffix": " 分钟 | 选择答案后点击提交批改"};
+
+function build(){
+  var container = document.getElementById('questions-container');
+  if (!container) { console.error('ExamPass: questions-container not found'); return; }
+  var h = '';
+  var sec = '';
+  var titles = LABELS.section;
+
+  for (var i = 0; i < Q.length; i++) {
+    var q = Q[i];
+    var s = q.type;
+    if (s !== sec) {
+      sec = s;
+      if (titles[s]) {
+        h += '<h3>' + titles[s] + '</h3>';
+      }
+    }
+
+    var qid = 'q' + i;
+    h += '<div class="q-card" id="card-' + qid + '">';
+    h += '<div class="q-num">' + (i+1) + '. (' + q.points + ' ' + LABELS.points_suffix + ')</div>';
+    h += '<div class="q-text">' + q.question + '</div>';
+
+    if (q.type === 'choice') {
+      var opts = q.options || [];
+      for (var j = 0; j < opts.length; j++) {
+        h += '<label class="option" id="opt-' + qid + '-' + j + '" onclick="sel(\'' + qid + '\',' + j + ')">';
+        h += '<input type="radio" name="' + qid + '" value="' + j + '">' + String.fromCharCode(65+j) + '. ' + opts[j] + '</label>';
+      }
+    } else if (q.type === 'tf') {
+      h += '<label class="option" id="opt-' + qid + '-0" onclick="sel(\'' + qid + '\',0)">';
+      h += '<input type="radio" name="' + qid + '" value="0">' + LABELS.true_label + '</label>';
+      h += '<label class="option" id="opt-' + qid + '-1" onclick="sel(\'' + qid + '\',1)">';
+      h += '<input type="radio" name="' + qid + '" value="1">' + LABELS.false_label + '</label>';
+    } else {
+      h += '<textarea class="q-textarea" id="text-' + qid + '" placeholder="' + LABELS.placeholder + '" rows="3"></textarea>';
+    }
+
+    h += '<div class="result" id="result-' + qid + '">';
+    h += '<span class="badge" id="badge-' + qid + '"></span><span id="correct-' + qid + '"></span>';
+    h += '<div class="explanation">' + q.explanation + '</div>';
+    if (q.pitfall) {
+      h += '<div class="pitfall">' + LABELS.pitfall_prefix + q.pitfall + '</div>';
+    }
+    h += '</div></div>';
+  }
+
+  container.innerHTML = h;
+
+  // Re-render MathJax for dynamically inserted formulas
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise([container]).catch(function(err) {
+      console.error('MathJax typeset error:', err);
+    });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', build);
+if (document.readyState === 'interactive' || document.readyState === 'complete') {
+  build();
+}
+
+function sel(qid, idx) {
+  var prefix = 'opt-' + qid + '-';
+  var all = document.querySelectorAll('[id^="' + prefix + '"]');
+  for (var i = 0; i < all.length; i++) {
+    all[i].classList.remove('selected');
+  }
+  var target = document.getElementById('opt-' + qid + '-' + idx);
+  if (target) {
+    target.classList.add('selected');
+  }
+  var radio = document.querySelector('input[name="' + qid + '"][value="' + idx + '"]');
+  if (radio) {
+    radio.checked = true;
+  }
+}
+
+function gradeAll() {
+  var score = 0;
+  for (var i = 0; i < Q.length; i++) {
+    var q = Q[i];
+    var qid = 'q' + i;
+    var card = document.getElementById('card-' + qid);
+    var result = document.getElementById('result-' + qid);
+    var badge = document.getElementById('badge-' + qid);
+    var correctEl = document.getElementById('correct-' + qid);
+    if (!card || !result) continue;
+
+    result.style.display = 'block';
+
+    if (q.type === 'choice' || q.type === 'tf') {
+      var radio = document.querySelector('input[name="' + qid + '"]:checked');
+      if (radio && parseInt(radio.value) === q.answer) {
+        score += q.points;
+        card.classList.add('correct');
+        badge.className = 'badge badge-ok';
+        badge.textContent = LABELS.correct_label;
+        correctEl.innerHTML = '';
+        var correctOpt = document.getElementById('opt-' + qid + '-' + q.answer);
+        if (correctOpt) correctOpt.classList.add('correct-answer');
+      } else {
+        card.classList.add('wrong');
+        badge.className = 'badge badge-no';
+        badge.textContent = LABELS.wrong_label;
+        var ansText = q.type === 'choice'
+          ? String.fromCharCode(65+q.answer) + '. ' + (q.options ? q.options[q.answer] : '')
+          : (q.answer === 0 ? LABELS.true_label : LABELS.false_label);
+        correctEl.innerHTML = LABELS.answer_prefix + ansText;
+        if (radio) {
+          var wrongOpt = document.getElementById('opt-' + qid + '-' + radio.value);
+          if (wrongOpt) wrongOpt.classList.add('wrong-answer');
+        }
+        var correctOpt = document.getElementById('opt-' + qid + '-' + q.answer);
+        if (correctOpt) correctOpt.classList.add('correct-answer');
+      }
+    } else {
+      card.classList.add('correct');
+      badge.className = 'badge badge-ref';
+      badge.textContent = LABELS.reference_label;
+    }
+  }
+
+  var sb = document.getElementById('score-box');
+  if (sb) {
+    sb.style.display = 'block';
+    document.getElementById('score-num').textContent = score;
+    sb.scrollIntoView({behavior:'smooth'});
+  }
+
+  var opts = document.querySelectorAll('.option');
+  for (var i = 0; i < opts.length; i++) opts[i].style.pointerEvents = 'none';
+  var tas = document.querySelectorAll('.q-textarea');
+  for (var i = 0; i < tas.length; i++) tas[i].disabled = true;
+
+  var btn = document.getElementById('grade-btn');
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = LABELS.graded_label;
+  }
+
+  // Re-render MathJax for revealed explanations
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise().catch(function(err) {
+      console.error('MathJax typeset error:', err);
+    });
+  }
+}
+
+</script>
+</body>
+</html>

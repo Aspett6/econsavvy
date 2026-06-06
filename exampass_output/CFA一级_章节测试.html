@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CFA Level I · 章节测试</title>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\(', '\)']],
+    displayMath: [['$$', '$$'], ['\[', '\]']]
+  }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"></script>
+<style>
+/* === ExamPass Shared Styles === */
+/* Paper-like warm background, clean typography, responsive */
+
+:root {
+  --paper: #fdf6e3;
+  --paper-dark: #f5ecd7;
+  --ink: #2c2c2c;
+  --ink-light: #555;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --divider: #d6c8a8;
+  --card-bg: #fef9ef;
+  --card-border: #e8dcc8;
+  --correct: #22c55e;
+  --correct-bg: #f0fdf4;
+  --wrong: #ef4444;
+  --wrong-bg: #fef2f2;
+  --tag-bg: #fef3c7;
+  --tag-text: #92400e;
+  --radius: 6px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: "Microsoft YaHei", "Noto Sans SC", "SimSun", sans-serif;
+  font-size: 12pt; line-height: 1.75; color: var(--ink);
+  max-width: 860px; margin: auto; padding: 24px 20px 60px;
+  background: var(--paper);
+}
+
+@media print {
+  body { font-size: 10.5pt; background: #fff; }
+  .no-print { display: none !important; }
+  h1, h2, h3 { page-break-after: avoid; }
+}
+
+/* ── Header ── */
+#exampass-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 6px 0; margin-bottom: 0;
+}
+.header-brand { font-size: 1.2em; font-weight: 700; color: #1a1a2e; letter-spacing: 0.3px; }
+.header-url  { font-size: 0.78em; color: #999; }
+.header-divider { border: none; border-top: 2px solid var(--divider); margin: 4px 0 20px 0; }
+
+/* ── Typography ── */
+h1 { font-size: 1.55em; text-align: center; border-bottom: 2px solid var(--divider); padding-bottom: 8px; margin-top: 0; }
+h2 { font-size: 1.25em; border-bottom: 1px solid var(--divider); padding-bottom: 4px; margin-top: 28px; }
+h3 { font-size: 1.08em; margin-top: 20px; color: var(--ink); }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Tables ── */
+table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 0.95em; }
+td, th { border: 1px solid var(--card-border); padding: 5px 9px; text-align: left; }
+th { background: var(--paper-dark); font-weight: 700; }
+
+/* ── Knowledge point vs explanation ── */
+.kp { font-weight: 700; color: var(--ink); }           /* key point: bold dark */
+.exp { font-weight: 400; color: var(--ink-light); }    /* explanation: lighter */
+.exp em, .exp strong { color: var(--ink); }             /* emphasis inside explanation */
+
+/* ── Block elements ── */
+blockquote {
+  border-left: 3px solid #c0392b; background: #fef9ef;
+  padding: 6px 14px; margin: 10px 0; font-size: 0.95em;
+}
+code { background: #f0ede0; padding: 2px 5px; border-radius: 3px; font-size: 0.92em; }
+pre { background: #f0ede0; padding: 10px; border-radius: var(--radius); overflow-x: auto; }
+
+/* ── TOC ── */
+div.toc {
+  background: var(--card-bg); padding: 14px 18px;
+  border: 1px solid var(--card-border); border-radius: var(--radius); margin-bottom: 22px;
+}
+div.toc ul { padding-left: 18px; }
+div.toc li { margin: 3px 0; font-size: 0.95em; }
+
+/* ── Priority tags ── */
+.tag-must   { background: #fee2e2; color: #991b1b; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-key    { background: #fef3c7; color: #92400e; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-freq   { background: #dbeafe; color: #1e40af; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-info   { background: #f0fdf4; color: #166534; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+
+/* === Interactive Test Styles === */
+
+/* ── Score box ── */
+#score-box {
+  display: none; background: var(--paper-dark); color: var(--ink);
+  padding: 16px 20px; border-radius: var(--radius); margin: 14px 0;
+  text-align: center; border: 1px solid var(--card-border);
+}
+#score-box .score-num { font-size: 2.2em; font-weight: 700; }
+#score-box .score-label { font-size: 0.85em; color: var(--ink-light); }
+
+/* ── Question card ── */
+.q-card {
+  background: var(--card-bg); border: 1px solid var(--card-border);
+  border-radius: var(--radius); padding: 12px 14px; margin: 10px 0;
+  transition: all 0.15s;
+}
+.q-card.correct { border-left: 3px solid var(--correct); background: #f7fdf4; }
+.q-card.wrong   { border-left: 3px solid var(--wrong); background: #fef9f9; }
+
+.q-num  { font-weight: 700; font-size: 0.98em; margin-bottom: 4px; }
+.q-text { margin-bottom: 8px; font-size: 0.98em; }
+
+/* ── Options (compact) ── */
+.option {
+  display: block; padding: 4px 10px; margin: 3px 0;
+  border: 1px solid var(--card-border); border-radius: 4px;
+  cursor: pointer; transition: all 0.12s; font-size: 0.93em;
+  background: #fefcf5;
+}
+.option:hover            { background: #f0ede0; }
+.option input            { margin-right: 6px; }
+.option.selected         { border-color: var(--accent); background: #eff6ff; }
+.option.correct-answer   { border-color: var(--correct); background: var(--correct-bg); }
+.option.wrong-answer     { border-color: var(--wrong); background: var(--wrong-bg); }
+
+/* ── Textareas (compact) ── */
+.q-textarea {
+  width: 100%; min-height: 56px; border: 1px solid var(--card-border);
+  border-radius: 4px; padding: 6px 10px; font-family: inherit;
+  font-size: 0.93em; background: #fefcf5; resize: vertical;
+}
+.q-textarea:focus { outline: none; border-color: var(--accent); }
+
+/* ── Result after grading ── */
+.result {
+  display: none; margin-top: 8px; padding: 8px 12px;
+  background: #fefcf5; border: 1px solid var(--card-border);
+  border-radius: 4px; font-size: 0.9em; line-height: 1.6;
+}
+.result .badge {
+  display: inline-block; padding: 1px 9px; border-radius: 3px;
+  font-weight: 700; font-size: 0.82em; margin-right: 6px;
+}
+.badge-ok  { background: var(--correct-bg); color: #166534; }
+.badge-no  { background: var(--wrong-bg); color: #991b1b; }
+.badge-ref { background: #dbeafe; color: #1e40af; }
+
+.result .explanation { margin-top: 4px; color: var(--ink); }
+.result .pitfall { color: #b45309; margin-top: 3px; font-size: 0.9em; }
+
+/* ── Grading button ── */
+.grading-bar { text-align: center; margin: 20px 0; }
+.grading-bar button {
+  font-size: 1em; padding: 8px 32px; background: var(--accent);
+  color: #fff; border: none; border-radius: var(--radius);
+  cursor: pointer; font-weight: 600; letter-spacing: 0.3px;
+}
+.grading-bar button:hover     { background: var(--accent-hover); }
+.grading-bar button:disabled  { background: #bbb; cursor: not-allowed; }
+
+</style>
+</head>
+<body>
+
+<header id="exampass-header">
+  <div class="header-left"><span class="header-brand">ExamPass Assistant</span></div>
+  <div class="header-right"><span class="header-url">github.com/WUBING2023/ExamPass-Assistant</span></div>
+</header>
+<hr class="header-divider">
+
+<h1>CFA Level I · 章节测试</h1>
+<h2 style="text-align:center">章节测试</h2>
+<p style="text-align:center;color:var(--ink-light);font-size:0.95em">2025考纲 · 28题100分 · 45分钟</p>
+
+<div id="score-box"><div class="score-num" id="score-num">0</div><div class="score-label">总分</div></div>
+<div id="questions-container"></div>
+<div class="grading-bar no-print"><button onclick="gradeAll()" id="grade-btn">提交批改</button></div>
+
+<script>
+var Q = [{"type": "choice", "points": 2, "question": "在通货膨胀环境中，使用 FIFO（先进先出法）与 LIFO（后进先出法）相比，以下哪项正确？", "options": ["COGS 更高，期末存货更低", "COGS 更低，期末存货更高", "COGS 和期末存货都更高", "COGS 和期末存货都更低"], "answer": "COGS 更低，期末存货更高", "explanation": "<strong>正确答案</strong>：COGS 更低，期末存货更高。<br><br><strong>解析</strong>：FIFO 先采购的低成本先转出（COGS 低），后采购的高成本留在期末存货中（存货高）。通胀环境中，FIFO 的利润高于 LIFO。<br><br><strong>干扰项分析</strong>：A 是 LIFO 的特征（通胀环境下）。C 和 D 逻辑矛盾——COGS 和存货不可能同向变化，因为 COGS = 期初存货 + 采购 - 期末存货。", "pitfall": "常见错误：混淆 FIFO 和 LIFO 在通胀环境中的表现。记住「高」字——FIFO 让利润和存货都「高」。"}, {"type": "choice", "points": 2, "question": "根据 CAPM，以下哪个因素直接影响资产的预期收益率？", "options": ["总风险（标准差）", "非系统性风险", "系统性风险（β）", "流动性风险"], "answer": "系统性风险（β）", "explanation": "<strong>正确答案</strong>：系统性风险（β）。<br><br><strong>解析</strong>：CAPM 的基本结论是只有系统性风险（不可分散的风险）才获得风险补偿。非系统性风险可以通过分散化消除，市场不给补偿。公式：E(Ri) = Rf + βi × (Rm - Rf)。<br><br><strong>干扰项分析</strong>：A 是总风险（系统+非系统），CAPM 认为非系统部分不获得补偿。D 流动性风险在 CAPM 中未直接建模（有专门的流动性调整 CAPM 扩展）。", "pitfall": "误以为「总风险越高，收益越高」——这是对 CAPM 的常见误解。只有不能分散的系统性风险才定价。"}, {"type": "choice", "points": 2, "question": "有效市场假说的「半强式有效」意味着什么？", "options": ["技术分析无效，但基本面分析有效", "基本面分析也无效，但内幕交易可以获利", "任何分析都无效，包括内幕交易", "只有技术分析有效"], "answer": "基本面分析也无效，但内幕交易可以获利", "explanation": "<strong>正确答案</strong>：基本面分析也无效，但内幕交易可以获利。<br><br><strong>解析</strong>：半强式有效意味着价格已经反映所有公开信息（含财报、新闻、分析师报告）。因此基于公开信息的基本面分析无法产生超额收益。但未公开的内幕信息仍可获利。", "pitfall": "三种形式容易记混：弱式→历史信息（技术分析无效）；半强式→+公开信息（基本面无效）；强式→+内幕信息（啥都无效）。"}, {"type": "choice", "points": 2, "question": "某债券的修正久期为 7.5，凸性为 60。如果收益率从 4% 下降到 3.5%，债券价格大约变化多少？", "options": ["+3.75%", "+3.83%", "-3.75%", "+3.68%"], "answer": "+3.83%", "explanation": "<strong>正确答案</strong>：+3.83%。<br><br><strong>解析</strong>：ΔP/P ≈ -MD × Δy + ½ × C × (Δy)²。Δy = -0.5% = -0.005。久期效应：-7.5 × (-0.005) = 0.0375 = 3.75%。凸性效应：½ × 60 × (-0.005)² = 30 × 0.000025 = 0.00075 = 0.075%。合计 +3.825% ≈ +3.83%。<br><br><strong>干扰项分析</strong>：A 忽略了凸性调整（只有久期效应）。C 符号错误（收益率下降债券价格上升）。D 约等于久期效应。", "pitfall": "忽略凸性调整是常见错误。利率大幅变动时久期一阶近似不够精确。另外注意Δy 的符号——收益率下降时价格上升。"}, {"type": "choice", "points": 2, "question": "以下哪项属于 CFA 道德准则 Standard III(C)「适合性」的核心要求？", "options": ["给所有客户推荐同样的投资组合", "确保投资建议基于客户的风险承受能力和财务状况", "优先考虑高净值客户的利益", "每次交易前获得客户的书面同意"], "answer": "确保投资建议基于客户的风险承受能力和财务状况", "explanation": "<strong>正确答案</strong>：确保投资建议基于客户的风险承受能力和财务状况。<br><br><strong>解析</strong>：Standard III(C) 适合性要求会员在推荐投资前，必须了解客户的财务状况、投资经验、风险承受能力、投资目标和约束条件，确保推荐适合该客户。", "pitfall": "适合性 ≠ 同等对待。公平对待（Standard IIIB）要求所有客户同步获知投资建议，但建议本身必须个性化（适合性）。"}, {"type": "choice", "points": 2, "question": "杜邦分析将 ROE 分解为哪三个组成部分？", "options": ["净利率 × 资产周转率 × 权益乘数", "毛利率 × 存货周转率 × 负债率", "净利率 × 流动比率 × 资产负债率", "ROA × 利息保障倍数 × 市盈率"], "answer": "净利率 × 资产周转率 × 权益乘数", "explanation": "<strong>正确答案</strong>：净利率 × 资产周转率 × 权益乘数。<br><br><strong>解析</strong>：ROE = (净利润/收入) × (收入/总资产) × (总资产/权益) = 净利率 × 资产周转率 × 权益乘数。三个维度分别衡量盈利能力、运营效率和财务杠杆。", "pitfall": "杜邦分析是财务分析的核心框架，必须熟记。注意与「五因子杜邦扩展」的区别（进一步拆分净利率和资产周转率）。"}, {"type": "choice", "points": 2, "question": "在 5% 显著性水平下进行双尾假设检验，p 值为 0.03。正确的结论是什么？", "options": ["接受 H₀", "拒绝 H₀，接受 H₁", "拒绝 H₀", "不能确定"], "answer": "拒绝 H₀", "explanation": "<strong>正确答案</strong>：拒绝 H₀。<br><br><strong>解析</strong>：p = 0.03 < α = 0.05，因此有足够证据拒绝零假设 H₀。但注意我们不能「接受 H₁」，只能说「拒绝 H₀」或「有证据支持备择假设」。<br><br><strong>干扰项分析</strong>：A 错在「接受 H₀」——p 值小于 α 时拒绝 H₀。B 错在「接受 H₁」——我们永远不说「接受」，只说「有证据支持」或「拒绝 H₀」。", "pitfall": "永远不要用「接受」这个词——假设检验只能拒绝或不拒绝，不能接受。"}, {"type": "choice", "points": 2, "question": "以下关于 GARCH 模型的描述，正确的是？", "options": ["GARCH 假设收益率方差恒定不变", "GARCH 用于捕捉金融波动率聚集现象", "GARCH 只能处理平稳时间序列", "GARCH(1,1) 是移动平均模型"], "answer": "GARCH 用于捕捉金融波动率聚集现象", "explanation": "<strong>正确答案</strong>：GARCH 用于捕捉金融波动率聚集现象。<br><br><strong>解析</strong>：GARCH（广义自回归条件异方差）模型的核心动机是金融数据中方差的时变性——波动率聚集（大波动后往往跟着大波动，小波动后往往跟着小波动）。GARCH(1,1) 公式：σ²t = ω + α·ε²t-1 + β·σ²t-1。<br><br><strong>干扰项分析</strong>：A 错——GARCH 专门为方差不恒定而设计。C 不准确——GARCH 正是用来建模非平稳方差。D 错——GARCH 不是移动平均模型。", "pitfall": "GARCH 处理的是条件方差的时变性（波动率聚集），不是收益率的非平稳性。ARMA 处理收益率，GARCH 处理波动率。"}, {"type": "choice", "points": 2, "question": "WACC 加权平均资本成本公式中，债务成本为什么乘以 (1-t)？", "options": ["因为债务利息可以在税前扣除，起到税盾效应", "因为债务比股权便宜，需要调整", "因为税率变化影响市场利率", "这是一个历史惯例，没有理论依据"], "answer": "因为债务利息可以在税前扣除，起到税盾效应", "explanation": "<strong>正确答案</strong>：因为债务利息可以在税前扣除，起到税盾效应。<br><br><strong>解析</strong>：WACC = [E/(D+E)]×Re + [D/(D+E)]×Rd×(1-t)。债务利息作为费用在税前扣除，降低了公司的实际债务成本。例如，税前债务成本 6%，税率 25%，则税后债务成本 = 6% × (1-25%) = 4.5%。", "pitfall": "只有债务成本需要税盾调整（利息可抵扣税），股权成本（股利）不可抵扣。优先股股利也不可抵扣。"}, {"type": "choice", "points": 2, "question": "根据 MM 定理（有税模型），公司价值与资本结构的关系是什么？", "options": ["公司价值与资本结构无关", "债务比例越高，公司价值越高（因为有税盾）", "股权比例越高，公司价值越高", "存在一个最优资本结构使公司价值最大"], "answer": "债务比例越高，公司价值越高（因为有税盾）", "explanation": "<strong>正确答案</strong>：债务比例越高，公司价值越高（因为有税盾）。<br><br><strong>解析</strong>：MM 有税模型：VL = VU + t×D，即杠杆公司价值 = 无杠杆公司价值 + 税率×债务。债务每增加 1 元，公司价值增加 t 元（税盾现值）。极端结论：100% 债务最优。<br><br><strong>干扰项分析</strong>：A 是无税 MM 的结论。D 是权衡理论的结论（加入了财务困境成本，修正了 MM 的极端结论）。", "pitfall": "MM 有税模型是一个理论极端——它只考虑税盾收益，忽略了财务困境成本。现实中权衡理论更合理：最优资本结构是税盾收益 = 财务困境成本边际相等时。"}, {"type": "tf", "points": 1, "question": "GIPS 全球投资业绩标准适用于个人投资者。", "options": [], "answer": "错误", "explanation": "GIPS 适用于资产管理公司（机构），不适用于个人投资者。目标是让机构投资者公平比较不同资产管理人的业绩。", "pitfall": "GIPS 是给公司用的业绩报告标准，不是个人投资者的业绩计算工具。"}, {"type": "tf", "points": 1, "question": "中心极限定理要求原始总体必须服从正态分布。", "options": [], "answer": "错误", "explanation": "中心极限定理的美妙之处在于：无论总体分布如何（正态或非正态），只要样本量足够大（n≥30），样本均值的抽样分布就近似正态。", "pitfall": "这是 CLT 最常被误解的地方——CLT 不要求总体正态，恰恰相反，它在总体非正态时最有用。"}, {"type": "tf", "points": 1, "question": "p 值等于零假设为真的概率。", "options": [], "answer": "错误", "explanation": "这是 p 值最常见的误解。p 值是「假设 H₀ 为真时，观察到当前或更极端结果的概率」= P(数据|H₀)，不是 P(H₀|数据)。两者完全不同的条件概率。", "pitfall": "绝对经典的考试陷阱。p 值不是零假设为真的概率，不能反过来解读。"}, {"type": "tf", "points": 1, "question": "期权的时间价值随着到期日的临近而增加。", "options": [], "answer": "错误", "explanation": "期权的时间价值随到期日临近而衰减（theta 通常为负）——越接近到期，不确定性越小，时间价值越低。到期日当天时间价值为零。", "pitfall": "时间价值递减，不是递增。期权买方面临时间价值衰减（theta 风险）。"}, {"type": "tf", "points": 1, "question": "IFRS 禁止使用 LIFO（后进先出法）进行存货计价。", "options": [], "answer": "正确", "explanation": "IFRS 已禁止 LIFO，只允许 FIFO 和加权平均法。US GAAP 仍允许 LIFO，这是 IFRS 和 US GAAP 的一个重要差异。", "pitfall": "IFRS vs US GAAP 的差异是高频考题。记住：IFRS 禁止 LIFO，US GAAP 允许。"}, {"type": "tf", "points": 1, "question": "债券的修正久期越大，债券价格对利率变动的敏感度越低。", "options": [], "answer": "错误", "explanation": "修正久期越大（正值），利率变动对价格的影响越大。修正久期本身就是利率敏感度的度量指标——MD 越大，债券价格对利率越敏感。", "pitfall": "方向不要搞反。久期是高敏感度，不是低敏感度。"}, {"type": "tf", "points": 1, "question": "看跌期权的 Vega 通常是负数。", "options": [], "answer": "错误", "explanation": "看涨和看跌期权的 Vega 都为正——波动率上升对期权买方有利（因为有更大的概率获得更多收益）。Vega 衡量期权价值对波动率的敏感度，Call 和 Put 的 Vega 都是正的。", "pitfall": "Vega 对 Call 和 Put 都是正的——这与利率敏感度 Rho（Call+ Put-）不同。"}, {"type": "tf", "points": 1, "question": "套利定价理论（APT）规定所有资产的期望收益只受一个因子影响。", "options": [], "answer": "错误", "explanation": "APT 是多因子模型，认为资产收益受多个系统性风险因子影响：E(Ri) = Rf + β1·F1 + β2·F2 + ... + βk·Fk。CAPM 是单因子（市场因子），APT 是 CAPM 的多因子推广。", "pitfall": "APT 的多因子特性是其区别于 CAPM 的核心。APT 不指定具体哪些因子（只假设存在），CAPM 只指定了市场因子。"}, {"type": "tf", "points": 1, "question": "现金流量表中的 CFO（经营活动现金流）使用间接法时是以净利润为起点调整的。", "options": [], "answer": "正确", "explanation": "间接法：CFO = 净利润 + 非现金费用（折旧/摊销等）- 非现金收益 - 营运资本变动。直接法则是直接列出经营活动现金流入和流出。两种方法结果相同。", "pitfall": "间接法和直接法的区别：间接法从利润表出发调整，直接法从现金收付出发。实务中绝大多数公司用间接法。"}, {"type": "tf", "points": 1, "question": "根据前景理论，人们对损失的敏感度小于同等幅度收益的敏感度。", "options": [], "answer": "错误", "explanation": "前景理论的核心发现：损失厌恶——人们对损失的敏感度约为同等幅度收益的 2-2.5 倍。失去 100 元的痛苦大约是得到 100 元的快乐的两倍。这是行为金融学的重要基础。", "pitfall": "损失厌恶是前景理论的基石，数值大约是 2-2.5 倍，不是「损失敏感度小于收益」。"}, {"type": "short", "points": 6, "question": "简述货币时间价值中「永续年金」和「增长永续年金」的区别，并给出各自的现值公式。", "answer": "永续年金（Perpetuity）：每年支付固定金额 PMT，无到期日。PV = PMT / r。\n\n增长永续年金（Growing Perpetuity）：股利每年以恒定增长率 g 增长。PV = PMT₁ / (r - g)，需满足 r > g。\n\n关键区别：增长永续年金考虑了现金流的逐年增长，公式分母为 (r-g) 而非 r。戈登增长模型就是增长永续年金的经典应用。", "explanation": "永续年金是增长率为 0 的特殊情况。两者都假设无限期，因此期末终值为 0。在股票估值中，当 g = 0 时（所有盈利作为股利发放），PE 的合理值 = 1/r。", "pitfall": "增长永续年金要求 r > g ——如果 g ≥ r，PV 为无穷大或负值，模型失效。考试中遇到 g > r 时应使用多阶段模型而非单阶段 GGM。"}, {"type": "short", "points": 6, "question": "解释回归分析中「异方差」的含义、如何检测以及如何处理。", "answer": "异方差（Heteroskedasticity）指回归模型残差的方差不恒定——随自变量变化而变化。例如，大公司的利润预测误差比小公司更大。\n\n检测方法：Breusch-Pagan 检验（H₀: 同方差）或 White 检验。观察残差图——残差呈喇叭状散布是异方差的视觉信号。\n\n后果：OLS 估计量仍无偏，但不再是最有效（不是 BLUE），标准误有偏→导致 t 检验和 F 检验不可靠。\n\n处理方法：使用 White 异方差一致标准误（稳健标准误），或对变量取对数/加权最小二乘法 WLS。", "explanation": "异方差≠模型错误。OLS 仍是一致估计量，但推断（显著性检验）会出错。使用稳健标准误是最简单的修复。", "pitfall": "异方差下 OLS 系数估计仍无偏——这是常见考点。问题在于标准误和检验统计量，不是系数本身。"}, {"type": "short", "points": 6, "question": "简述久期（Duration）和凸性（Convexity）在债券风险管理中的作用，以及为什么两者结合使用比单独使用久期更精确。", "answer": "久期衡量债券价格对利率的一阶敏感度（线性近似）。修正久期 MD = -(ΔP/P)/Δy。\n\n凸性衡量债券价格-收益率曲线的弯曲程度（二阶效应）。正凸性意味着利率下降时价格涨幅 > 利率上升同等幅度时价格跌幅——这对债券持有人有利。\n\n两者结合：ΔP/P ≈ -MD × Δy + ½ × C × (Δy)²。\n\n为什么需要凸性：久期假设价格与收益率是线性关系（切线），但实际是曲线。当利率变动较大时（如 > 50bp），线性近似误差显著，凸性修正项变得不可忽略。", "explanation": "久期=一阶导数（斜率），凸性=二阶导数（曲率）。泰勒展开的第一项和第二项。", "pitfall": "对于嵌入期权的债券（可赎回债券），有效久期可能是负数（利率↓→发行人赎债→价格不升反降），这时凸性也可能是负数。"}, {"type": "short", "points": 6, "question": "什么是杜邦分析体系？请写出三因子杜邦公式，并解释每个因子的经济含义以及如何通过杜邦分析发现公司的问题。", "answer": "杜邦分析将 ROE 分解为三个维度：\n\nROE = (净利润/收入) × (收入/总资产) × (总资产/权益)\n     = 净利率 × 资产周转率 × 权益乘数\n\n- 净利率：每元收入产生的利润。衡量盈利能力。下降可能表示成本失控或竞争加剧。\n- 资产周转率：每元资产产生的收入。衡量运营效率。下降可能表示资产闲置或产能过剩。\n- 权益乘数：总资产是权益的多少倍。衡量财务杠杆。上升可能表示负债增加。\n\n应用：如果 ROE 上升但净利率和周转率都下降，那一定是权益乘数大幅上升——公司可能过度借贷。这种「杠杆驱动的 ROE」比「经营驱动的 ROE」更危险。", "explanation": "杜邦分析能帮助分析者区分 ROE 提升的来源——到底是经营变好了（净利率/周转率），还是单纯借了更多钱（权益乘数）。", "pitfall": "高 ROE 不一定是好事——如果 ROE 高完全是因为权益乘数高（即高杠杆），风险也高。"}, {"type": "essay", "points": 8, "question": "比较 CAPM 和 APT（套利定价理论）的核心假设、模型形式和优缺点。为什么 APT 被认为是 CAPM 的推广？", "answer": "CAPM：\n- 假设：投资者均值-方差优化、同质预期、存在无风险资产、完美市场（无税/无交易成本）。\n- 模型：E(Ri) = Rf + βi·(Rm - Rf)，单因子——市场风险溢价。\n- 优点：简洁直观，仅需估计一个 β。\n- 缺点：假设过于严格（现实中不成立），市场组合不可观测（通常用指数代理），仅涵盖系统性市场风险。\n\nAPT：\n- 假设：不存在套利机会、收益由多因子生成、市场足够大允许充分分散化。比 CAPM 假设更宽松（不要求均值-方差优化和同质预期）。\n- 模型：E(Ri) = Rf + β1·F1 + β2·F2 + ... + βk·Fk，多因子。\n- 优点：可包含更多风险来源（如 Fama-French 三因子：市场+规模+价值）。\n- 缺点：不指定具体哪些因子（需要用户自选），因子选择可能主观。\n\nAPT 是 CAPM 的推广：CAPM 是 APT 在只有一个市场因子时的特例。APT 更灵活，但 CAPM 更易用。", "explanation": "两者的核心区别：CAPM 从投资者行为假设出发推导；APT 从无套利条件出发推导。", "pitfall": "APT 不指定因子——考试中说「APT 规定使用 Fama-French 三因子」是错的。APT 只是多因子框架，具体因子由用户选择。"}, {"type": "essay", "points": 8, "question": "比较 EBITDA 和经营活动现金流 CFO 的区别。为什么 EBITDA 可能误导投资者对公司真实盈利能力的判断？", "answer": "EBITDA = 净利润 + 利息 + 所得税 + 折旧 + 摊销。反映了扣除折旧摊销前的经营利润。\n\nCFO = 净利润 + 非现金费用 - 营运资本增加。反映公司通过经营实际产生的现金。\n\n关键区别：\n1. 营运资本：EBITDA 不考虑营运资本变动（如应收账款增加会减少现金流但 EBITDA 不变）。\n2. 折旧摊销：EBITDA 剔除折旧摊销（好像不需要资本投入似的），但实际上公司需要持续投资维护资产。\n3. 利息和税：EBITDA 是息税前及折旧前利润，CFO 中包含实际支付的利息和税款。\n\nEBITDA 的危险：\n- 「折旧不是真花钱」是一种危险的错觉——机器会损耗，需要更新。\n- 一家公司 EBITDA 很高但 CFO 为负，说明利润被应收款和存货「吃掉了」。\n- 资本密集型企业用 EBITDA 估值尤其危险（如航空公司、重工业）。\n\n巴菲特名言：「管理层喜欢 EBITDA 就像商人喜欢用毛收入报税——它告诉你的是不存在的利润。」", "explanation": "EBITDA 是会计利润的变体，CFO 是现金利润。两者差距越大，公司现金转化能力越差。", "pitfall": "EBITDA 不是现金流！它只是利润表的一个中间度量。真正的现金流要看现金流量表。考试中常见：「EBITDA 等于经营现金流」——绝对错误。"}, {"type": "essay", "points": 10, "question": "2008 年全球金融危机中，资产证券化和 CDO 扮演了什么角色？从风险管理角度分析其教训，并讨论危机后监管改革的要点。", "answer": "一、证券化与 CDO 在危机中的角色：\n\n1. 次级抵押贷款发放：银行向信用较差的借款人发放大量次级贷款（借款人无收入证明/低首付/可调利率）。\n2. MBS 打包：这些次级贷款被打包成 MBS 卖出，将信用风险从银行资产负债表转移到资本市场。\n3. CDO 再打包：MBS 的中间层（评级不高难以出售）被再次打包成 CDO，通过分层结构「创造」出 AAA 级高级档。\n4. 评级失误：评级机构使用有缺陷的模型（假设房价不会普跌，低估违约相关性），给出过高的评级。\n5. AIG 的 CDS：AIG 大量出售 CDS（信用违约互换）为其增信，但 AIG 自身资本不足，危机时濒临破产。\n\n二、风险管理教训：\n- 模型风险：假设过去=未来，忽视尾部风险。高斯 Copula 低估了极端情况下违约的相关性（所有贷款同时违约）。\n- 激励错位：发起-分销模式中，贷款发放者不再承担信用风险，因此没有动力审慎放贷。\n- 流动性风险被忽视：短期批发融资（回购市场）极度脆弱，一旦抵押品贬值→追加保证金→被迫抛售→价格螺旋下跌。\n- 系统性风险：金融机构高度互联，雷曼兄弟倒闭引发连锁反应。\n\n三、监管改革要点：\n- 巴塞尔 III：提高资本充足率（核心一级资本从 2% 升至 4.5%+2.5%CCB=7%），引入杠杆率和流动性要求（LCR/NSFR）。\n- 多德-弗兰克法案：强化系统性风险监管，设立金融稳定监督委员会。\n- 中央清算：标准化衍生品必须通过 CCP 清算，降低交易对手风险。\n- 沃尔克规则：限制银行自营交易。", "explanation": "2008 危机是多维度风险同时爆发的典型案例：信用风险（次贷违约）→市场风险（MBS 暴跌）→流动性风险（冻结）→系统性风险（雷曼倒闭）→操作风险（风险管理失败）。", "pitfall": "单一风险度量（如 VaR）无法捕捉系统性危机。危机后风险管理的核心经验：必须用压力测试和情景分析补充 VaR。"}, {"type": "comprehensive", "points": 20, "question": "综合题：假设你是一名投资分析师，需要评估一家制造业公司的投资价值。\n(1) 描述你将从哪些方面分析该公司的财务报表，重点关注哪些比率和指标？（6分）\n(2) 该公司 ROE 为 18%，行业平均为 12%。使用杜邦分析框架，列出至少三种可能导致高 ROE 的情景，并说明如何区分「好」的高 ROE 和「危险」的高 ROE。（7分）\n(3) 假设你使用戈登增长模型对该公司估值。公司当前 EPS 为 5 元，股利支付率 40%，ROE 为 18%，必要回报率为 10%。计算可持续增长率 g、下期股利 D₁ 和股票的内在价值。并讨论当 ROE 高于必要回报率时为何增长创造价值，当 ROE 低于必要回报率时为何增长反而破坏价值。（7分）", "answer": "(1) 财务报表分析框架：\n- 利润表：关注收入增长趋势（可持续？一次性？）、毛利率变化（竞争压力？成本控制？）、净利率\n- 资产负债表：应收账款和存货是否与收入同步增长（若快于收入→营运资本管理恶化）、商誉（过去并购的质量）、负债结构（短期vs长期、利率）\n- 现金流量表：最关键——CFO 是否持续为正且覆盖所有必要投资？自由现金流是否健康？\n- 核心比率：ROE（杜邦拆解）、流动比率/速动比率、利息保障倍数、自由现金流收益率（FCF/市值）\n\n(2) ROE 18% 的三种可能（杜邦视角）：\n- 好：高净利率（卓越的品牌定价权/成本优势）+ 高周转率（资产运营效率高）——「经营驱动型」高 ROE\n- 中性：高周转率 + 适度杠杆——运营效率好，伴随正常财务杠杆\n- 危险：净利率和周转率都在下降或持平，只有权益乘数在快速上升——「杠杆驱动型」高 ROE\n区分方法：追踪杜邦三因子各 3-5 年的变化趋势。经营指标恶化+杠杆上升=红旗信号。\n\n(3) 计算：\n- 可持续增长率 g = ROE × (1-股利支付率) = 0.18 × (1-0.40) = 0.108 = 10.8%\n- 下期股利 D₁ = EPS × 股利支付率 × (1+g) = 5 × 0.40 × 1.108 = 2.216 元\n- 但注意 g = 10.8% > r = 10%，GGM 不适用（分母为负）→ 应使用多阶段模型\n- 如果假设长期增长率 g = 6%：V₀ = 5 × 0.40 × 1.06 / (0.10 - 0.06) = 2.12 / 0.04 = 53 元\n\nROE > r 增长创造价值的原因：公司每保留 1 元利润再投资，能创造 0.18 元的回报（ROE=18%），而股东自己只能赚 10%（r=10%）。公司替股东赚的比股东自己能赚的多 → 增长增加价值。\nROE < r 时相反：公司赚的还没股东自己投资赚的多 → 不如把利润全部作为股利分掉。这就是「增长破坏价值」——保留利润再投资不如把钱还给股东。", "explanation": "这是一道典型的价值投资分析框架综合题，串联了财务报表分析、杜邦分析、股利折现模型三大模块。核心逻辑：高 ROE 本身不是目的，关键看 ROE 的来源（经营驱动 vs 杠杆驱动）和 ROE 与资本成本的关系（价值创造 vs 价值破坏）。", "pitfall": "GGM 要求 r > g。如果计算出的 g 大于 r（本题 g=10.8% > r=10%），说明模型不适用当前参数，需要修正假设或使用多阶段模型。许多考生会忽略这一点直接算出一个荒谬的负数价格。"}];
+var LABELS = {"page_title": "章节测试", "section": {"choice": "一、选择题", "tf": "二、判断题", "short": "三、简答题", "essay": "四、问答题", "comprehensive": "五、综合题"}, "section_order": ["choice", "tf", "short", "essay", "comprehensive"], "points_suffix": "分", "true_label": "正确", "false_label": "错误", "placeholder": "在此作答...", "pitfall_prefix": "易错提醒：", "correct_label": "正确", "wrong_label": "错误", "answer_prefix": "正确答案：", "reference_label": "参考答案", "graded_label": "已批改", "grade_button": "提交批改", "score_label": "总分", "duration_prefix": "满分 100 分 | 建议 ", "duration_suffix": " 分钟 | 选择答案后点击提交批改"};
+
+function build(){
+  var container = document.getElementById('questions-container');
+  if (!container) { console.error('ExamPass: questions-container not found'); return; }
+  var h = '';
+  var sec = '';
+  var titles = LABELS.section;
+
+  for (var i = 0; i < Q.length; i++) {
+    var q = Q[i];
+    var s = q.type;
+    if (s !== sec) {
+      sec = s;
+      if (titles[s]) {
+        h += '<h3>' + titles[s] + '</h3>';
+      }
+    }
+
+    var qid = 'q' + i;
+    h += '<div class="q-card" id="card-' + qid + '">';
+    h += '<div class="q-num">' + (i+1) + '. (' + q.points + ' ' + LABELS.points_suffix + ')</div>';
+    h += '<div class="q-text">' + q.question + '</div>';
+
+    if (q.type === 'choice') {
+      var opts = q.options || [];
+      for (var j = 0; j < opts.length; j++) {
+        h += '<label class="option" id="opt-' + qid + '-' + j + '" onclick="sel(\'' + qid + '\',' + j + ')">';
+        h += '<input type="radio" name="' + qid + '" value="' + j + '">' + String.fromCharCode(65+j) + '. ' + opts[j] + '</label>';
+      }
+    } else if (q.type === 'tf') {
+      h += '<label class="option" id="opt-' + qid + '-0" onclick="sel(\'' + qid + '\',0)">';
+      h += '<input type="radio" name="' + qid + '" value="0">' + LABELS.true_label + '</label>';
+      h += '<label class="option" id="opt-' + qid + '-1" onclick="sel(\'' + qid + '\',1)">';
+      h += '<input type="radio" name="' + qid + '" value="1">' + LABELS.false_label + '</label>';
+    } else {
+      h += '<textarea class="q-textarea" id="text-' + qid + '" placeholder="' + LABELS.placeholder + '" rows="3"></textarea>';
+    }
+
+    h += '<div class="result" id="result-' + qid + '">';
+    h += '<span class="badge" id="badge-' + qid + '"></span><span id="correct-' + qid + '"></span>';
+    h += '<div class="explanation">' + q.explanation + '</div>';
+    if (q.pitfall) {
+      h += '<div class="pitfall">' + LABELS.pitfall_prefix + q.pitfall + '</div>';
+    }
+    h += '</div></div>';
+  }
+
+  container.innerHTML = h;
+
+  // Re-render MathJax for dynamically inserted formulas
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise([container]).catch(function(err) {
+      console.error('MathJax typeset error:', err);
+    });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', build);
+if (document.readyState === 'interactive' || document.readyState === 'complete') {
+  build();
+}
+
+function sel(qid, idx) {
+  var prefix = 'opt-' + qid + '-';
+  var all = document.querySelectorAll('[id^="' + prefix + '"]');
+  for (var i = 0; i < all.length; i++) {
+    all[i].classList.remove('selected');
+  }
+  var target = document.getElementById('opt-' + qid + '-' + idx);
+  if (target) {
+    target.classList.add('selected');
+  }
+  var radio = document.querySelector('input[name="' + qid + '"][value="' + idx + '"]');
+  if (radio) {
+    radio.checked = true;
+  }
+}
+
+function gradeAll() {
+  var score = 0;
+  for (var i = 0; i < Q.length; i++) {
+    var q = Q[i];
+    var qid = 'q' + i;
+    var card = document.getElementById('card-' + qid);
+    var result = document.getElementById('result-' + qid);
+    var badge = document.getElementById('badge-' + qid);
+    var correctEl = document.getElementById('correct-' + qid);
+    if (!card || !result) continue;
+
+    result.style.display = 'block';
+
+    if (q.type === 'choice' || q.type === 'tf') {
+      var radio = document.querySelector('input[name="' + qid + '"]:checked');
+      if (radio && parseInt(radio.value) === q.answer) {
+        score += q.points;
+        card.classList.add('correct');
+        badge.className = 'badge badge-ok';
+        badge.textContent = LABELS.correct_label;
+        correctEl.innerHTML = '';
+        var correctOpt = document.getElementById('opt-' + qid + '-' + q.answer);
+        if (correctOpt) correctOpt.classList.add('correct-answer');
+      } else {
+        card.classList.add('wrong');
+        badge.className = 'badge badge-no';
+        badge.textContent = LABELS.wrong_label;
+        var ansText = q.type === 'choice'
+          ? String.fromCharCode(65+q.answer) + '. ' + (q.options ? q.options[q.answer] : '')
+          : (q.answer === 0 ? LABELS.true_label : LABELS.false_label);
+        correctEl.innerHTML = LABELS.answer_prefix + ansText;
+        if (radio) {
+          var wrongOpt = document.getElementById('opt-' + qid + '-' + radio.value);
+          if (wrongOpt) wrongOpt.classList.add('wrong-answer');
+        }
+        var correctOpt = document.getElementById('opt-' + qid + '-' + q.answer);
+        if (correctOpt) correctOpt.classList.add('correct-answer');
+      }
+    } else {
+      card.classList.add('correct');
+      badge.className = 'badge badge-ref';
+      badge.textContent = LABELS.reference_label;
+    }
+  }
+
+  var sb = document.getElementById('score-box');
+  if (sb) {
+    sb.style.display = 'block';
+    document.getElementById('score-num').textContent = score;
+    sb.scrollIntoView({behavior:'smooth'});
+  }
+
+  var opts = document.querySelectorAll('.option');
+  for (var i = 0; i < opts.length; i++) opts[i].style.pointerEvents = 'none';
+  var tas = document.querySelectorAll('.q-textarea');
+  for (var i = 0; i < tas.length; i++) tas[i].disabled = true;
+
+  var btn = document.getElementById('grade-btn');
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = LABELS.graded_label;
+  }
+
+  // Re-render MathJax for revealed explanations
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise().catch(function(err) {
+      console.error('MathJax typeset error:', err);
+    });
+  }
+}
+
+</script>
+</body>
+</html>

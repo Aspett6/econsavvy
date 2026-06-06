@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>会计学</title>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\(', '\)']],
+    displayMath: [['$$', '$$'], ['\[', '\]']]
+  }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"></script>
+<style>
+/* === ExamPass Shared Styles === */
+/* Paper-like warm background, clean typography, responsive */
+
+:root {
+  --paper: #fdf6e3;
+  --paper-dark: #f5ecd7;
+  --ink: #2c2c2c;
+  --ink-light: #555;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --divider: #d6c8a8;
+  --card-bg: #fef9ef;
+  --card-border: #e8dcc8;
+  --correct: #22c55e;
+  --correct-bg: #f0fdf4;
+  --wrong: #ef4444;
+  --wrong-bg: #fef2f2;
+  --tag-bg: #fef3c7;
+  --tag-text: #92400e;
+  --radius: 6px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: "Microsoft YaHei", "Noto Sans SC", "SimSun", sans-serif;
+  font-size: 12pt; line-height: 1.75; color: var(--ink);
+  max-width: 860px; margin: auto; padding: 24px 20px 60px;
+  background: var(--paper);
+}
+
+@media print {
+  body { font-size: 10.5pt; background: #fff; }
+  .no-print { display: none !important; }
+  h1, h2, h3 { page-break-after: avoid; }
+}
+
+/* ── Header ── */
+#exampass-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 6px 0; margin-bottom: 0;
+}
+.header-brand { font-size: 1.2em; font-weight: 700; color: #1a1a2e; letter-spacing: 0.3px; }
+.header-url  { font-size: 0.78em; color: #999; }
+.header-divider { border: none; border-top: 2px solid var(--divider); margin: 4px 0 20px 0; }
+
+/* ── Typography ── */
+h1 { font-size: 1.55em; text-align: center; border-bottom: 2px solid var(--divider); padding-bottom: 8px; margin-top: 0; }
+h2 { font-size: 1.25em; border-bottom: 1px solid var(--divider); padding-bottom: 4px; margin-top: 28px; }
+h3 { font-size: 1.08em; margin-top: 20px; color: var(--ink); }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Tables ── */
+table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 0.95em; }
+td, th { border: 1px solid var(--card-border); padding: 5px 9px; text-align: left; }
+th { background: var(--paper-dark); font-weight: 700; }
+
+/* ── Knowledge point vs explanation ── */
+.kp { font-weight: 700; color: var(--ink); }           /* key point: bold dark */
+.exp { font-weight: 400; color: var(--ink-light); }    /* explanation: lighter */
+.exp em, .exp strong { color: var(--ink); }             /* emphasis inside explanation */
+
+/* ── Block elements ── */
+blockquote {
+  border-left: 3px solid #c0392b; background: #fef9ef;
+  padding: 6px 14px; margin: 10px 0; font-size: 0.95em;
+}
+code { background: #f0ede0; padding: 2px 5px; border-radius: 3px; font-size: 0.92em; }
+pre { background: #f0ede0; padding: 10px; border-radius: var(--radius); overflow-x: auto; }
+
+/* ── TOC ── */
+div.toc {
+  background: var(--card-bg); padding: 14px 18px;
+  border: 1px solid var(--card-border); border-radius: var(--radius); margin-bottom: 22px;
+}
+div.toc ul { padding-left: 18px; }
+div.toc li { margin: 3px 0; font-size: 0.95em; }
+
+/* ── Priority tags ── */
+.tag-must   { background: #fee2e2; color: #991b1b; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-key    { background: #fef3c7; color: #92400e; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-freq   { background: #dbeafe; color: #1e40af; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-info   { background: #f0fdf4; color: #166534; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+
+/* === Interactive Test Styles === */
+
+/* ── Score box ── */
+#score-box {
+  display: none; background: var(--paper-dark); color: var(--ink);
+  padding: 16px 20px; border-radius: var(--radius); margin: 14px 0;
+  text-align: center; border: 1px solid var(--card-border);
+}
+#score-box .score-num { font-size: 2.2em; font-weight: 700; }
+#score-box .score-label { font-size: 0.85em; color: var(--ink-light); }
+
+/* ── Question card ── */
+.q-card {
+  background: var(--card-bg); border: 1px solid var(--card-border);
+  border-radius: var(--radius); padding: 12px 14px; margin: 10px 0;
+  transition: all 0.15s;
+}
+.q-card.correct { border-left: 3px solid var(--correct); background: #f7fdf4; }
+.q-card.wrong   { border-left: 3px solid var(--wrong); background: #fef9f9; }
+
+.q-num  { font-weight: 700; font-size: 0.98em; margin-bottom: 4px; }
+.q-text { margin-bottom: 8px; font-size: 0.98em; }
+
+/* ── Options (compact) ── */
+.option {
+  display: block; padding: 4px 10px; margin: 3px 0;
+  border: 1px solid var(--card-border); border-radius: 4px;
+  cursor: pointer; transition: all 0.12s; font-size: 0.93em;
+  background: #fefcf5;
+}
+.option:hover            { background: #f0ede0; }
+.option input            { margin-right: 6px; }
+.option.selected         { border-color: var(--accent); background: #eff6ff; }
+.option.correct-answer   { border-color: var(--correct); background: var(--correct-bg); }
+.option.wrong-answer     { border-color: var(--wrong); background: var(--wrong-bg); }
+
+/* ── Textareas (compact) ── */
+.q-textarea {
+  width: 100%; min-height: 56px; border: 1px solid var(--card-border);
+  border-radius: 4px; padding: 6px 10px; font-family: inherit;
+  font-size: 0.93em; background: #fefcf5; resize: vertical;
+}
+.q-textarea:focus { outline: none; border-color: var(--accent); }
+
+/* ── Result after grading ── */
+.result {
+  display: none; margin-top: 8px; padding: 8px 12px;
+  background: #fefcf5; border: 1px solid var(--card-border);
+  border-radius: 4px; font-size: 0.9em; line-height: 1.6;
+}
+.result .badge {
+  display: inline-block; padding: 1px 9px; border-radius: 3px;
+  font-weight: 700; font-size: 0.82em; margin-right: 6px;
+}
+.badge-ok  { background: var(--correct-bg); color: #166534; }
+.badge-no  { background: var(--wrong-bg); color: #991b1b; }
+.badge-ref { background: #dbeafe; color: #1e40af; }
+
+.result .explanation { margin-top: 4px; color: var(--ink); }
+.result .pitfall { color: #b45309; margin-top: 3px; font-size: 0.9em; }
+
+/* ── Grading button ── */
+.grading-bar { text-align: center; margin: 20px 0; }
+.grading-bar button {
+  font-size: 1em; padding: 8px 32px; background: var(--accent);
+  color: #fff; border: none; border-radius: var(--radius);
+  cursor: pointer; font-weight: 600; letter-spacing: 0.3px;
+}
+.grading-bar button:hover     { background: var(--accent-hover); }
+.grading-bar button:disabled  { background: #bbb; cursor: not-allowed; }
+
+</style>
+</head>
+<body>
+
+<header id="exampass-header">
+  <div class="header-left"><span class="header-brand">ExamPass Assistant</span></div>
+  <div class="header-right"><span class="header-url">github.com/WUBING2023/ExamPass-Assistant</span></div>
+</header>
+<hr class="header-divider">
+
+<h1>会计学</h1>
+<h2 style="text-align:center">章节测试</h2>
+<p style="text-align:center;color:var(--ink-light);font-size:0.95em">满分 100 分</p>
+
+<div id="score-box"><div class="score-num" id="score-num">0</div><div class="score-label">总分</div></div>
+<div id="questions-container"></div>
+<div class="grading-bar no-print"><button onclick="gradeAll()" id="grade-btn">提交批改</button></div>
+
+<script>
+var Q = [{"type": "choice", "stem": "以下哪项不属于会计的基本假设？", "options": ["会计主体", "持续经营", "货币计量", "权责发生制"], "answer": 3, "explanation": "<strong>正确答案</strong>：权责发生制。<br><br><strong>解析</strong>：会计四大基本假设是会计主体、持续经营、会计分期和货币计量。权责发生制是会计核算基础（另一基础是收付实现制），不是基本假设。<br><br><strong>干扰项分析</strong>：A、B、C都是正确的四大假设之一。"}, {"type": "choice", "stem": "资产、负债、所有者权益三者的关系是", "options": ["资产 = 负债 + 所有者权益", "资产 + 负债 = 所有者权益", "资产 = 负债 - 所有者权益", "资产 + 所有者权益 = 负债"], "answer": 0, "explanation": "<strong>正确答案</strong>：资产 = 负债 + 所有者权益。<br><br><strong>解析</strong>：这是最基本的会计等式，表示企业的资产要么来源于债权人（负债），要么来源于所有者（权益）。等式右边是资金来源，左边是资金去向。<br><br><strong>干扰项分析</strong>：其余三个等式在数学上都不成立。"}, {"type": "choice", "stem": "以下哪项关于借贷记账法的说法是正确的？", "options": ["资产类账户贷方记增加", "负债类账户借方记增加", "收入类账户贷方记增加", "费用类账户贷方记增加"], "answer": 2, "explanation": "<strong>正确答案</strong>：收入类账户贷方记增加。<br><br><strong>解析</strong>：负债、所有者权益、收入类账户都是\"贷增借减\"；资产、费用类账户是\"借增贷减\"。<br><br><strong>干扰项分析</strong>：A错在资产类借方记增加。B错在负债类贷方记增加。D错在费用类借方记增加。"}, {"type": "choice", "stem": "发现记账凭证中科目使用错误，应采用的更正方法是", "options": ["划线更正法", "红字更正法", "补充登记法", "直接涂改法"], "answer": 1, "explanation": "<strong>正确答案</strong>：红字更正法。<br><br><strong>解析</strong>：凭证科目错误或金额多记，用红字更正法（先红字冲销原错误分录，再蓝字做正确分录）。<br><br><strong>干扰项分析</strong>：A适用于账簿登记错误（凭证没错）。C适用于凭证金额少记。D不存在此方法。"}, {"type": "choice", "stem": "企业接受投资者投入资本，正确的会计分录是", "options": ["借：银行存款 贷：短期借款", "借：银行存款 贷：主营业务收入", "借：银行存款 贷：实收资本", "借：实收资本 贷：银行存款"], "answer": 2, "explanation": "<strong>正确答案</strong>：借：银行存款 贷：实收资本。<br><br><strong>解析</strong>：接受投资使银行存款（资产）增加，借记；同时所有者权益增加，贷记实收资本。<br><br><strong>干扰项分析</strong>：A是借款的分录。B是销售的分录。D方向反了。"}, {"type": "choice", "stem": "以下哪项不属于资产负债表的项目？", "options": ["货币资金", "应收账款", "管理费用", "应付账款"], "answer": 2, "explanation": "<strong>正确答案</strong>：管理费用。<br><br><strong>解析</strong>：管理费用是期间费用，出现在利润表中。资产负债表反映资产、负债、所有者权益。<br><br><strong>干扰项分析</strong>：A货币资金和B应收账款是资产，D应付账款是负债，都在资产负债表上。"}, {"type": "choice", "stem": "会计信息质量要求中，\"不高估资产和收益，不低估负债和费用\"体现的是", "options": ["可靠性", "相关性", "可比性", "谨慎性"], "answer": 3, "explanation": "<strong>正确答案</strong>：谨慎性。<br><br><strong>解析</strong>：谨慎性（稳健性原则）要求企业在不确定情况下做出审慎判断，不高估资产和收益，不低估负债和费用。<br><br><strong>干扰项分析</strong>：A可靠性强调如实反映。B相关性强调决策有用。C可比性强调横向和纵向可比。"}, {"type": "choice", "stem": "流动比率计算公式为", "options": ["流动资产 ÷ 流动负债", "速动资产 ÷ 流动负债", "总负债 ÷ 总资产", "流动资产 ÷ 总资产"], "answer": 0, "explanation": "<strong>正确答案</strong>：流动资产 ÷ 流动负债。<br><br><strong>解析</strong>：流动比率衡量企业短期偿债能力，比率越高说明短期偿债能力越强。<br><br><strong>干扰项分析</strong>：B是速动比率。C是资产负债率。D无此常用指标。"}, {"type": "choice", "stem": "采购原材料时支付的增值税进项税额，在会计分录中应", "options": ["计入原材料成本", "借记应交税费", "计入管理费用", "贷记应交税费"], "answer": 1, "explanation": "<strong>正确答案</strong>：借记应交税费。<br><br><strong>解析</strong>：增值税是价外税，进项税额不计入采购成本，而是借记\"应交税费-应交增值税（进项税额）\"，用于抵扣销项税额。<br><br><strong>干扰项分析</strong>：A错在进项税不计入成本（一般纳税人）。C错在进项税不是费用。D错在进项税是借记而非贷记。"}, {"type": "choice", "stem": "利润表中的\"营业利润\"应在哪个环节之后计算得出？", "options": ["营业收入减去营业成本后", "毛利减去期间费用后", "利润总额减去所得税后", "营业收入减去所有成本费用后"], "answer": 1, "explanation": "<strong>正确答案</strong>：毛利减去期间费用后。<br><br><strong>解析</strong>：营业利润 = 毛利 - 税金及附加 - 期间费用（销售/管理/财务费用）+ 其他收益。A只是毛利。C是净利润。D描述过于笼统。"}, {"type": "tf", "stem": "会计的核算职能和监督职能是相互独立的，互不影响。", "answer": false, "explanation": "<strong>正确答案</strong>：错误。<br><br><strong>解析</strong>：核算是监督的基础，监督贯穿核算的全过程，两者相辅相成而非相互独立。"}, {"type": "tf", "stem": "持续经营假设是会计分期假设的基础。", "answer": true, "explanation": "<strong>正确答案</strong>：正确。<br><br><strong>解析</strong>：正是因为假设企业持续经营，才需要把无限期经营切分为会计期间来定期报告。如果企业明天就清算，就不需要分期了。"}, {"type": "tf", "stem": "试算平衡可以检查出所有的记账错误。", "answer": false, "explanation": "<strong>正确答案</strong>：错误。<br><br><strong>解析</strong>：试算平衡只能检查借贷金额是否相等。整笔漏记、科目用错、借贷同时多记/少记等错误，试算平衡无法发现。"}, {"type": "tf", "stem": "收入是指企业在日常活动中形成的、会导致所有者权益增加的经济利益总流入。", "answer": true, "explanation": "<strong>正确答案</strong>：正确。<br><br><strong>解析</strong>：这是收入的定义。关键在于\"日常活动\"--非日常活动产生的经济利益流入是利得而非收入。"}, {"type": "tf", "stem": "增值税进项税额应计入采购物资的成本。", "answer": false, "explanation": "<strong>正确答案</strong>：错误。<br><br><strong>解析</strong>：增值税是价外税，一般纳税人的进项税额单独核算，不计入采购成本。小规模纳税人的进项税额才计入成本。"}, {"type": "tf", "stem": "资产负债表中，资产项目按流动性从强到弱排列。", "answer": true, "explanation": "<strong>正确答案</strong>：正确。<br><br><strong>解析</strong>：资产负债表左边资产方按流动性排列，货币资金排第一，固定资产等长期资产排在后面。"}, {"type": "tf", "stem": "速动比率比流动比率更能反映企业的即时偿债能力，因为它扣除了存货。", "answer": true, "explanation": "<strong>正确答案</strong>：正确。<br><br><strong>解析</strong>：存货的变现能力相对较差（需要先卖出去才能收到钱），扣除存货后的速动比率更能反映企业即刻还债的能力。"}, {"type": "tf", "stem": "企业提取盈余公积会导致所有者权益总额减少。", "answer": false, "explanation": "<strong>正确答案</strong>：错误。<br><br><strong>解析</strong>：提取盈余公积是所有者权益内部的结构变化（从未分配利润转到盈余公积），总额不变。"}, {"type": "tf", "stem": "利润表是静态报表，反映某一时点的经营成果。", "answer": false, "explanation": "<strong>正确答案</strong>：错误。<br><br><strong>解析</strong>：利润表是动态报表，反映一定期间（如一个季度、一年）的经营成果。资产负债表才是静态报表。"}, {"type": "tf", "stem": "企业所有经济利益的流入都属于收入。", "answer": false, "explanation": "<strong>正确答案</strong>：错误。<br><br><strong>解析</strong>：日常活动产生的才是收入（如销售商品），非日常活动产生的属于利得（如出售固定资产收益）。不是所有流入都是收入。"}, {"type": "short", "stem": "请简述会计的四大基本假设及其各自解决的核心问题。", "answer": "会计主体假设解决\"算谁的账\"（空间范围）；持续经营假设解决\"企业能活多久\"（假设无限期经营）；会计分期假设解决\"什么时候算账\"（将连续经营分割为等距期间）；货币计量假设解决\"用什么算账\"（以货币为统一计量单位，隐含币值稳定）。", "explanation": "<strong>评分要点</strong>：每个假设1.5分，需同时说明名称和解决的问题。只写名称不得分。<br><br><strong>易错点</strong>：容易把持续经营和会计分期的逻辑顺序搞反--先有持续经营，才需要会计分期。"}, {"type": "short", "stem": "请写出资产、负债、所有者权益、收入、费用五类账户的借贷方向规律。", "answer": "资产类和费用类：借方记增加，贷方记减少（借增贷减）。负债类、所有者权益类和收入类：贷方记增加，借方记减少（贷增借减）。口诀：\"资费借增，负权收贷增\"。", "explanation": "<strong>评分要点</strong>：五类账户2分，口诀或规律总结1分，表述清晰1分。"}, {"type": "short", "stem": "简述三种错账更正方法的适用场景。", "answer": "划线更正法：结账前发现账簿记录有文字或数字错误，但记账凭证无误。红字更正法：记账凭证中会计科目错误或所记金额大于应记金额。补充登记法：记账凭证中所记金额小于应记金额。", "explanation": "<strong>评分要点</strong>：每种方法1分，需准确说明适用条件。<br><br><strong>关键区分</strong>：看错误出在哪个环节--凭证错还是账簿错；金额多记还是少记。"}, {"type": "short", "stem": "请列出利润表的多步式计算过程（从营业收入到净利润）。", "answer": "营业收入 - 营业成本 = 毛利 → 毛利 - 税金及附加 - 期间费用（销售/管理/财务）+ 其他收益 = 营业利润 → 营业利润 + 营业外收入 - 营业外支出 = 利润总额 → 利润总额 - 所得税费用 = 净利润。", "explanation": "<strong>评分要点</strong>：四个步骤完整得4分，缺少一个中间环节扣1分。<br><br><strong>易错点</strong>：营业外收支在营业利润之后，不在营业利润的计算中。"}, {"type": "essay", "stem": "某企业本月发生以下业务：(1)接受投资者投入200万元；(2)向银行借入短期借款50万元；(3)购入原材料30万元，增值税进项税额3.9万元，款项已付；(4)销售产品取得收入80万元，增值税销项税额10.4万元，款项已收；(5)结转已销产品成本45万元；(6)计提本月工资：生产工人15万元，管理人员5万元。\n请逐笔编制会计分录，并说明每笔业务对会计等式的影响。", "answer": "(1) 借：银行存款 200万 贷：实收资本 200万 → 资产+200万，所有者权益+200万\n(2) 借：银行存款 50万 贷：短期借款 50万 → 资产+50万，负债+50万\n(3) 借：原材料 30万 借：应交税费-应交增值税(进项税额) 3.9万 贷：银行存款 33.9万 → 资产内部一增一减\n(4) 借：银行存款 90.4万 贷：主营业务收入 80万 贷：应交税费-应交增值税(销项税额) 10.4万 → 资产+90.4万，收入+80万（最终增加权益），负债+10.4万\n(5) 借：主营业务成本 45万 贷：库存商品 45万 → 费用+45万（最终减少权益），资产-45万\n(6) 借：生产成本 15万 借：管理费用 5万 贷：应付职工薪酬 20万 → 资产（在产品）+15万，费用+5万，负债+20万", "explanation": "<strong>评分要点</strong>：每笔分录2分（方向1分+科目金额1分），共12分；等式影响分析每笔1分共6分。总计18分。<br><br><strong>常见错误</strong>：(3)中将进项税额计入原材料成本；(6)中生产工人工资直接计入费用而未通过生产成本。"}, {"type": "comprehensive", "stem": "A公司2024年末部分财务数据如下：流动资产500万元（其中存货150万元），流动负债250万元，总资产1000万元，总负债600万元，2024年销售收入1200万元（全部为赊销），年初年末应收账款平均余额200万元，销售成本800万元，年初年末存货平均余额160万元，净利润120万元。\n\n要求：(1)计算流动比率和速动比率并分析短期偿债能力；(2)计算资产负债率并分析长期偿债能力；(3)计算应收账款周转率和存货周转率并分析营运能力；(4)计算总资产报酬率ROA和净资产收益率ROE并分析盈利能力。", "answer": "(1) 流动比率 = 500/250 = 2.0，速动比率 = (500-150)/250 = 1.4。流动比率2.0说明每1元流动负债有2元流动资产保障，处于安全水平；速动比率1.4剔除存货后仍高于1，短期偿债能力强。\n(2) 资产负债率 = 600/1000 = 60%。说明资产中有60%来自债务融资，杠杆水平中等偏高，长期偿债能力需关注。\n(3) 应收账款周转率 = 1200/200 = 6次（周转天数约60天），说明全年应收账款平均周转6次，回款周期约2个月。存货周转率 = 800/160 = 5次（周转天数约73天），存货全年周转5次。\n(4) ROA = 120/1000 = 12%，说明每100元资产创造12元净利润。ROE = 120/(1000-600) = 120/400 = 30%，权益报酬率高，对股东回报较好但在高杠杆下实现的，需注意财务风险。", "explanation": "<strong>评分要点</strong>：四个部分各5分（计算3分+分析2分），总计20分。<br><br><strong>核心能力考察</strong>：不仅会套公式，还要能结合具体数字做出评价。ROE 30%看似很好但资产负债率60%说明有杠杆放大效应。<br><br><strong>易错点</strong>：速动比率分子忘记减去存货；ROE分母用总资产而非净资产；分析时只算数不做文字评价。"}];
+var LABELS = {"page_title": "章节测试", "section": {"choice": "一、选择题", "tf": "二、判断题", "short": "三、简答题", "essay": "四、问答题", "comprehensive": "五、综合题"}, "section_order": ["choice", "tf", "short", "essay", "comprehensive"], "points_suffix": "分", "true_label": "正确", "false_label": "错误", "placeholder": "在此作答...", "pitfall_prefix": "易错提醒：", "correct_label": "正确", "wrong_label": "错误", "answer_prefix": "正确答案：", "reference_label": "参考答案", "graded_label": "已批改", "grade_button": "提交批改", "score_label": "总分", "duration_prefix": "满分 100 分 | 建议 ", "duration_suffix": " 分钟 | 选择答案后点击提交批改"};
+
+function build(){
+  var container = document.getElementById('questions-container');
+  if (!container) { console.error('ExamPass: questions-container not found'); return; }
+  var h = '';
+  var sec = '';
+  var titles = LABELS.section;
+
+  for (var i = 0; i < Q.length; i++) {
+    var q = Q[i];
+    var s = q.type;
+    if (s !== sec) {
+      sec = s;
+      if (titles[s]) {
+        h += '<h3>' + titles[s] + '</h3>';
+      }
+    }
+
+    var qid = 'q' + i;
+    h += '<div class="q-card" id="card-' + qid + '">';
+    h += '<div class="q-num">' + (i+1) + '. (' + q.points + ' ' + LABELS.points_suffix + ')</div>';
+    h += '<div class="q-text">' + q.question + '</div>';
+
+    if (q.type === 'choice') {
+      var opts = q.options || [];
+      for (var j = 0; j < opts.length; j++) {
+        h += '<label class="option" id="opt-' + qid + '-' + j + '" onclick="sel(\'' + qid + '\',' + j + ')">';
+        h += '<input type="radio" name="' + qid + '" value="' + j + '">' + String.fromCharCode(65+j) + '. ' + opts[j] + '</label>';
+      }
+    } else if (q.type === 'tf') {
+      h += '<label class="option" id="opt-' + qid + '-0" onclick="sel(\'' + qid + '\',0)">';
+      h += '<input type="radio" name="' + qid + '" value="0">' + LABELS.true_label + '</label>';
+      h += '<label class="option" id="opt-' + qid + '-1" onclick="sel(\'' + qid + '\',1)">';
+      h += '<input type="radio" name="' + qid + '" value="1">' + LABELS.false_label + '</label>';
+    } else {
+      h += '<textarea class="q-textarea" id="text-' + qid + '" placeholder="' + LABELS.placeholder + '" rows="3"></textarea>';
+    }
+
+    h += '<div class="result" id="result-' + qid + '">';
+    h += '<span class="badge" id="badge-' + qid + '"></span><span id="correct-' + qid + '"></span>';
+    h += '<div class="explanation">' + q.explanation + '</div>';
+    if (q.pitfall) {
+      h += '<div class="pitfall">' + LABELS.pitfall_prefix + q.pitfall + '</div>';
+    }
+    h += '</div></div>';
+  }
+
+  container.innerHTML = h;
+
+  // Re-render MathJax for dynamically inserted formulas
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise([container]).catch(function(err) {
+      console.error('MathJax typeset error:', err);
+    });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', build);
+if (document.readyState === 'interactive' || document.readyState === 'complete') {
+  build();
+}
+
+function sel(qid, idx) {
+  var prefix = 'opt-' + qid + '-';
+  var all = document.querySelectorAll('[id^="' + prefix + '"]');
+  for (var i = 0; i < all.length; i++) {
+    all[i].classList.remove('selected');
+  }
+  var target = document.getElementById('opt-' + qid + '-' + idx);
+  if (target) {
+    target.classList.add('selected');
+  }
+  var radio = document.querySelector('input[name="' + qid + '"][value="' + idx + '"]');
+  if (radio) {
+    radio.checked = true;
+  }
+}
+
+function gradeAll() {
+  var score = 0;
+  for (var i = 0; i < Q.length; i++) {
+    var q = Q[i];
+    var qid = 'q' + i;
+    var card = document.getElementById('card-' + qid);
+    var result = document.getElementById('result-' + qid);
+    var badge = document.getElementById('badge-' + qid);
+    var correctEl = document.getElementById('correct-' + qid);
+    if (!card || !result) continue;
+
+    result.style.display = 'block';
+
+    if (q.type === 'choice' || q.type === 'tf') {
+      var radio = document.querySelector('input[name="' + qid + '"]:checked');
+      if (radio && parseInt(radio.value) === q.answer) {
+        score += q.points;
+        card.classList.add('correct');
+        badge.className = 'badge badge-ok';
+        badge.textContent = LABELS.correct_label;
+        correctEl.innerHTML = '';
+        var correctOpt = document.getElementById('opt-' + qid + '-' + q.answer);
+        if (correctOpt) correctOpt.classList.add('correct-answer');
+      } else {
+        card.classList.add('wrong');
+        badge.className = 'badge badge-no';
+        badge.textContent = LABELS.wrong_label;
+        var ansText = q.type === 'choice'
+          ? String.fromCharCode(65+q.answer) + '. ' + (q.options ? q.options[q.answer] : '')
+          : (q.answer === 0 ? LABELS.true_label : LABELS.false_label);
+        correctEl.innerHTML = LABELS.answer_prefix + ansText;
+        if (radio) {
+          var wrongOpt = document.getElementById('opt-' + qid + '-' + radio.value);
+          if (wrongOpt) wrongOpt.classList.add('wrong-answer');
+        }
+        var correctOpt = document.getElementById('opt-' + qid + '-' + q.answer);
+        if (correctOpt) correctOpt.classList.add('correct-answer');
+      }
+    } else {
+      card.classList.add('correct');
+      badge.className = 'badge badge-ref';
+      badge.textContent = LABELS.reference_label;
+    }
+  }
+
+  var sb = document.getElementById('score-box');
+  if (sb) {
+    sb.style.display = 'block';
+    document.getElementById('score-num').textContent = score;
+    sb.scrollIntoView({behavior:'smooth'});
+  }
+
+  var opts = document.querySelectorAll('.option');
+  for (var i = 0; i < opts.length; i++) opts[i].style.pointerEvents = 'none';
+  var tas = document.querySelectorAll('.q-textarea');
+  for (var i = 0; i < tas.length; i++) tas[i].disabled = true;
+
+  var btn = document.getElementById('grade-btn');
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = LABELS.graded_label;
+  }
+
+  // Re-render MathJax for revealed explanations
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise().catch(function(err) {
+      console.error('MathJax typeset error:', err);
+    });
+  }
+}
+
+</script>
+</body>
+</html>

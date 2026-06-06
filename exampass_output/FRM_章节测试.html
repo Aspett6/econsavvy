@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FRM · 章节测试</title>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\(', '\)']],
+    displayMath: [['$$', '$$'], ['\[', '\]']]
+  }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"></script>
+<style>
+/* === ExamPass Shared Styles === */
+/* Paper-like warm background, clean typography, responsive */
+
+:root {
+  --paper: #fdf6e3;
+  --paper-dark: #f5ecd7;
+  --ink: #2c2c2c;
+  --ink-light: #555;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --divider: #d6c8a8;
+  --card-bg: #fef9ef;
+  --card-border: #e8dcc8;
+  --correct: #22c55e;
+  --correct-bg: #f0fdf4;
+  --wrong: #ef4444;
+  --wrong-bg: #fef2f2;
+  --tag-bg: #fef3c7;
+  --tag-text: #92400e;
+  --radius: 6px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: "Microsoft YaHei", "Noto Sans SC", "SimSun", sans-serif;
+  font-size: 12pt; line-height: 1.75; color: var(--ink);
+  max-width: 860px; margin: auto; padding: 24px 20px 60px;
+  background: var(--paper);
+}
+
+@media print {
+  body { font-size: 10.5pt; background: #fff; }
+  .no-print { display: none !important; }
+  h1, h2, h3 { page-break-after: avoid; }
+}
+
+/* ── Header ── */
+#exampass-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 6px 0; margin-bottom: 0;
+}
+.header-brand { font-size: 1.2em; font-weight: 700; color: #1a1a2e; letter-spacing: 0.3px; }
+.header-url  { font-size: 0.78em; color: #999; }
+.header-divider { border: none; border-top: 2px solid var(--divider); margin: 4px 0 20px 0; }
+
+/* ── Typography ── */
+h1 { font-size: 1.55em; text-align: center; border-bottom: 2px solid var(--divider); padding-bottom: 8px; margin-top: 0; }
+h2 { font-size: 1.25em; border-bottom: 1px solid var(--divider); padding-bottom: 4px; margin-top: 28px; }
+h3 { font-size: 1.08em; margin-top: 20px; color: var(--ink); }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Tables ── */
+table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 0.95em; }
+td, th { border: 1px solid var(--card-border); padding: 5px 9px; text-align: left; }
+th { background: var(--paper-dark); font-weight: 700; }
+
+/* ── Knowledge point vs explanation ── */
+.kp { font-weight: 700; color: var(--ink); }           /* key point: bold dark */
+.exp { font-weight: 400; color: var(--ink-light); }    /* explanation: lighter */
+.exp em, .exp strong { color: var(--ink); }             /* emphasis inside explanation */
+
+/* ── Block elements ── */
+blockquote {
+  border-left: 3px solid #c0392b; background: #fef9ef;
+  padding: 6px 14px; margin: 10px 0; font-size: 0.95em;
+}
+code { background: #f0ede0; padding: 2px 5px; border-radius: 3px; font-size: 0.92em; }
+pre { background: #f0ede0; padding: 10px; border-radius: var(--radius); overflow-x: auto; }
+
+/* ── TOC ── */
+div.toc {
+  background: var(--card-bg); padding: 14px 18px;
+  border: 1px solid var(--card-border); border-radius: var(--radius); margin-bottom: 22px;
+}
+div.toc ul { padding-left: 18px; }
+div.toc li { margin: 3px 0; font-size: 0.95em; }
+
+/* ── Priority tags ── */
+.tag-must   { background: #fee2e2; color: #991b1b; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-key    { background: #fef3c7; color: #92400e; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-freq   { background: #dbeafe; color: #1e40af; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-info   { background: #f0fdf4; color: #166534; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+
+/* === Interactive Test Styles === */
+
+/* ── Score box ── */
+#score-box {
+  display: none; background: var(--paper-dark); color: var(--ink);
+  padding: 16px 20px; border-radius: var(--radius); margin: 14px 0;
+  text-align: center; border: 1px solid var(--card-border);
+}
+#score-box .score-num { font-size: 2.2em; font-weight: 700; }
+#score-box .score-label { font-size: 0.85em; color: var(--ink-light); }
+
+/* ── Question card ── */
+.q-card {
+  background: var(--card-bg); border: 1px solid var(--card-border);
+  border-radius: var(--radius); padding: 12px 14px; margin: 10px 0;
+  transition: all 0.15s;
+}
+.q-card.correct { border-left: 3px solid var(--correct); background: #f7fdf4; }
+.q-card.wrong   { border-left: 3px solid var(--wrong); background: #fef9f9; }
+
+.q-num  { font-weight: 700; font-size: 0.98em; margin-bottom: 4px; }
+.q-text { margin-bottom: 8px; font-size: 0.98em; }
+
+/* ── Options (compact) ── */
+.option {
+  display: block; padding: 4px 10px; margin: 3px 0;
+  border: 1px solid var(--card-border); border-radius: 4px;
+  cursor: pointer; transition: all 0.12s; font-size: 0.93em;
+  background: #fefcf5;
+}
+.option:hover            { background: #f0ede0; }
+.option input            { margin-right: 6px; }
+.option.selected         { border-color: var(--accent); background: #eff6ff; }
+.option.correct-answer   { border-color: var(--correct); background: var(--correct-bg); }
+.option.wrong-answer     { border-color: var(--wrong); background: var(--wrong-bg); }
+
+/* ── Textareas (compact) ── */
+.q-textarea {
+  width: 100%; min-height: 56px; border: 1px solid var(--card-border);
+  border-radius: 4px; padding: 6px 10px; font-family: inherit;
+  font-size: 0.93em; background: #fefcf5; resize: vertical;
+}
+.q-textarea:focus { outline: none; border-color: var(--accent); }
+
+/* ── Result after grading ── */
+.result {
+  display: none; margin-top: 8px; padding: 8px 12px;
+  background: #fefcf5; border: 1px solid var(--card-border);
+  border-radius: 4px; font-size: 0.9em; line-height: 1.6;
+}
+.result .badge {
+  display: inline-block; padding: 1px 9px; border-radius: 3px;
+  font-weight: 700; font-size: 0.82em; margin-right: 6px;
+}
+.badge-ok  { background: var(--correct-bg); color: #166534; }
+.badge-no  { background: var(--wrong-bg); color: #991b1b; }
+.badge-ref { background: #dbeafe; color: #1e40af; }
+
+.result .explanation { margin-top: 4px; color: var(--ink); }
+.result .pitfall { color: #b45309; margin-top: 3px; font-size: 0.9em; }
+
+/* ── Grading button ── */
+.grading-bar { text-align: center; margin: 20px 0; }
+.grading-bar button {
+  font-size: 1em; padding: 8px 32px; background: var(--accent);
+  color: #fff; border: none; border-radius: var(--radius);
+  cursor: pointer; font-weight: 600; letter-spacing: 0.3px;
+}
+.grading-bar button:hover     { background: var(--accent-hover); }
+.grading-bar button:disabled  { background: #bbb; cursor: not-allowed; }
+
+</style>
+</head>
+<body>
+
+<header id="exampass-header">
+  <div class="header-left"><span class="header-brand">ExamPass Assistant</span></div>
+  <div class="header-right"><span class="header-url">github.com/WUBING2023/ExamPass-Assistant</span></div>
+</header>
+<hr class="header-divider">
+
+<h1>FRM · 章节测试</h1>
+<h2 style="text-align:center">章节测试</h2>
+<p style="text-align:center;color:var(--ink-light);font-size:0.95em">2025考纲 · 28题100分 · 50分钟</p>
+
+<div id="score-box"><div class="score-num" id="score-num">0</div><div class="score-label">总分</div></div>
+<div id="questions-container"></div>
+<div class="grading-bar no-print"><button onclick="gradeAll()" id="grade-btn">提交批改</button></div>
+
+<script>
+var Q = [{"type": "choice", "points": 2, "question": "预期损失 EL 的计算公式？", "options": ["EL = PD x LGD", "EL = PD x EAD", "EL = PD x LGD x EAD", "EL = LGD x EAD"], "answer": "EL = PD x LGD x EAD", "explanation": "三要素缺一不可：违约概率x违约损失率x违约敞口。"}, {"type": "choice", "points": 2, "question": "以下哪项满足次可加性（一致风险度量）？", "options": ["VaR", "预期短缺 ES", "标准差", "都满足"], "answer": "预期短缺 ES", "explanation": "ES满足次可加性，VaR不满足。这是FRTB用ES替代VaR的核心原因。"}, {"type": "choice", "points": 2, "question": "GARCH(1,1)中alpha+beta的经济含义？", "options": ["短期冲击程度", "波动率的持续性", "无条件方差", "长期均值"], "answer": "波动率的持续性", "explanation": "alpha+beta越接近1冲击越持久。alpha+beta<1保证方差平稳。"}, {"type": "choice", "points": 2, "question": "买卖权平价公式（欧式无股利）？", "options": ["C+S=P+Ke^(-rT)", "C+Ke^(-rT)=P+S", "C=P+S-Ke^(-rT)", "P+Ke^(-rT)=C-S"], "answer": "C+Ke^(-rT)=P+S", "explanation": "组合A(Call+行权价折现)=组合B(Put+股票)。衍生品定价的基石等式。"}, {"type": "choice", "points": 2, "question": "巴塞尔III的LCR最低要求？", "options": ["80%", "90%", "100%", "120%"], "answer": "100%", "explanation": "LCR=HQLA/30天净流出>=100%。银行须有足够优质流动性资产覆盖30天压力现金流。"}, {"type": "choice", "points": 2, "question": "莫顿模型将股权视为公司资产的什么？", "options": ["远期合约", "看涨期权", "看跌期权", "互换合约"], "answer": "看涨期权", "explanation": "股权=max(VT-F,0)，行权价=债务面值。这是信用风险结构模型的核心洞察。"}, {"type": "choice", "points": 2, "question": "以下哪项不属于操作风险？", "options": ["内部欺诈", "系统宕机", "利率变动导致交易损失", "合规罚款"], "answer": "利率变动导致交易损失", "explanation": "利率变动是市场风险。巴塞尔明确将市场风险和信用风险排除在操作风险之外。"}, {"type": "choice", "points": 2, "question": "巴塞尔回测99%VaR 250天中多少次例外属黄灯区？", "options": ["0-4次", "5-9次", "10-19次", "20次以上"], "answer": "5-9次", "explanation": "绿区0-4(正常)，黄区5-9(乘数从3增至4)，红区>=10(重新审查)。预期=250x1%=2.5次。"}, {"type": "choice", "points": 2, "question": "关于CVA正确的是？", "options": ["对手信用越好CVA越大", "CVA代表对手违约风险的预期成本", "CVA不影响公允价值", "只适用场内产品"], "answer": "CVA代表对手违约风险的预期成本", "explanation": "CVA=无风险价值-考虑对手风险价值。对手越差CVA越大。OTC衍生品最需要CVA。"}, {"type": "choice", "points": 2, "question": "GARCH中alpha大而beta小说明什么？", "options": ["对冲击反应强但持续性低", "波动率非常稳定", "长期波动率高", "模型不适用"], "answer": "对冲击反应强但持续性低", "explanation": "alpha=新闻影响(大=反应快且剧烈)，beta=惯性(小=消退快)。"}, {"type": "tf", "points": 1, "question": "VaR满足次可加性。", "options": [], "answer": "错误", "explanation": "VaR不一定满足次可加性。两个组合VaR之和可能小于合并VaR。ES满足。"}, {"type": "tf", "points": 1, "question": "看涨和看跌期权的Vega都为正。", "options": [], "answer": "正确", "explanation": "波动率上升对期权买方有利(Call和Put都一样)。Vega衡量波动率敏感度。"}, {"type": "tf", "points": 1, "question": "压力测试是替代VaR的日常风险度量工具。", "options": [], "answer": "错误", "explanation": "压力测试补充VaR非替代。VaR管正常条件，压力测试管极端情景。两者互补。"}, {"type": "tf", "points": 1, "question": "莫顿模型DD越大违约概率越低。", "options": [], "answer": "正确", "explanation": "DD衡量资产距离违约点的标准化距离。DD越大资产越远离债务->违约越不可能。"}, {"type": "tf", "points": 1, "question": "CDS买方承担参考实体的信用风险。", "options": [], "answer": "错误", "explanation": "买方转移风险出去！卖方（保护卖方）承担信用风险。买方定期付保费。"}, {"type": "tf", "points": 1, "question": "ES总是大于或等于同置信水平的VaR。", "options": [], "answer": "正确", "explanation": "ES=E[L|L>VaR]是超过VaR的平均损失，自然>=VaR(阈值)。"}, {"type": "tf", "points": 1, "question": "EWMA对历史数据给等权处理。", "options": [], "answer": "错误", "explanation": "EWMA对近期数据权重更高(指数衰减)。lambda越接近1权重衰减越慢(越接近等权)。"}, {"type": "tf", "points": 1, "question": "巴塞尔III引入了净稳定资金比率NSFR。", "options": [], "answer": "正确", "explanation": "NSFR=ASF/RSF>=100%，关注1年期资金来源和运用的结构匹配。"}, {"type": "tf", "points": 1, "question": "参数法VaR假设收益率服从正态分布。", "options": [], "answer": "正确", "explanation": "参数法(方差-协方差法)核心假设。使用正态分位数za计算VaR。"}, {"type": "tf", "points": 1, "question": "AMA在巴塞尔III中被保留为操作风险主要方法。", "options": [], "answer": "错误", "explanation": "SMA已替代AMA。因AMA太复杂且各银行不可比。"}, {"type": "short", "points": 6, "question": "简述VaR和ES的区别及FRTB为什么用ES替代VaR。", "answer": "VaR是给定置信水平和持有期内最大可能损失的阈值。ES是超过VaR的损失的条件期望。ES满足次可加性(VaR不满足)、ES捕捉尾部严重程度、ES更不易被操纵。FRTB替换原因：VaR低估尾部风险，97.5%ES的稳定性约等于99%VaR但更稳健。"}, {"type": "short", "points": 6, "question": "简述GARCH(1,1)公式及为何优于历史波动率。", "answer": "sigma^2_t=omega+alpha.epsilon^2_{t-1}+beta.sigma^2_{t-1}。omega=长期方差，alpha=新闻影响，beta=惯性。优于历史波动率：波动率聚集(高波动后仍预测高)、均值回归、对冲击动态响应、适合短期预测。历史波动率假设波动恒定是最大问题。"}, {"type": "short", "points": 6, "question": "解释莫顿模型逻辑及主要局限。", "answer": "股权=max(VT-F,0)——看涨期权。VT>F股东还债留剩余；VT<F不行权给债权人。DD=[ln(V/F)+(mu-sigma^2/2)T]/(sigma.sqrt(T))。局限：假设连续路径(无跳跃)、仅到期日违约、资产价值不可观测、单一债务简化。"}, {"type": "short", "points": 6, "question": "什么是三道防线模型？每道防线职责？", "answer": "第一道：业务部门(风险「所有者」，日常管理识别报告)。第二道：风控和合规(独立监督，制定政策限额，监控全公司风险)。第三道：内部审计(独立评估前两道，向董事会保证)。核心：责任分离和独立监督。金融灾难源于防线失效。"}, {"type": "essay", "points": 8, "question": "比较历史模拟法和蒙特卡洛法在VaR计算中的优缺点。", "answer": "历史模拟：无需假设分布(非参数)、自动捕获相关性/厚尾/非线性、简单直观。局限：假设过去=未来、无法模拟未发生情景、对数据长度敏感。蒙特卡洛：可模拟任何分布(含跳跃/厚尾)、可模拟未发生情景、灵活处理复杂产品。局限：有模型风险、计算量大、依赖随机数质量。选择：历史模拟适用数据丰富市场稳定；蒙特卡洛适用新产品或需压力情景。"}, {"type": "essay", "points": 8, "question": "解释CDS定价逻辑及CDS利差与债券利差的关系。", "answer": "CDS买方定期付保费S，卖方在信用事件时赔付(1-RR)。CDS利差约=PDx(1-RR)。与债券利差应大致相等(否则基差套利)。基差=CDS利差-债券利差。正基差(CDS贵)：买债券+买CDS。负基差(CDS便宜)：买债券+卖CDS。实际基差不为零：融资成本、对手风险、流动性、交割期权。2008后负基差因银行融资成本上升成常态。"}, {"type": "essay", "points": 10, "question": "从市场/流动性/利率风险三维度分析SVB倒闭原因及教训。", "answer": "利率风险：资产端长期固收(久期长)，负债端短期活期——严重久期错配。利率升500+bp->债券市值跌约150亿超权益。市场风险：HTM会计掩盖未实现亏损(摊余成本不反映市价)。流动性风险：存款集中科技初创(几乎全超FDIC保额)->加息消耗现金->存款流出->被迫卖债确认亏损->恐慌->挤兑->48小时倒闭。教训：久期匹配是基本风控；HTM掩盖真实利率风险；存款集中度是流动性重要维度；压力测试须含利率大幅上升；社交媒体时代挤兑可在数小时内发生。"}, {"type": "comprehensive", "points": 20, "question": "综合题：(1)描述银行整体风险管理框架(6分)。(2)银行持大量固收(久期8年)+短期存款，分析利率风险并推荐三种对冲(7分)。(3)解释LCR和NSFR，设计压力测试评估利率上升+存款流失时的流动性缓冲(7分)。", "answer": "(1)治理：董事会->风险管理委员会->CRO->三道防线。RAS董事会批准。度量：市场=VaR+ES+压力，信用=PD/LGD/EAD+RWA，操作=损失数据+KRI。限额：VaR/DV01/集中度/流动性。月风险委员会审议。(2)DA=8,DL约0，正久期缺口。利率升100bp->资产跌约8%。对冲：卖国债期货缩短久期/付固定收浮动IRS/买利率cap。(3)LCR=HQLA/30天净流出>=100%。NSFR=ASF/RSF>=100%。压力测试：利率再升200bp+存款30%流失+银行间冻结。测算HQLA和NSFR是否仍达标。不达标->启动CFP应急融资。"}];
+var LABELS = {"page_title": "章节测试", "section": {"choice": "一、选择题", "tf": "二、判断题", "short": "三、简答题", "essay": "四、问答题", "comprehensive": "五、综合题"}, "section_order": ["choice", "tf", "short", "essay", "comprehensive"], "points_suffix": "分", "true_label": "正确", "false_label": "错误", "placeholder": "在此作答...", "pitfall_prefix": "易错提醒：", "correct_label": "正确", "wrong_label": "错误", "answer_prefix": "正确答案：", "reference_label": "参考答案", "graded_label": "已批改", "grade_button": "提交批改", "score_label": "总分", "duration_prefix": "满分 100 分 | 建议 ", "duration_suffix": " 分钟 | 选择答案后点击提交批改"};
+
+function build(){
+  var container = document.getElementById('questions-container');
+  if (!container) { console.error('ExamPass: questions-container not found'); return; }
+  var h = '';
+  var sec = '';
+  var titles = LABELS.section;
+
+  for (var i = 0; i < Q.length; i++) {
+    var q = Q[i];
+    var s = q.type;
+    if (s !== sec) {
+      sec = s;
+      if (titles[s]) {
+        h += '<h3>' + titles[s] + '</h3>';
+      }
+    }
+
+    var qid = 'q' + i;
+    h += '<div class="q-card" id="card-' + qid + '">';
+    h += '<div class="q-num">' + (i+1) + '. (' + q.points + ' ' + LABELS.points_suffix + ')</div>';
+    h += '<div class="q-text">' + q.question + '</div>';
+
+    if (q.type === 'choice') {
+      var opts = q.options || [];
+      for (var j = 0; j < opts.length; j++) {
+        h += '<label class="option" id="opt-' + qid + '-' + j + '" onclick="sel(\'' + qid + '\',' + j + ')">';
+        h += '<input type="radio" name="' + qid + '" value="' + j + '">' + String.fromCharCode(65+j) + '. ' + opts[j] + '</label>';
+      }
+    } else if (q.type === 'tf') {
+      h += '<label class="option" id="opt-' + qid + '-0" onclick="sel(\'' + qid + '\',0)">';
+      h += '<input type="radio" name="' + qid + '" value="0">' + LABELS.true_label + '</label>';
+      h += '<label class="option" id="opt-' + qid + '-1" onclick="sel(\'' + qid + '\',1)">';
+      h += '<input type="radio" name="' + qid + '" value="1">' + LABELS.false_label + '</label>';
+    } else {
+      h += '<textarea class="q-textarea" id="text-' + qid + '" placeholder="' + LABELS.placeholder + '" rows="3"></textarea>';
+    }
+
+    h += '<div class="result" id="result-' + qid + '">';
+    h += '<span class="badge" id="badge-' + qid + '"></span><span id="correct-' + qid + '"></span>';
+    h += '<div class="explanation">' + q.explanation + '</div>';
+    if (q.pitfall) {
+      h += '<div class="pitfall">' + LABELS.pitfall_prefix + q.pitfall + '</div>';
+    }
+    h += '</div></div>';
+  }
+
+  container.innerHTML = h;
+
+  // Re-render MathJax for dynamically inserted formulas
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise([container]).catch(function(err) {
+      console.error('MathJax typeset error:', err);
+    });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', build);
+if (document.readyState === 'interactive' || document.readyState === 'complete') {
+  build();
+}
+
+function sel(qid, idx) {
+  var prefix = 'opt-' + qid + '-';
+  var all = document.querySelectorAll('[id^="' + prefix + '"]');
+  for (var i = 0; i < all.length; i++) {
+    all[i].classList.remove('selected');
+  }
+  var target = document.getElementById('opt-' + qid + '-' + idx);
+  if (target) {
+    target.classList.add('selected');
+  }
+  var radio = document.querySelector('input[name="' + qid + '"][value="' + idx + '"]');
+  if (radio) {
+    radio.checked = true;
+  }
+}
+
+function gradeAll() {
+  var score = 0;
+  for (var i = 0; i < Q.length; i++) {
+    var q = Q[i];
+    var qid = 'q' + i;
+    var card = document.getElementById('card-' + qid);
+    var result = document.getElementById('result-' + qid);
+    var badge = document.getElementById('badge-' + qid);
+    var correctEl = document.getElementById('correct-' + qid);
+    if (!card || !result) continue;
+
+    result.style.display = 'block';
+
+    if (q.type === 'choice' || q.type === 'tf') {
+      var radio = document.querySelector('input[name="' + qid + '"]:checked');
+      if (radio && parseInt(radio.value) === q.answer) {
+        score += q.points;
+        card.classList.add('correct');
+        badge.className = 'badge badge-ok';
+        badge.textContent = LABELS.correct_label;
+        correctEl.innerHTML = '';
+        var correctOpt = document.getElementById('opt-' + qid + '-' + q.answer);
+        if (correctOpt) correctOpt.classList.add('correct-answer');
+      } else {
+        card.classList.add('wrong');
+        badge.className = 'badge badge-no';
+        badge.textContent = LABELS.wrong_label;
+        var ansText = q.type === 'choice'
+          ? String.fromCharCode(65+q.answer) + '. ' + (q.options ? q.options[q.answer] : '')
+          : (q.answer === 0 ? LABELS.true_label : LABELS.false_label);
+        correctEl.innerHTML = LABELS.answer_prefix + ansText;
+        if (radio) {
+          var wrongOpt = document.getElementById('opt-' + qid + '-' + radio.value);
+          if (wrongOpt) wrongOpt.classList.add('wrong-answer');
+        }
+        var correctOpt = document.getElementById('opt-' + qid + '-' + q.answer);
+        if (correctOpt) correctOpt.classList.add('correct-answer');
+      }
+    } else {
+      card.classList.add('correct');
+      badge.className = 'badge badge-ref';
+      badge.textContent = LABELS.reference_label;
+    }
+  }
+
+  var sb = document.getElementById('score-box');
+  if (sb) {
+    sb.style.display = 'block';
+    document.getElementById('score-num').textContent = score;
+    sb.scrollIntoView({behavior:'smooth'});
+  }
+
+  var opts = document.querySelectorAll('.option');
+  for (var i = 0; i < opts.length; i++) opts[i].style.pointerEvents = 'none';
+  var tas = document.querySelectorAll('.q-textarea');
+  for (var i = 0; i < tas.length; i++) tas[i].disabled = true;
+
+  var btn = document.getElementById('grade-btn');
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = LABELS.graded_label;
+  }
+
+  // Re-render MathJax for revealed explanations
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise().catch(function(err) {
+      console.error('MathJax typeset error:', err);
+    });
+  }
+}
+
+</script>
+</body>
+</html>

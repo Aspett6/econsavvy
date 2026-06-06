@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CPA · 章节测试</title>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\(', '\)']],
+    displayMath: [['$$', '$$'], ['\[', '\]']]
+  }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"></script>
+<style>
+/* === ExamPass Shared Styles === */
+/* Paper-like warm background, clean typography, responsive */
+
+:root {
+  --paper: #fdf6e3;
+  --paper-dark: #f5ecd7;
+  --ink: #2c2c2c;
+  --ink-light: #555;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --divider: #d6c8a8;
+  --card-bg: #fef9ef;
+  --card-border: #e8dcc8;
+  --correct: #22c55e;
+  --correct-bg: #f0fdf4;
+  --wrong: #ef4444;
+  --wrong-bg: #fef2f2;
+  --tag-bg: #fef3c7;
+  --tag-text: #92400e;
+  --radius: 6px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: "Microsoft YaHei", "Noto Sans SC", "SimSun", sans-serif;
+  font-size: 12pt; line-height: 1.75; color: var(--ink);
+  max-width: 860px; margin: auto; padding: 24px 20px 60px;
+  background: var(--paper);
+}
+
+@media print {
+  body { font-size: 10.5pt; background: #fff; }
+  .no-print { display: none !important; }
+  h1, h2, h3 { page-break-after: avoid; }
+}
+
+/* ── Header ── */
+#exampass-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 6px 0; margin-bottom: 0;
+}
+.header-brand { font-size: 1.2em; font-weight: 700; color: #1a1a2e; letter-spacing: 0.3px; }
+.header-url  { font-size: 0.78em; color: #999; }
+.header-divider { border: none; border-top: 2px solid var(--divider); margin: 4px 0 20px 0; }
+
+/* ── Typography ── */
+h1 { font-size: 1.55em; text-align: center; border-bottom: 2px solid var(--divider); padding-bottom: 8px; margin-top: 0; }
+h2 { font-size: 1.25em; border-bottom: 1px solid var(--divider); padding-bottom: 4px; margin-top: 28px; }
+h3 { font-size: 1.08em; margin-top: 20px; color: var(--ink); }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Tables ── */
+table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 0.95em; }
+td, th { border: 1px solid var(--card-border); padding: 5px 9px; text-align: left; }
+th { background: var(--paper-dark); font-weight: 700; }
+
+/* ── Knowledge point vs explanation ── */
+.kp { font-weight: 700; color: var(--ink); }           /* key point: bold dark */
+.exp { font-weight: 400; color: var(--ink-light); }    /* explanation: lighter */
+.exp em, .exp strong { color: var(--ink); }             /* emphasis inside explanation */
+
+/* ── Block elements ── */
+blockquote {
+  border-left: 3px solid #c0392b; background: #fef9ef;
+  padding: 6px 14px; margin: 10px 0; font-size: 0.95em;
+}
+code { background: #f0ede0; padding: 2px 5px; border-radius: 3px; font-size: 0.92em; }
+pre { background: #f0ede0; padding: 10px; border-radius: var(--radius); overflow-x: auto; }
+
+/* ── TOC ── */
+div.toc {
+  background: var(--card-bg); padding: 14px 18px;
+  border: 1px solid var(--card-border); border-radius: var(--radius); margin-bottom: 22px;
+}
+div.toc ul { padding-left: 18px; }
+div.toc li { margin: 3px 0; font-size: 0.95em; }
+
+/* ── Priority tags ── */
+.tag-must   { background: #fee2e2; color: #991b1b; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-key    { background: #fef3c7; color: #92400e; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-freq   { background: #dbeafe; color: #1e40af; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-info   { background: #f0fdf4; color: #166534; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+
+/* === Interactive Test Styles === */
+
+/* ── Score box ── */
+#score-box {
+  display: none; background: var(--paper-dark); color: var(--ink);
+  padding: 16px 20px; border-radius: var(--radius); margin: 14px 0;
+  text-align: center; border: 1px solid var(--card-border);
+}
+#score-box .score-num { font-size: 2.2em; font-weight: 700; }
+#score-box .score-label { font-size: 0.85em; color: var(--ink-light); }
+
+/* ── Question card ── */
+.q-card {
+  background: var(--card-bg); border: 1px solid var(--card-border);
+  border-radius: var(--radius); padding: 12px 14px; margin: 10px 0;
+  transition: all 0.15s;
+}
+.q-card.correct { border-left: 3px solid var(--correct); background: #f7fdf4; }
+.q-card.wrong   { border-left: 3px solid var(--wrong); background: #fef9f9; }
+
+.q-num  { font-weight: 700; font-size: 0.98em; margin-bottom: 4px; }
+.q-text { margin-bottom: 8px; font-size: 0.98em; }
+
+/* ── Options (compact) ── */
+.option {
+  display: block; padding: 4px 10px; margin: 3px 0;
+  border: 1px solid var(--card-border); border-radius: 4px;
+  cursor: pointer; transition: all 0.12s; font-size: 0.93em;
+  background: #fefcf5;
+}
+.option:hover            { background: #f0ede0; }
+.option input            { margin-right: 6px; }
+.option.selected         { border-color: var(--accent); background: #eff6ff; }
+.option.correct-answer   { border-color: var(--correct); background: var(--correct-bg); }
+.option.wrong-answer     { border-color: var(--wrong); background: var(--wrong-bg); }
+
+/* ── Textareas (compact) ── */
+.q-textarea {
+  width: 100%; min-height: 56px; border: 1px solid var(--card-border);
+  border-radius: 4px; padding: 6px 10px; font-family: inherit;
+  font-size: 0.93em; background: #fefcf5; resize: vertical;
+}
+.q-textarea:focus { outline: none; border-color: var(--accent); }
+
+/* ── Result after grading ── */
+.result {
+  display: none; margin-top: 8px; padding: 8px 12px;
+  background: #fefcf5; border: 1px solid var(--card-border);
+  border-radius: 4px; font-size: 0.9em; line-height: 1.6;
+}
+.result .badge {
+  display: inline-block; padding: 1px 9px; border-radius: 3px;
+  font-weight: 700; font-size: 0.82em; margin-right: 6px;
+}
+.badge-ok  { background: var(--correct-bg); color: #166534; }
+.badge-no  { background: var(--wrong-bg); color: #991b1b; }
+.badge-ref { background: #dbeafe; color: #1e40af; }
+
+.result .explanation { margin-top: 4px; color: var(--ink); }
+.result .pitfall { color: #b45309; margin-top: 3px; font-size: 0.9em; }
+
+/* ── Grading button ── */
+.grading-bar { text-align: center; margin: 20px 0; }
+.grading-bar button {
+  font-size: 1em; padding: 8px 32px; background: var(--accent);
+  color: #fff; border: none; border-radius: var(--radius);
+  cursor: pointer; font-weight: 600; letter-spacing: 0.3px;
+}
+.grading-bar button:hover     { background: var(--accent-hover); }
+.grading-bar button:disabled  { background: #bbb; cursor: not-allowed; }
+
+</style>
+</head>
+<body>
+
+<header id="exampass-header">
+  <div class="header-left"><span class="header-brand">ExamPass Assistant</span></div>
+  <div class="header-right"><span class="header-url">github.com/WUBING2023/ExamPass-Assistant</span></div>
+</header>
+<hr class="header-divider">
+
+<h1>CPA · 章节测试</h1>
+<h2 style="text-align:center">章节测试</h2>
+<p style="text-align:center;color:var(--ink-light);font-size:0.95em">2025考纲 · 28题100分 · 50分钟</p>
+
+<div id="score-box"><div class="score-num" id="score-num">0</div><div class="score-label">总分</div></div>
+<div id="questions-container"></div>
+<div class="grading-bar no-print"><button onclick="gradeAll()" id="grade-btn">提交批改</button></div>
+
+<script>
+var Q = [{"type": "choice", "points": 2, "question": "同一控制下企业合并使用什么方法？", "options": ["购买法（公允价值）", "账面价值法", "权益法", "成本法"], "answer": "账面价值法", "explanation": "同一控制视为内部资源整合，按账面价值入账，不产生商誉。差额调资本公积。"}, {"type": "choice", "points": 2, "question": "审计师唯一可控的风险因子是？", "options": ["固有风险IR", "控制风险CR", "检查风险DR", "重大错报风险RMM"], "answer": "检查风险DR", "explanation": "IR和CR是被审计单位自身的，只能评估不能改变。DR可通过改进审计程序降低。"}, {"type": "choice", "points": 2, "question": "「重大但不广泛」错报对应什么审计意见？", "options": ["无保留意见", "保留意见", "否定意见", "无法表示意见"], "answer": "保留意见", "explanation": "重大+不广泛=保留。重大+广泛=否定。范围受限同理。"}, {"type": "choice", "points": 2, "question": "研究阶段支出应如何处理？", "options": ["资本化", "全部费用化", "符合条件的资本化", "成功时一次性资本化"], "answer": "全部费用化", "explanation": "研究阶段探索性工作全费用化。开发阶段符合五条件才可资本化。"}, {"type": "choice", "points": 2, "question": "存货跌价准备的处理正确的是？", "options": ["不得转回", "可以转回但不超过已计提金额", "只能转回50%", "不允许计提"], "answer": "可以转回但不超过已计提金额", "explanation": "存货减值可转回(与固定资产不同)。长期资产减值不可转回。"}, {"type": "choice", "points": 2, "question": "杜邦分析中ROE从12%升到18%但净利率从8%降到6%，最可能的解释？", "options": ["盈利提升", "财务杠杆大增", "周转率大升", "股票回购"], "answer": "财务杠杆大增", "explanation": "净利率降排除盈利提升。ROE=净利率x周转率x权益乘数，净利率降但ROE升->权益乘数必增。"}, {"type": "choice", "points": 2, "question": "增值税一般计税应纳税额公式？", "options": ["销售额x税率", "销项税额-进项税额", "(销售额-成本)x税率", "含税销售额/(1+税率)x税率"], "answer": "销项税额-进项税额", "explanation": "一般计税=销项-进项(抵扣制)。简易计税不能抵扣进项。"}, {"type": "choice", "points": 2, "question": "研发费用加计扣除的比例？", "options": ["50%", "75%", "100%", "200%"], "answer": "100%", "explanation": "2023年起一般企业研发费用据实扣除基础上加计100%(总共200%)。形成无形资产200%摊销。"}, {"type": "choice", "points": 2, "question": "波特五力中不属于五力之一的是？", "options": ["新进入者威胁", "供应商议价能力", "政府监管力度", "替代品威胁"], "answer": "政府监管力度", "explanation": "政府监管属PESTEL政治/法律因素，不在五力范畴。五力是行业竞争层面的分析。"}, {"type": "choice", "points": 2, "question": "合同法中正确的是？", "options": ["要约一旦发出就不可撤销", "承诺可进行实质性修改", "承诺到达要约人时合同成立", "要约邀请等同要约"], "answer": "承诺到达要约人时合同成立", "explanation": "合同成立=要约+承诺。承诺须完全接受要约(不得实质性修改)。要约邀请(广告)非要约。"}, {"type": "tf", "points": 1, "question": "同一控制下企业合并产生商誉。", "options": [], "answer": "错误", "explanation": "同一控制使用账面价值法不产生商誉。只有非同一控制购买法才可能产生商誉。"}, {"type": "tf", "points": 1, "question": "固定资产减值损失一经确认不得转回。", "options": [], "answer": "正确", "explanation": "长期资产(固定资产/无形资产/商誉)减值不可转回。但存货、应收款减值可转回。"}, {"type": "tf", "points": 1, "question": "DOL越大说明固定成本占比越小。", "options": [], "answer": "错误", "explanation": "DOL越大固定成本占比越大。DOL=边际贡献/EBIT，固定成本大->EBIT小->DOL大。"}, {"type": "tf", "points": 1, "question": "中国个税综合所得适用3%-45%七级超额累进税率。", "options": [], "answer": "正确", "explanation": "综合所得(工资+劳务+稿酬x70%+特许权)七级。经营所得五级5-35%。"}, {"type": "tf", "points": 1, "question": "NPV>0时IRR一定大于必要报酬率。", "options": [], "answer": "正确", "explanation": "常规现金流下NPV和IRR一致。NPV>0等价于IRR>r。"}, {"type": "tf", "points": 1, "question": "现金流量表间接法以净利润为起点调整。", "options": [], "answer": "正确", "explanation": "间接法：CFO=净利润+折旧摊销±营运资本变动±其他非现金项目。"}, {"type": "tf", "points": 1, "question": "开发阶段所有支出都可以资本化。", "options": [], "answer": "错误", "explanation": "只有同时满足五个条件的开发支出才可资本化。不满足的仍需费用化。"}, {"type": "tf", "points": 1, "question": "公司股东对公司债务承担有限责任。", "options": [], "answer": "正确", "explanation": "有限责任是公司区别于合伙企业的核心特征。股东限于出资额。"}, {"type": "tf", "points": 1, "question": "成本领先战略等同于低质量。", "options": [], "answer": "错误", "explanation": "成本领先≠低质量。通过规模经济/高效运营降成本同时保持可接受质量(如宜家/沃尔玛)。"}, {"type": "tf", "points": 1, "question": "否定意见意味着财务报表完全不真实。", "options": [], "answer": "错误", "explanation": "否定意见表示存在重大且广泛错报但不意味完全错误。审计师不做如此绝对表述。"}, {"type": "short", "points": 6, "question": "简述成本法和权益法的适用及核算差异。", "answer": "成本法(控制>50%)：按成本入账，被投资方宣告股利时确认投资收益，净利润不调投资账面。权益法(重大影响20-50%)：按成本入账，按份额确认被投资方净利润/亏损(调投资账面)，收到股利冲减投资账面。权益法更真实反映经济实质。"}, {"type": "short", "points": 6, "question": "什么是审计重要性？如何确定？", "answer": "重要性=可能影响财务报表使用者决策的错报阈值。整体重要性通常为利润5-10%或收入1-3%。实际执行=整体50-75%(用于设计程序)。明显微小=整体3-5%(可不累计)。定性因素：舞弊/影响盈亏趋势/违反监管的错报即使金额小也可能重大。"}, {"type": "short", "points": 6, "question": "WACC各参数如何确定？为何用目标资本结构？", "answer": "Re：CAPM(Rf+beta(Rm-Rf))、股利增长模型(D1/P0+g)。Rd：债券YTM或贷款利率，需税后Rdx(1-t)。权重：用市值(非账面)。用目标资本结构因：估值面向未来、当前结构可能临时偏离、目标结构使WACC稳定可预测。"}, {"type": "short", "points": 6, "question": "简述增值税「视同销售」情形及税务处理目的。", "answer": "情形：代销、跨县市移送、自产/委托加工用于非应税/集体福利/个人消费、投资/分配/赠送、无偿提供服务/转让无形资产。目的：保持增值税抵扣链条完整(货物离开链条需补税)、确保税收中性(自产和外购税务待遇一致)。"}, {"type": "essay", "points": 8, "question": "比较同一控制和非同一控制企业合并的会计处理差异。", "answer": "同一控制：按被合并方净资产账面价值入账，合并对价与账面差额调资本公积(不足冲减调留存收益)，不产生商誉。非同一控制(购买法)：按公允价值计量，产生商誉=合并成本-可辨认净资产公允份额。同一控制=内部资源整合不应产生新商誉；非同一控制=市场交易反映公允价值。"}, {"type": "essay", "points": 8, "question": "解释审计意见类型的决策框架并举例。", "answer": "两维度：重大性+广泛性。存在错报且不重大->无保留；重大但不广泛->保留；重大且广泛->否定。范围受限且不重大->无保留；可能但不广泛->保留；可能且广泛->无法表示。举例：应收款减值未计提(重大但不广泛)->保留意见。持续经营不确定性未披露且多科目影响->否定意见。"}, {"type": "essay", "points": 10, "question": "比较企业所得税和个人所得税差异及个税改革理由。", "answer": "企税：税基=收入-不征税-免税-扣除-补亏。税率25%/15%/20%。扣除有限额(招待费60%/5permil)。个税：综合所得=年收入-6万-专项扣除-7项附加扣除。税率3-45%七级。改革理由：公平性(同收入同税负)、反避税(堵劳务工资分开漏洞)、国际趋势(OECD综合制)、附加扣除(按家庭负担差异化)。保留分类征收(利息/股息)体现鼓励投资导向。"}, {"type": "comprehensive", "points": 20, "question": "综合题：甲公司拟收购乙公司。(1)此前持10%(权益法)，收购后达90%(控制)。描述处理。合并成本900万，可辨认净资产公允1000万，计算商誉(6分)。(2)乙公司净利润200万，股利80万。个别和合并处理(7分)。(3)年末乙可收回金额900万，账面1050万(含商誉120万)。计算商誉减值(7分)。", "answer": "(1)分步交易非同一控制合并。合并成本=原10%公允+新增80%对价=900万。可辨认份额=1000x90%=900万。商誉=0。原10%账面与公允之差计投资收益。(2)个别(成本法)：不确认乙净利润200万。股利：借应收72万(80x90%)贷投资收益72万。合并：全额合并净利润200万，少数股东损益20万(10%)。股利抵销。(3)减值=1050-900=150万。先冲商誉120万->0。剩下30万分摊到资产组其他资产。合并确认减值损失150万。"}];
+var LABELS = {"page_title": "章节测试", "section": {"choice": "一、选择题", "tf": "二、判断题", "short": "三、简答题", "essay": "四、问答题", "comprehensive": "五、综合题"}, "section_order": ["choice", "tf", "short", "essay", "comprehensive"], "points_suffix": "分", "true_label": "正确", "false_label": "错误", "placeholder": "在此作答...", "pitfall_prefix": "易错提醒：", "correct_label": "正确", "wrong_label": "错误", "answer_prefix": "正确答案：", "reference_label": "参考答案", "graded_label": "已批改", "grade_button": "提交批改", "score_label": "总分", "duration_prefix": "满分 100 分 | 建议 ", "duration_suffix": " 分钟 | 选择答案后点击提交批改"};
+
+function build(){
+  var container = document.getElementById('questions-container');
+  if (!container) { console.error('ExamPass: questions-container not found'); return; }
+  var h = '';
+  var sec = '';
+  var titles = LABELS.section;
+
+  for (var i = 0; i < Q.length; i++) {
+    var q = Q[i];
+    var s = q.type;
+    if (s !== sec) {
+      sec = s;
+      if (titles[s]) {
+        h += '<h3>' + titles[s] + '</h3>';
+      }
+    }
+
+    var qid = 'q' + i;
+    h += '<div class="q-card" id="card-' + qid + '">';
+    h += '<div class="q-num">' + (i+1) + '. (' + q.points + ' ' + LABELS.points_suffix + ')</div>';
+    h += '<div class="q-text">' + q.question + '</div>';
+
+    if (q.type === 'choice') {
+      var opts = q.options || [];
+      for (var j = 0; j < opts.length; j++) {
+        h += '<label class="option" id="opt-' + qid + '-' + j + '" onclick="sel(\'' + qid + '\',' + j + ')">';
+        h += '<input type="radio" name="' + qid + '" value="' + j + '">' + String.fromCharCode(65+j) + '. ' + opts[j] + '</label>';
+      }
+    } else if (q.type === 'tf') {
+      h += '<label class="option" id="opt-' + qid + '-0" onclick="sel(\'' + qid + '\',0)">';
+      h += '<input type="radio" name="' + qid + '" value="0">' + LABELS.true_label + '</label>';
+      h += '<label class="option" id="opt-' + qid + '-1" onclick="sel(\'' + qid + '\',1)">';
+      h += '<input type="radio" name="' + qid + '" value="1">' + LABELS.false_label + '</label>';
+    } else {
+      h += '<textarea class="q-textarea" id="text-' + qid + '" placeholder="' + LABELS.placeholder + '" rows="3"></textarea>';
+    }
+
+    h += '<div class="result" id="result-' + qid + '">';
+    h += '<span class="badge" id="badge-' + qid + '"></span><span id="correct-' + qid + '"></span>';
+    h += '<div class="explanation">' + q.explanation + '</div>';
+    if (q.pitfall) {
+      h += '<div class="pitfall">' + LABELS.pitfall_prefix + q.pitfall + '</div>';
+    }
+    h += '</div></div>';
+  }
+
+  container.innerHTML = h;
+
+  // Re-render MathJax for dynamically inserted formulas
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise([container]).catch(function(err) {
+      console.error('MathJax typeset error:', err);
+    });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', build);
+if (document.readyState === 'interactive' || document.readyState === 'complete') {
+  build();
+}
+
+function sel(qid, idx) {
+  var prefix = 'opt-' + qid + '-';
+  var all = document.querySelectorAll('[id^="' + prefix + '"]');
+  for (var i = 0; i < all.length; i++) {
+    all[i].classList.remove('selected');
+  }
+  var target = document.getElementById('opt-' + qid + '-' + idx);
+  if (target) {
+    target.classList.add('selected');
+  }
+  var radio = document.querySelector('input[name="' + qid + '"][value="' + idx + '"]');
+  if (radio) {
+    radio.checked = true;
+  }
+}
+
+function gradeAll() {
+  var score = 0;
+  for (var i = 0; i < Q.length; i++) {
+    var q = Q[i];
+    var qid = 'q' + i;
+    var card = document.getElementById('card-' + qid);
+    var result = document.getElementById('result-' + qid);
+    var badge = document.getElementById('badge-' + qid);
+    var correctEl = document.getElementById('correct-' + qid);
+    if (!card || !result) continue;
+
+    result.style.display = 'block';
+
+    if (q.type === 'choice' || q.type === 'tf') {
+      var radio = document.querySelector('input[name="' + qid + '"]:checked');
+      if (radio && parseInt(radio.value) === q.answer) {
+        score += q.points;
+        card.classList.add('correct');
+        badge.className = 'badge badge-ok';
+        badge.textContent = LABELS.correct_label;
+        correctEl.innerHTML = '';
+        var correctOpt = document.getElementById('opt-' + qid + '-' + q.answer);
+        if (correctOpt) correctOpt.classList.add('correct-answer');
+      } else {
+        card.classList.add('wrong');
+        badge.className = 'badge badge-no';
+        badge.textContent = LABELS.wrong_label;
+        var ansText = q.type === 'choice'
+          ? String.fromCharCode(65+q.answer) + '. ' + (q.options ? q.options[q.answer] : '')
+          : (q.answer === 0 ? LABELS.true_label : LABELS.false_label);
+        correctEl.innerHTML = LABELS.answer_prefix + ansText;
+        if (radio) {
+          var wrongOpt = document.getElementById('opt-' + qid + '-' + radio.value);
+          if (wrongOpt) wrongOpt.classList.add('wrong-answer');
+        }
+        var correctOpt = document.getElementById('opt-' + qid + '-' + q.answer);
+        if (correctOpt) correctOpt.classList.add('correct-answer');
+      }
+    } else {
+      card.classList.add('correct');
+      badge.className = 'badge badge-ref';
+      badge.textContent = LABELS.reference_label;
+    }
+  }
+
+  var sb = document.getElementById('score-box');
+  if (sb) {
+    sb.style.display = 'block';
+    document.getElementById('score-num').textContent = score;
+    sb.scrollIntoView({behavior:'smooth'});
+  }
+
+  var opts = document.querySelectorAll('.option');
+  for (var i = 0; i < opts.length; i++) opts[i].style.pointerEvents = 'none';
+  var tas = document.querySelectorAll('.q-textarea');
+  for (var i = 0; i < tas.length; i++) tas[i].disabled = true;
+
+  var btn = document.getElementById('grade-btn');
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = LABELS.graded_label;
+  }
+
+  // Re-render MathJax for revealed explanations
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise().catch(function(err) {
+      console.error('MathJax typeset error:', err);
+    });
+  }
+}
+
+</script>
+</body>
+</html>

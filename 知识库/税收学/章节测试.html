@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>税收学</title>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\(', '\)']],
+    displayMath: [['$$', '$$'], ['\[', '\]']]
+  }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"></script>
+<style>
+/* === ExamPass Shared Styles === */
+/* Paper-like warm background, clean typography, responsive */
+
+:root {
+  --paper: #fdf6e3;
+  --paper-dark: #f5ecd7;
+  --ink: #2c2c2c;
+  --ink-light: #555;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --divider: #d6c8a8;
+  --card-bg: #fef9ef;
+  --card-border: #e8dcc8;
+  --correct: #22c55e;
+  --correct-bg: #f0fdf4;
+  --wrong: #ef4444;
+  --wrong-bg: #fef2f2;
+  --tag-bg: #fef3c7;
+  --tag-text: #92400e;
+  --radius: 6px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: "Microsoft YaHei", "Noto Sans SC", "SimSun", sans-serif;
+  font-size: 12pt; line-height: 1.75; color: var(--ink);
+  max-width: 860px; margin: auto; padding: 24px 20px 60px;
+  background: var(--paper);
+}
+
+@media print {
+  body { font-size: 10.5pt; background: #fff; }
+  .no-print { display: none !important; }
+  h1, h2, h3 { page-break-after: avoid; }
+}
+
+/* ── Header ── */
+#exampass-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 6px 0; margin-bottom: 0;
+}
+.header-brand { font-size: 1.2em; font-weight: 700; color: #1a1a2e; letter-spacing: 0.3px; }
+.header-url  { font-size: 0.78em; color: #999; }
+.header-divider { border: none; border-top: 2px solid var(--divider); margin: 4px 0 20px 0; }
+
+/* ── Typography ── */
+h1 { font-size: 1.55em; text-align: center; border-bottom: 2px solid var(--divider); padding-bottom: 8px; margin-top: 0; }
+h2 { font-size: 1.25em; border-bottom: 1px solid var(--divider); padding-bottom: 4px; margin-top: 28px; }
+h3 { font-size: 1.08em; margin-top: 20px; color: var(--ink); }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Tables ── */
+table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 0.95em; }
+td, th { border: 1px solid var(--card-border); padding: 5px 9px; text-align: left; }
+th { background: var(--paper-dark); font-weight: 700; }
+
+/* ── Knowledge point vs explanation ── */
+.kp { font-weight: 700; color: var(--ink); }           /* key point: bold dark */
+.exp { font-weight: 400; color: var(--ink-light); }    /* explanation: lighter */
+.exp em, .exp strong { color: var(--ink); }             /* emphasis inside explanation */
+
+/* ── Block elements ── */
+blockquote {
+  border-left: 3px solid #c0392b; background: #fef9ef;
+  padding: 6px 14px; margin: 10px 0; font-size: 0.95em;
+}
+code { background: #f0ede0; padding: 2px 5px; border-radius: 3px; font-size: 0.92em; }
+pre { background: #f0ede0; padding: 10px; border-radius: var(--radius); overflow-x: auto; }
+
+/* ── TOC ── */
+div.toc {
+  background: var(--card-bg); padding: 14px 18px;
+  border: 1px solid var(--card-border); border-radius: var(--radius); margin-bottom: 22px;
+}
+div.toc ul { padding-left: 18px; }
+div.toc li { margin: 3px 0; font-size: 0.95em; }
+
+/* ── Priority tags ── */
+.tag-must   { background: #fee2e2; color: #991b1b; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-key    { background: #fef3c7; color: #92400e; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-freq   { background: #dbeafe; color: #1e40af; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-info   { background: #f0fdf4; color: #166534; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+
+/* === Interactive Test Styles === */
+
+/* ── Score box ── */
+#score-box {
+  display: none; background: var(--paper-dark); color: var(--ink);
+  padding: 16px 20px; border-radius: var(--radius); margin: 14px 0;
+  text-align: center; border: 1px solid var(--card-border);
+}
+#score-box .score-num { font-size: 2.2em; font-weight: 700; }
+#score-box .score-label { font-size: 0.85em; color: var(--ink-light); }
+
+/* ── Question card ── */
+.q-card {
+  background: var(--card-bg); border: 1px solid var(--card-border);
+  border-radius: var(--radius); padding: 12px 14px; margin: 10px 0;
+  transition: all 0.15s;
+}
+.q-card.correct { border-left: 3px solid var(--correct); background: #f7fdf4; }
+.q-card.wrong   { border-left: 3px solid var(--wrong); background: #fef9f9; }
+
+.q-num  { font-weight: 700; font-size: 0.98em; margin-bottom: 4px; }
+.q-text { margin-bottom: 8px; font-size: 0.98em; }
+
+/* ── Options (compact) ── */
+.option {
+  display: block; padding: 4px 10px; margin: 3px 0;
+  border: 1px solid var(--card-border); border-radius: 4px;
+  cursor: pointer; transition: all 0.12s; font-size: 0.93em;
+  background: #fefcf5;
+}
+.option:hover            { background: #f0ede0; }
+.option input            { margin-right: 6px; }
+.option.selected         { border-color: var(--accent); background: #eff6ff; }
+.option.correct-answer   { border-color: var(--correct); background: var(--correct-bg); }
+.option.wrong-answer     { border-color: var(--wrong); background: var(--wrong-bg); }
+
+/* ── Textareas (compact) ── */
+.q-textarea {
+  width: 100%; min-height: 56px; border: 1px solid var(--card-border);
+  border-radius: 4px; padding: 6px 10px; font-family: inherit;
+  font-size: 0.93em; background: #fefcf5; resize: vertical;
+}
+.q-textarea:focus { outline: none; border-color: var(--accent); }
+
+/* ── Result after grading ── */
+.result {
+  display: none; margin-top: 8px; padding: 8px 12px;
+  background: #fefcf5; border: 1px solid var(--card-border);
+  border-radius: 4px; font-size: 0.9em; line-height: 1.6;
+}
+.result .badge {
+  display: inline-block; padding: 1px 9px; border-radius: 3px;
+  font-weight: 700; font-size: 0.82em; margin-right: 6px;
+}
+.badge-ok  { background: var(--correct-bg); color: #166534; }
+.badge-no  { background: var(--wrong-bg); color: #991b1b; }
+.badge-ref { background: #dbeafe; color: #1e40af; }
+
+.result .explanation { margin-top: 4px; color: var(--ink); }
+.result .pitfall { color: #b45309; margin-top: 3px; font-size: 0.9em; }
+
+/* ── Grading button ── */
+.grading-bar { text-align: center; margin: 20px 0; }
+.grading-bar button {
+  font-size: 1em; padding: 8px 32px; background: var(--accent);
+  color: #fff; border: none; border-radius: var(--radius);
+  cursor: pointer; font-weight: 600; letter-spacing: 0.3px;
+}
+.grading-bar button:hover     { background: var(--accent-hover); }
+.grading-bar button:disabled  { background: #bbb; cursor: not-allowed; }
+
+</style>
+</head>
+<body>
+
+<header id="exampass-header">
+  <div class="header-left"><span class="header-brand">ExamPass Assistant</span></div>
+  <div class="header-right"><span class="header-url">github.com/WUBING2023/ExamPass-Assistant</span></div>
+</header>
+<hr class="header-divider">
+
+<h1>税收学</h1>
+<h2 style="text-align:center">章节测试</h2>
+<p style="text-align:center;color:var(--ink-light);font-size:0.95em">满分 100 分</p>
+
+<div id="score-box"><div class="score-num" id="score-num">0</div><div class="score-label">总分</div></div>
+<div id="questions-container"></div>
+<div class="grading-bar no-print"><button onclick="gradeAll()" id="grade-btn">提交批改</button></div>
+
+<script>
+var Q = [{"type": "choice", "stem": "税收的基本特征不包括", "options": ["强制性", "无偿性", "灵活性", "固定性"], "answer": 2, "explanation": "<strong>正确答案</strong>：灵活性。<br><br><strong>解析</strong>：税收三性是强制性、无偿性、固定性。灵活性不是税收的特征--税收必须依法固定征收，不能随意变动。"}, {"type": "choice", "stem": "以下哪种税属于直接税？", "options": ["增值税", "消费税", "企业所得税", "关税"], "answer": 2, "explanation": "<strong>正确答案</strong>：企业所得税。<br><br><strong>解析</strong>：直接税是指纳税人=负税人（税负难以转嫁），所得税类都是直接税。增值税、消费税、关税属于间接税（税负可以转嫁）。"}, {"type": "choice", "stem": "增值税一般纳税人的认定标准是年应税销售额超过", "options": ["50万元", "100万元", "500万元", "1000万元"], "answer": 2, "explanation": "<strong>正确答案</strong>：500万元。<br><br><strong>解析</strong>：根据现行规定，年应税销售额超过500万元的纳税人应登记为一般纳税人。"}, {"type": "choice", "stem": "以下哪种商品的消费税实行复合计税？", "options": ["高档化妆品", "小汽车", "白酒", "游艇"], "answer": 2, "explanation": "<strong>正确答案</strong>：白酒。<br><br><strong>解析</strong>：只有卷烟和白酒实行复合计税（从价+从量）。其他消费品要么从价定率要么从量定额。"}, {"type": "choice", "stem": "企业所得税业务招待费的扣除标准是", "options": ["按发生额全额扣除", "按发生额60%扣除", "按发生额60%扣除但不超过销售收入5‰", "按发生额50%扣除但不超过销售收入10‰"], "answer": 2, "explanation": "<strong>正确答案</strong>：按发生额60%扣除但不超过销售收入5‰。<br><br><strong>解析</strong>：业务招待费双限额：先取发生额60%，再与销售收入5‰比较，取较低者。<br><br><strong>易错</strong>：是\"销售收入\"的5‰，不是\"利润总额\"。两个限额要取孰低。"}, {"type": "choice", "stem": "个人所得税综合所得不包括", "options": ["工资薪金", "劳务报酬", "利息股息红利", "稿酬"], "answer": 2, "explanation": "<strong>正确答案</strong>：利息股息红利。<br><br><strong>解析</strong>：综合所得包括工资薪金、劳务报酬、稿酬（70%计入）、特许权使用费四项。利息股息红利按20%比例税率单独计算。"}, {"type": "choice", "stem": "中国消除国际重复征税采用的方法是", "options": ["扣除法", "免税法", "抵免法", "豁免法"], "answer": 2, "explanation": "<strong>正确答案</strong>：抵免法。<br><br><strong>解析</strong>：中国采用抵免法--境外已纳税款可以在限额内从应纳税额中抵扣。抵免限额按中国税法计算。"}, {"type": "choice", "stem": "以下哪种税率属于增值税的基本税率？", "options": ["6%", "9%", "13%", "17%"], "answer": 2, "explanation": "<strong>正确答案</strong>：13%。<br><br><strong>解析</strong>：增值税基本税率13%（2019年4月1日起由16%降至13%）。17%是旧税率，已废止。"}, {"type": "choice", "stem": "个人所得税专项附加扣除中，住房贷款利息每月可扣除", "options": ["500元", "800元", "1000元", "1500元"], "answer": 2, "explanation": "<strong>正确答案</strong>：1000元。<br><br><strong>解析</strong>：首套住房贷款利息每月扣除1000元，最长240个月（20年）。注意住房贷款利息和住房租金不能同时享受。"}, {"type": "choice", "stem": "增值税小规模纳税人的征收率是", "options": ["1%", "3%", "6%", "13%"], "answer": 1, "explanation": "<strong>正确答案</strong>：3%。<br><br><strong>解析</strong>：小规模纳税人增值税征收率一般为3%（另有疫情期间减免至1%的阶段性政策）。注意征收率与税率是两个不同的概念。"}, {"type": "tf", "stem": "增值税是价内税，税款包含在商品价格中。", "answer": false, "explanation": "<strong>正确答案</strong>：错误。<br><br><strong>解析</strong>：增值税是价外税，价款和税款分别核算。消费税才是价内税。"}, {"type": "tf", "stem": "企业所得税的公益性捐赠支出，超过年度利润总额12%的部分不得扣除。", "answer": false, "explanation": "<strong>正确答案</strong>：错误。<br><br><strong>解析</strong>：超过12%的部分可以结转到以后3个纳税年度扣除，并非永远不能扣。"}, {"type": "tf", "stem": "在中国境内无住所的个人，一个纳税年度内居住满183天即为居民个人。", "answer": true, "explanation": "<strong>正确答案</strong>：正确。<br><br><strong>解析</strong>：居民个人标准：在中国境内有住所，或无住所但一个纳税年度内累计居住满183天。"}, {"type": "tf", "stem": "个人所得税中住房贷款利息和住房租金可以同时享受专项附加扣除。", "answer": false, "explanation": "<strong>正确答案</strong>：错误。<br><br><strong>解析</strong>：住房贷款利息和住房租金不能同时享受，只能选择其一。"}, {"type": "tf", "stem": "消费税的征税环节为生产、委托加工和进口环节。", "answer": true, "explanation": "<strong>正确答案</strong>：正确。<br><br><strong>解析</strong>：消费税一般在生产、委托加工和进口环节征收（个别商品在零售环节加征，如超豪华小汽车）。"}, {"type": "tf", "stem": "增值税进项税额无论是否取得增值税专用发票都可以抵扣。", "answer": false, "explanation": "<strong>正确答案</strong>：错误。<br><br><strong>解析</strong>：一般纳税人抵扣进项税额需要取得合法扣税凭证（增值税专用发票、海关进口增值税专用缴款书等）。普通发票不能抵扣进项税额。"}, {"type": "tf", "stem": "拉弗曲线表明提高税率一定会增加税收收入。", "answer": false, "explanation": "<strong>正确答案</strong>：错误。<br><br><strong>解析</strong>：拉弗曲线呈倒U型，税率超过最优水平后继续提高反而会减少税收收入。"}, {"type": "tf", "stem": "关税的计税依据是进口货物的成交价格。", "answer": false, "explanation": "<strong>正确答案</strong>：错误。<br><br><strong>解析</strong>：关税的计税依据是完税价格（海关审定），不一定是成交价格。完税价格以成交价格为基础经海关调整确定。"}, {"type": "tf", "stem": "增值税一般纳税人和小规模纳税人在计税方法上的核心区别是能否抵扣进项税额。", "answer": true, "explanation": "<strong>正确答案</strong>：正确。<br><br><strong>解析</strong>：一般纳税人采用一般计税方法（销项-进项），小规模纳税人采用简易计税（销售额×征收率），核心区别就是能否抵扣进项税额。"}, {"type": "tf", "stem": "个人所得税中稿酬所得按收入的100%计入综合所得。", "answer": false, "explanation": "<strong>正确答案</strong>：错误。<br><br><strong>解析</strong>：稿酬所得按收入的70%计入综合所得（即打七折），体现了对稿酬的税收优惠。"}];
+var LABELS = {"page_title": "章节测试", "section": {"choice": "一、选择题", "tf": "二、判断题", "short": "三、简答题", "essay": "四、问答题", "comprehensive": "五、综合题"}, "section_order": ["choice", "tf", "short", "essay", "comprehensive"], "points_suffix": "分", "true_label": "正确", "false_label": "错误", "placeholder": "在此作答...", "pitfall_prefix": "易错提醒：", "correct_label": "正确", "wrong_label": "错误", "answer_prefix": "正确答案：", "reference_label": "参考答案", "graded_label": "已批改", "grade_button": "提交批改", "score_label": "总分", "duration_prefix": "满分 100 分 | 建议 ", "duration_suffix": " 分钟 | 选择答案后点击提交批改"};
+
+function build(){
+  var container = document.getElementById('questions-container');
+  if (!container) { console.error('ExamPass: questions-container not found'); return; }
+  var h = '';
+  var sec = '';
+  var titles = LABELS.section;
+
+  for (var i = 0; i < Q.length; i++) {
+    var q = Q[i];
+    var s = q.type;
+    if (s !== sec) {
+      sec = s;
+      if (titles[s]) {
+        h += '<h3>' + titles[s] + '</h3>';
+      }
+    }
+
+    var qid = 'q' + i;
+    h += '<div class="q-card" id="card-' + qid + '">';
+    h += '<div class="q-num">' + (i+1) + '. (' + q.points + ' ' + LABELS.points_suffix + ')</div>';
+    h += '<div class="q-text">' + q.question + '</div>';
+
+    if (q.type === 'choice') {
+      var opts = q.options || [];
+      for (var j = 0; j < opts.length; j++) {
+        h += '<label class="option" id="opt-' + qid + '-' + j + '" onclick="sel(\'' + qid + '\',' + j + ')">';
+        h += '<input type="radio" name="' + qid + '" value="' + j + '">' + String.fromCharCode(65+j) + '. ' + opts[j] + '</label>';
+      }
+    } else if (q.type === 'tf') {
+      h += '<label class="option" id="opt-' + qid + '-0" onclick="sel(\'' + qid + '\',0)">';
+      h += '<input type="radio" name="' + qid + '" value="0">' + LABELS.true_label + '</label>';
+      h += '<label class="option" id="opt-' + qid + '-1" onclick="sel(\'' + qid + '\',1)">';
+      h += '<input type="radio" name="' + qid + '" value="1">' + LABELS.false_label + '</label>';
+    } else {
+      h += '<textarea class="q-textarea" id="text-' + qid + '" placeholder="' + LABELS.placeholder + '" rows="3"></textarea>';
+    }
+
+    h += '<div class="result" id="result-' + qid + '">';
+    h += '<span class="badge" id="badge-' + qid + '"></span><span id="correct-' + qid + '"></span>';
+    h += '<div class="explanation">' + q.explanation + '</div>';
+    if (q.pitfall) {
+      h += '<div class="pitfall">' + LABELS.pitfall_prefix + q.pitfall + '</div>';
+    }
+    h += '</div></div>';
+  }
+
+  container.innerHTML = h;
+
+  // Re-render MathJax for dynamically inserted formulas
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise([container]).catch(function(err) {
+      console.error('MathJax typeset error:', err);
+    });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', build);
+if (document.readyState === 'interactive' || document.readyState === 'complete') {
+  build();
+}
+
+function sel(qid, idx) {
+  var prefix = 'opt-' + qid + '-';
+  var all = document.querySelectorAll('[id^="' + prefix + '"]');
+  for (var i = 0; i < all.length; i++) {
+    all[i].classList.remove('selected');
+  }
+  var target = document.getElementById('opt-' + qid + '-' + idx);
+  if (target) {
+    target.classList.add('selected');
+  }
+  var radio = document.querySelector('input[name="' + qid + '"][value="' + idx + '"]');
+  if (radio) {
+    radio.checked = true;
+  }
+}
+
+function gradeAll() {
+  var score = 0;
+  for (var i = 0; i < Q.length; i++) {
+    var q = Q[i];
+    var qid = 'q' + i;
+    var card = document.getElementById('card-' + qid);
+    var result = document.getElementById('result-' + qid);
+    var badge = document.getElementById('badge-' + qid);
+    var correctEl = document.getElementById('correct-' + qid);
+    if (!card || !result) continue;
+
+    result.style.display = 'block';
+
+    if (q.type === 'choice' || q.type === 'tf') {
+      var radio = document.querySelector('input[name="' + qid + '"]:checked');
+      if (radio && parseInt(radio.value) === q.answer) {
+        score += q.points;
+        card.classList.add('correct');
+        badge.className = 'badge badge-ok';
+        badge.textContent = LABELS.correct_label;
+        correctEl.innerHTML = '';
+        var correctOpt = document.getElementById('opt-' + qid + '-' + q.answer);
+        if (correctOpt) correctOpt.classList.add('correct-answer');
+      } else {
+        card.classList.add('wrong');
+        badge.className = 'badge badge-no';
+        badge.textContent = LABELS.wrong_label;
+        var ansText = q.type === 'choice'
+          ? String.fromCharCode(65+q.answer) + '. ' + (q.options ? q.options[q.answer] : '')
+          : (q.answer === 0 ? LABELS.true_label : LABELS.false_label);
+        correctEl.innerHTML = LABELS.answer_prefix + ansText;
+        if (radio) {
+          var wrongOpt = document.getElementById('opt-' + qid + '-' + radio.value);
+          if (wrongOpt) wrongOpt.classList.add('wrong-answer');
+        }
+        var correctOpt = document.getElementById('opt-' + qid + '-' + q.answer);
+        if (correctOpt) correctOpt.classList.add('correct-answer');
+      }
+    } else {
+      card.classList.add('correct');
+      badge.className = 'badge badge-ref';
+      badge.textContent = LABELS.reference_label;
+    }
+  }
+
+  var sb = document.getElementById('score-box');
+  if (sb) {
+    sb.style.display = 'block';
+    document.getElementById('score-num').textContent = score;
+    sb.scrollIntoView({behavior:'smooth'});
+  }
+
+  var opts = document.querySelectorAll('.option');
+  for (var i = 0; i < opts.length; i++) opts[i].style.pointerEvents = 'none';
+  var tas = document.querySelectorAll('.q-textarea');
+  for (var i = 0; i < tas.length; i++) tas[i].disabled = true;
+
+  var btn = document.getElementById('grade-btn');
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = LABELS.graded_label;
+  }
+
+  // Re-render MathJax for revealed explanations
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise().catch(function(err) {
+      console.error('MathJax typeset error:', err);
+    });
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FRM · 知识清单</title>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\(', '\)']],
+    displayMath: [['$$', '$$'], ['\[', '\]']]
+  }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"></script>
+<style>
+/* === ExamPass Shared Styles === */
+/* Paper-like warm background, clean typography, responsive */
+
+:root {
+  --paper: #fdf6e3;
+  --paper-dark: #f5ecd7;
+  --ink: #2c2c2c;
+  --ink-light: #555;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --divider: #d6c8a8;
+  --card-bg: #fef9ef;
+  --card-border: #e8dcc8;
+  --correct: #22c55e;
+  --correct-bg: #f0fdf4;
+  --wrong: #ef4444;
+  --wrong-bg: #fef2f2;
+  --tag-bg: #fef3c7;
+  --tag-text: #92400e;
+  --radius: 6px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: "Microsoft YaHei", "Noto Sans SC", "SimSun", sans-serif;
+  font-size: 12pt; line-height: 1.75; color: var(--ink);
+  max-width: 860px; margin: auto; padding: 24px 20px 60px;
+  background: var(--paper);
+}
+
+@media print {
+  body { font-size: 10.5pt; background: #fff; }
+  .no-print { display: none !important; }
+  h1, h2, h3 { page-break-after: avoid; }
+}
+
+/* ── Header ── */
+#exampass-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 6px 0; margin-bottom: 0;
+}
+.header-brand { font-size: 1.2em; font-weight: 700; color: #1a1a2e; letter-spacing: 0.3px; }
+.header-url  { font-size: 0.78em; color: #999; }
+.header-divider { border: none; border-top: 2px solid var(--divider); margin: 4px 0 20px 0; }
+
+/* ── Typography ── */
+h1 { font-size: 1.55em; text-align: center; border-bottom: 2px solid var(--divider); padding-bottom: 8px; margin-top: 0; }
+h2 { font-size: 1.25em; border-bottom: 1px solid var(--divider); padding-bottom: 4px; margin-top: 28px; }
+h3 { font-size: 1.08em; margin-top: 20px; color: var(--ink); }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Tables ── */
+table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 0.95em; }
+td, th { border: 1px solid var(--card-border); padding: 5px 9px; text-align: left; }
+th { background: var(--paper-dark); font-weight: 700; }
+
+/* ── Knowledge point vs explanation ── */
+.kp { font-weight: 700; color: var(--ink); }           /* key point: bold dark */
+.exp { font-weight: 400; color: var(--ink-light); }    /* explanation: lighter */
+.exp em, .exp strong { color: var(--ink); }             /* emphasis inside explanation */
+
+/* ── Block elements ── */
+blockquote {
+  border-left: 3px solid #c0392b; background: #fef9ef;
+  padding: 6px 14px; margin: 10px 0; font-size: 0.95em;
+}
+code { background: #f0ede0; padding: 2px 5px; border-radius: 3px; font-size: 0.92em; }
+pre { background: #f0ede0; padding: 10px; border-radius: var(--radius); overflow-x: auto; }
+
+/* ── TOC ── */
+div.toc {
+  background: var(--card-bg); padding: 14px 18px;
+  border: 1px solid var(--card-border); border-radius: var(--radius); margin-bottom: 22px;
+}
+div.toc ul { padding-left: 18px; }
+div.toc li { margin: 3px 0; font-size: 0.95em; }
+
+/* ── Priority tags ── */
+.tag-must   { background: #fee2e2; color: #991b1b; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-key    { background: #fef3c7; color: #92400e; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-freq   { background: #dbeafe; color: #1e40af; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-info   { background: #f0fdf4; color: #166534; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+
+
+</style>
+</head>
+<body>
+
+<header id="exampass-header">
+  <div class="header-left"><span class="header-brand">ExamPass Assistant</span></div>
+  <div class="header-right"><span class="header-url">github.com/WUBING2023/ExamPass-Assistant</span></div>
+</header>
+<hr class="header-divider">
+
+<h1>FRM · 知识清单</h1>
+<div class="toc">
+<h2>目录</h2>
+<ul>
+<li><a href="#s47116781">Part I：风险管理基础 必考20%</a></li>
+  <li><a href="#s35195265">风险类型与度量</a></li>
+  <li><a href="#s12278478">三道防线模型</a></li>
+  <li><a href="#s24690561">CAPM与风险度量 重点</a></li>
+  <li><a href="#s81093649">金融灾难案例 高频</a></li>
+<li><a href="#s65090931">Part I：定量分析 必考20%</a></li>
+<li><a href="#s66506988">Part I：金融市场与产品 必考30%</a></li>
+<li><a href="#s90636705">Part I：估值与风险模型 必考30%</a></li>
+<li><a href="#s46858988">Part II：市场/信用/操作/流动性风险</a></li>
+<li><a href="#s15778807">Part II：前沿话题（2025）</a></li>
+</ul>
+</div>
+
+<h2 id="s47116781">Part I：风险管理基础 <span class="tag-must">必考20%</span></h2>
+<p><strong>核心问题</strong>：金融风险有哪些类型？如何度量？企业如何建立有效的风险管理框架？</p>
+<h3 id="s35195265">风险类型与度量</h3>
+<p><span class="kp">市场风险</span><span class="exp">——利率、汇率、股价、商品价格波动导致的损失</span></p>
+<p><span class="kp">信用风险</span><span class="exp">——交易对手违约或信用质量下降。预期损失 EL = PD x LGD x EAD</span></p>
+<p><span class="kp">操作风险</span><span class="exp">——内部流程失败、人员、系统或外部事件。七类事件</span></p>
+<p><span class="kp">流动性风险</span><span class="exp">——市场流动性（无法合理价格交易）和资金流动性（无法满足现金流）</span></p>
+<h3 id="s12278478">三道防线模型</h3>
+<p>第一道：业务部门。第二道：风险管理和合规。第三道：内部审计。核心：责任分离和独立监督。</p>
+<h3 id="s24690561">CAPM与风险度量 <span class="tag-key">重点</span></h3>
+<p>E(Ri) = Rf + beta_i x [E(Rm) - Rf]</p>
+<p>夏普比率 = (Rp - Rf) / sigma_p。特雷诺比率 = (Rp - Rf) / beta_p。詹森alpha = Rp - [Rf+beta(Rm-Rf)]</p>
+<h3 id="s81093649">金融灾难案例 <span class="tag-freq">高频</span></h3>
+<table><tr><th>事件</th><th>教训</th></tr>
+<tr><td>巴林银行 1995</td><td>交易员权限失控、缺乏职责分离</td></tr>
+<tr><td>LTCM 1998</td><td>高杠杆+流动性冻结=模型失效</td></tr>
+<tr><td>次贷危机 2007-09</td><td>证券化链条过长、评级失误、系统性风险</td></tr></table>
+<h2 id="s65090931">Part I：定量分析 <span class="tag-must">必考20%</span></h2>
+<p>GARCH(1,1)：sigma^2_t = omega + alpha.epsilon^2_{t-1} + beta.sigma^2_{t-1}。alpha+beta < 1 保证平稳。</p>
+<h2 id="s66506988">Part I：金融市场与产品 <span class="tag-must">必考30%</span></h2>
+<p>无套利定价：F = S0 x e^(rT)。买卖权平价：C + Ke^(-rT) = P + S。</p>
+<p>修正久期MD = MacD/(1+y)。凸性调整：DeltaP/P = -MD x Delta_y + 0.5 x C x (Delta_y)^2。</p>
+<h2 id="s90636705">Part I：估值与风险模型 <span class="tag-must">必考30%</span></h2>
+<p>VaR：参数法 VaRa = -(mu + sigma.za)x sqrt(T)。ES = E[L | L > VaR]（满足次可加性，VaR不满足）。</p>
+<p>莫顿模型：股权 = max(VT-F, 0)——公司资产的看涨期权。DD = [ln(V/F)+(mu-sigma^2/2)T]/(sigma.sqrt(T))。</p>
+<p>B-S-M：C = S.N(d1) - K.e^(-rT).N(d2)。希腊字母：Delta/Gamma/Theta/Vega(Call和Put都为正)/Rho。</p>
+<h2 id="s46858988">Part II：市场/信用/操作/流动性风险</h2>
+<p>VaR回测：绿区0-4，黄区5-9（资本乘数递增），红区>=10。</p>
+<p>FRTB：ES替代VaR（97.5%），引入流动性期限。</p>
+<p>CVA = (1-R) x sum(PV(EE) x PD)。DVA：自身违约风险调整。</p>
+<p>SMA标准计量法替代AMA。操作风险七类事件。</p>
+<p>LCR = HQLA/30天净流出 >= 100%。NSFR = ASF/RSF >= 100%。</p>
+<h2 id="s15778807">Part II：前沿话题（2025）</h2>
+<p>生成式AI风控与伦理、加密资产MiCA监管、气候风险压力测试、SVB倒闭教训（利率风险->市场风险->流动性风险->48小时倒闭）。</p>
+
+
+
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>会计学</title>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\(', '\)']],
+    displayMath: [['$$', '$$'], ['\[', '\]']]
+  }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"></script>
+<style>
+/* === ExamPass Shared Styles === */
+/* Paper-like warm background, clean typography, responsive */
+
+:root {
+  --paper: #fdf6e3;
+  --paper-dark: #f5ecd7;
+  --ink: #2c2c2c;
+  --ink-light: #555;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --divider: #d6c8a8;
+  --card-bg: #fef9ef;
+  --card-border: #e8dcc8;
+  --correct: #22c55e;
+  --correct-bg: #f0fdf4;
+  --wrong: #ef4444;
+  --wrong-bg: #fef2f2;
+  --tag-bg: #fef3c7;
+  --tag-text: #92400e;
+  --radius: 6px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: "Microsoft YaHei", "Noto Sans SC", "SimSun", sans-serif;
+  font-size: 12pt; line-height: 1.75; color: var(--ink);
+  max-width: 860px; margin: auto; padding: 24px 20px 60px;
+  background: var(--paper);
+}
+
+@media print {
+  body { font-size: 10.5pt; background: #fff; }
+  .no-print { display: none !important; }
+  h1, h2, h3 { page-break-after: avoid; }
+}
+
+/* ── Header ── */
+#exampass-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 6px 0; margin-bottom: 0;
+}
+.header-brand { font-size: 1.2em; font-weight: 700; color: #1a1a2e; letter-spacing: 0.3px; }
+.header-url  { font-size: 0.78em; color: #999; }
+.header-divider { border: none; border-top: 2px solid var(--divider); margin: 4px 0 20px 0; }
+
+/* ── Typography ── */
+h1 { font-size: 1.55em; text-align: center; border-bottom: 2px solid var(--divider); padding-bottom: 8px; margin-top: 0; }
+h2 { font-size: 1.25em; border-bottom: 1px solid var(--divider); padding-bottom: 4px; margin-top: 28px; }
+h3 { font-size: 1.08em; margin-top: 20px; color: var(--ink); }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Tables ── */
+table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 0.95em; }
+td, th { border: 1px solid var(--card-border); padding: 5px 9px; text-align: left; }
+th { background: var(--paper-dark); font-weight: 700; }
+
+/* ── Knowledge point vs explanation ── */
+.kp { font-weight: 700; color: var(--ink); }           /* key point: bold dark */
+.exp { font-weight: 400; color: var(--ink-light); }    /* explanation: lighter */
+.exp em, .exp strong { color: var(--ink); }             /* emphasis inside explanation */
+
+/* ── Block elements ── */
+blockquote {
+  border-left: 3px solid #c0392b; background: #fef9ef;
+  padding: 6px 14px; margin: 10px 0; font-size: 0.95em;
+}
+code { background: #f0ede0; padding: 2px 5px; border-radius: 3px; font-size: 0.92em; }
+pre { background: #f0ede0; padding: 10px; border-radius: var(--radius); overflow-x: auto; }
+
+/* ── TOC ── */
+div.toc {
+  background: var(--card-bg); padding: 14px 18px;
+  border: 1px solid var(--card-border); border-radius: var(--radius); margin-bottom: 22px;
+}
+div.toc ul { padding-left: 18px; }
+div.toc li { margin: 3px 0; font-size: 0.95em; }
+
+/* ── Priority tags ── */
+.tag-must   { background: #fee2e2; color: #991b1b; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-key    { background: #fef3c7; color: #92400e; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-freq   { background: #dbeafe; color: #1e40af; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-info   { background: #f0fdf4; color: #166534; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+
+
+</style>
+</head>
+<body>
+
+<header id="exampass-header">
+  <div class="header-left"><span class="header-brand">ExamPass Assistant</span></div>
+  <div class="header-right"><span class="header-url">github.com/WUBING2023/ExamPass-Assistant</span></div>
+</header>
+<hr class="header-divider">
+
+<h1>会计学</h1>
+<div class="toc">
+<h2>目录</h2>
+<ul>
+<li><a href="#s64155962">第一章 总论</a></li>
+  <li><a href="#s22862896">会计的定义与职能 必考</a></li>
+  <li><a href="#s77813316">会计基本假设 重点</a></li>
+  <li><a href="#s42161977">会计信息质量要求 重点</a></li>
+<li><a href="#s69692335">第二章 会计要素与会计等式</a></li>
+  <li><a href="#s83658877">六大会计要素 必考</a></li>
+  <li><a href="#s71261158">会计等式 必考</a></li>
+<li><a href="#s72446118">第三章 会计科目与账户</a></li>
+  <li><a href="#s51026282">会计科目 重点</a></li>
+  <li><a href="#s99220371">T 型账户与借贷方向 必考</a></li>
+<li><a href="#s73297345">第四章 复式记账</a></li>
+  <li><a href="#s77517769">借贷记账法 必考</a></li>
+<li><a href="#s19701150">第五章 会计凭证与账簿</a></li>
+  <li><a href="#s53544553">错账更正方法 重点</a></li>
+<li><a href="#s60839175">第六章 财务报表</a></li>
+  <li><a href="#s51816563">资产负债表 vs 利润表 必考</a></li>
+  <li><a href="#s28793088">财务比率 高频</a></li>
+<li><a href="#s56941733">第七章 主要经济业务核算</a></li>
+  <li><a href="#s83510290">核心会计分录 必考</a></li>
+</ul>
+</div>
+<h2 id="s64155962">第一章 总论</h2>
+
+<h3 id="s22862896">会计的定义与职能 <span class="tag-must">必考</span></h3>
+<p><strong>是什么</strong>：<span class="kp">会计是以货币为主要计量单位，运用专门方法，对经济活动进行核算和监督的一种管理活动。</span><span class="exp">--它不是简单的记账，而是一个完整的信息系统。</span></p>
+<p><strong>为什么需要会计</strong>：企业的利益相关者（投资者、债权人、政府、管理层）需要了解企业的财务状况和经营成果来做决策，而会计就是把纷繁复杂的经济活动翻译成标准化财务信息的语言。</p>
+<p><strong>两大基本职能</strong>：</p>
+<ul>
+<li><span class="kp">核算职能（反映）</span><span class="exp">：对经济活动进行确认、计量、记录、报告 -- "把账算清楚"</span></li>
+<li><span class="kp">监督职能（控制）</span><span class="exp">：对经济活动进行事前、事中、事后的监督控制 -- "看着别出错"</span></li>
+</ul>
+<blockquote>易错：核算和监督不是互斥的，核算是基础，监督贯穿全过程。考试常见陷阱是问"会计最基本职能是什么"--答案是核算（反映）职能。</blockquote>
+
+<h3 id="s77813316">会计基本假设 <span class="tag-key">重点</span></h3>
+<p><strong>动机</strong>：会计面对的是连续不断、币值波动的真实世界，必须设定一些前提条件才能开展工作。四大假设就是会计的"游戏规则"。</p>
+<p><strong>四大假设</strong>：</p>
+<ul>
+<li><span class="kp">会计主体假设</span><span class="exp">：明确核算的空间范围--算谁的账，不能把老板个人的账和公司的账混在一起</span></li>
+<li><span class="kp">持续经营假设</span><span class="exp">：假设企业将无限期经营下去--如果不假设持续经营，资产就不能按历史成本计价，而要按清算价值</span></li>
+<li><span class="kp">会计分期假设</span><span class="exp">：把持续经营切成等距期间（年、季、月）--这是权责发生制的基础</span></li>
+<li><span class="kp">货币计量假设</span><span class="exp">：以货币作为统一计量单位--隐含假设是币值稳定</span></li>
+</ul>
+<blockquote>易错：持续经营是会计分期的基础--先有持续经营，才需要分期。另外，货币计量假设隐含币值稳定，通胀严重时这一假设会受到挑战。</blockquote>
+
+<h3 id="s42161977">会计信息质量要求 <span class="tag-key">重点</span></h3>
+<table>
+<tr><th>层次</th><th>要求</th><th>含义</th></tr>
+<tr><td>首要质量</td><td>可靠性</td><td>如实反映，不偏不倚</td></tr>
+<tr><td>首要质量</td><td>相关性</td><td>与使用者决策相关，具有预测价值和反馈价值</td></tr>
+<tr><td>次要质量</td><td>可理解性</td><td>清晰易懂</td></tr>
+<tr><td>次要质量</td><td>可比性</td><td>横向可比（不同企业间）+ 纵向可比（同一企业不同时期）</td></tr>
+<tr><td>约束条件</td><td>实质重于形式</td><td>按经济实质而非法律形式处理（如融资租赁）</td></tr>
+<tr><td>约束条件</td><td>重要性</td><td>重要事项详细反映，次要事项简化处理</td></tr>
+<tr><td>约束条件</td><td>谨慎性</td><td>不高估资产和收益，不低估负债和费用</td></tr>
+<tr><td>约束条件</td><td>及时性</td><td>不得提前或延后</td></tr>
+</table>
+
+<h2 id="s69692335">第二章 会计要素与会计等式</h2>
+
+<h3 id="s83658877">六大会计要素 <span class="tag-must">必考</span></h3>
+<p><strong>为什么分六类</strong>：经济活动千变万化，但归纳起来无非三种类型--<span class="kp">手里有什么（资产）、欠别人多少（负债）、自己剩多少（权益）</span>，以及<span class="kp">赚了多少（收入）、花了多少（费用）、净得多少（利润）</span>。</p>
+
+<p><strong>三大静态要素</strong>（反映财务状况，出现在资产负债表）：</p>
+<ul>
+<li><span class="kp">资产</span><span class="exp">：过去的交易形成、企业拥有或控制、预期带来经济利益。关键词："过去的""控制的""未来利益"</span></li>
+<li><span class="kp">负债</span><span class="exp">：过去的交易形成、预期导致经济利益流出、现时义务。关键词："现时义务"</span></li>
+<li><span class="kp">所有者权益</span><span class="exp">：资产减负债后的剩余权益。关键词："剩余权益"--股东是最后分钱的人</span></li>
+</ul>
+
+<p><strong>三大动态要素</strong>（反映经营成果，出现在利润表）：</p>
+<ul>
+<li><span class="kp">收入</span><span class="exp">：日常活动形成、导致权益增加、与投入资本无关。关键词："日常活动"</span></li>
+<li><span class="kp">费用</span><span class="exp">：日常活动发生、导致权益减少、与分配利润无关。关键词："日常活动"</span></li>
+<li><span class="kp">利润</span><span class="exp">：收入 - 费用 + 利得 - 损失。反映了企业一定期间的净增值</span></li>
+</ul>
+<blockquote>易错：收入和利得的区别在于"日常"还是"非日常"。卖产品是收入（日常），卖厂房是利得（非日常）。费用和损失同理。考试常考判断题--"企业所有经济利益的流入都是收入"是错的。</blockquote>
+
+<h3 id="s71261158">会计等式 <span class="tag-must">必考</span></h3>
+<p><strong>基本等式</strong>：<span class="kp">资产 = 负债 + 所有者权益</span><span class="exp">--这是静态等式，反映某一时点的财务状况。为什么相等？因为资产要么是借来的（负债），要么是股东投入或赚来的（权益）。</span></p>
+<p><strong>扩展等式</strong>：<span class="kp">资产 = 负债 + 所有者权益 +（收入 - 费用）</span><span class="exp">--这是动态等式。收入最终会增加权益，费用会减少权益，所以在期末结账前，等式要包含收入费用。</span></p>
+<p><strong>核心原理</strong>：任何经济业务的发生都不会破坏等式的平衡。这就是"双重影响"--每笔业务至少影响两个项目。</p>
+<blockquote>易错："资产增加必然伴随负债减少"是错的。资产增加可以同时使负债增加（借钱）、权益增加（股东投资）、或其他资产减少（用存款买设备）。</blockquote>
+
+<h2 id="s72446118">第三章 会计科目与账户</h2>
+
+<h3 id="s51026282">会计科目 <span class="tag-key">重点</span></h3>
+<p><span class="kp">会计科目是对会计要素具体内容进行分类核算的项目。</span><span class="exp">--如果把六大要素比作六个大类，会计科目就是每个大类下的明细分类。</span></p>
+<p><strong>五类科目记忆口诀</strong>：</p>
+<ul>
+<li><span class="kp">资产类</span>：库存现金、银行存款、应收账款、存货、固定资产</li>
+<li><span class="kp">负债类</span>：短期借款、应付账款、应交税费、长期借款</li>
+<li><span class="kp">所有者权益类</span>：实收资本、资本公积、盈余公积、利润分配</li>
+<li><span class="kp">成本类</span>：生产成本、制造费用、研发支出</li>
+<li><span class="kp">损益类</span>：主营业务收入、管理费用、销售费用、财务费用</li>
+</ul>
+
+<h3 id="s99220371">T 型账户与借贷方向 <span class="tag-must">必考</span></h3>
+<p><strong>动机</strong>：为什么要分借方和贷方？因为"资产=负债+权益"这个等式的左边和右边，增加的含义是相反的--资产增加在左边，负债和权益增加在右边。借贷记账法用"借"和"贷"来体现这种对称性。</p>
+
+<table>
+<tr><th>账户类型</th><th>借方（左）</th><th>贷方（右）</th><th>正常余额</th></tr>
+<tr><td>资产类</td><td>增加 +</td><td>减少 -</td><td>借方</td></tr>
+<tr><td>负债类</td><td>减少 -</td><td>增加 +</td><td>贷方</td></tr>
+<tr><td>所有者权益类</td><td>减少 -</td><td>增加 +</td><td>贷方</td></tr>
+<tr><td>收入类</td><td>减少 -</td><td>增加 +</td><td>期末无余额</td></tr>
+<tr><td>费用类</td><td>增加 +</td><td>减少 -</td><td>期末无余额</td></tr>
+</table>
+<blockquote>易错：资产+费用 是"借增贷减"，负债+权益+收入 是"贷增借减"。最常犯的错误是把费用类和损益类记反。记住口诀："资费借增，负权收贷增"。</blockquote>
+
+<h2 id="s73297345">第四章 复式记账</h2>
+
+<h3 id="s77517769">借贷记账法 <span class="tag-must">必考</span></h3>
+<p><strong>核心规则</strong>：<span class="kp">有借必有贷，借贷必相等。</span><span class="exp">--每一笔经济业务必须同时记入两个或两个以上账户，借方金额合计等于贷方金额合计。</span></p>
+<p><strong>会计分录三要素</strong>：记账方向（借/贷）、会计科目、金额。</p>
+<p><strong>试算平衡</strong>：</p>
+<ul>
+<li>发生额试算平衡：全部账户借方发生额合计 = 全部账户贷方发生额合计</li>
+<li>余额试算平衡：全部账户借方余额合计 = 全部账户贷方余额合计</li>
+</ul>
+<blockquote>易错：试算平衡只能检查借贷金额是否相等，不能发现所有错误。比如整笔漏记、科目用错、借贷同时多记少记，试算平衡都发现不了。</blockquote>
+
+<h2 id="s19701150">第五章 会计凭证与账簿</h2>
+
+<h3 id="s53544553">错账更正方法 <span class="tag-key">重点</span></h3>
+<table>
+<tr><th>方法</th><th>适用场景</th></tr>
+<tr><td>划线更正法</td><td>结账前发现账簿文字/数字错误（凭证没错，登账错了）</td></tr>
+<tr><td>红字更正法</td><td>凭证科目错误 或 金额多记</td></tr>
+<tr><td>补充登记法</td><td>凭证金额少记</td></tr>
+</table>
+<blockquote>易错：三种方法的区分关键是看"错在哪个环节"。凭证错了用红字或补充，账簿错了用划线。</blockquote>
+
+<h2 id="s60839175">第六章 财务报表</h2>
+
+<h3 id="s51816563">资产负债表 vs 利润表 <span class="tag-must">必考</span></h3>
+<table>
+<tr><th>维度</th><th>资产负债表</th><th>利润表</th></tr>
+<tr><td>性质</td><td>静态报表（时点）</td><td>动态报表（期间）</td></tr>
+<tr><td>公式</td><td>资产 = 负债 + 所有者权益</td><td>收入 - 费用 = 利润</td></tr>
+<tr><td>结构</td><td>账户式（左资产右权益）</td><td>多步式</td></tr>
+</table>
+
+<p><strong>利润表多步式结构</strong>：</p>
+<p>营业收入 - 营业成本 = 毛利<br>
+毛利 - 税金及附加 - 期间费用 + 其他收益 = 营业利润<br>
+营业利润 + 营业外收支 = 利润总额<br>
+利润总额 - 所得税 = 净利润</p>
+
+<h3 id="s28793088">财务比率 <span class="tag-freq">高频</span></h3>
+<table>
+<tr><th>类别</th><th>指标</th><th>公式</th></tr>
+<tr><td>偿债能力</td><td>流动比率</td><td>流动资产 / 流动负债</td></tr>
+<tr><td>偿债能力</td><td>速动比率</td><td>(流动资产 - 存货) / 流动负债</td></tr>
+<tr><td>偿债能力</td><td>资产负债率</td><td>总负债 / 总资产</td></tr>
+<tr><td>营运能力</td><td>应收账款周转率</td><td>销售收入 / 应收账款平均余额</td></tr>
+<tr><td>营运能力</td><td>存货周转率</td><td>销售成本 / 存货平均余额</td></tr>
+<tr><td>盈利能力</td><td>ROA</td><td>净利润 / 总资产</td></tr>
+<tr><td>盈利能力</td><td>ROE</td><td>净利润 / 所有者权益</td></tr>
+</table>
+<blockquote>易错：速动比率剔除存货，因为存货变现能力最差。流动比率一般认为2比较安全，速动比率1比较安全--但不同行业差异很大。</blockquote>
+
+<h2 id="s56941733">第七章 主要经济业务核算</h2>
+
+<h3 id="s83510290">核心会计分录 <span class="tag-must">必考</span></h3>
+<p><strong>筹资</strong>：借：银行存款 &nbsp; 贷：实收资本（接受投资）/ 短期借款（借款）</p>
+<p><strong>采购</strong>：借：原材料 &nbsp; 应交税费-应交增值税（进项税额） &nbsp; 贷：银行存款</p>
+<p><strong>销售</strong>：借：银行存款 &nbsp; 贷：主营业务收入 &nbsp; 应交税费-应交增值税（销项税额）</p>
+<p>同时结转成本：借：主营业务成本 &nbsp; 贷：库存商品</p>
+<p><strong>利润分配</strong>：借：利润分配 &nbsp; 贷：盈余公积 / 应付股利</p>
+<blockquote>易错：增值税是价外税，不进利润表。进项税额是"买的时候交的税"可以抵扣，销项税额是"卖的时候收的税"要上交。实际缴纳 = 销项 - 进项。</blockquote>
+
+
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>税收学</title>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\(', '\)']],
+    displayMath: [['$$', '$$'], ['\[', '\]']]
+  }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"></script>
+<style>
+/* === ExamPass Shared Styles === */
+/* Paper-like warm background, clean typography, responsive */
+
+:root {
+  --paper: #fdf6e3;
+  --paper-dark: #f5ecd7;
+  --ink: #2c2c2c;
+  --ink-light: #555;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --divider: #d6c8a8;
+  --card-bg: #fef9ef;
+  --card-border: #e8dcc8;
+  --correct: #22c55e;
+  --correct-bg: #f0fdf4;
+  --wrong: #ef4444;
+  --wrong-bg: #fef2f2;
+  --tag-bg: #fef3c7;
+  --tag-text: #92400e;
+  --radius: 6px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: "Microsoft YaHei", "Noto Sans SC", "SimSun", sans-serif;
+  font-size: 12pt; line-height: 1.75; color: var(--ink);
+  max-width: 860px; margin: auto; padding: 24px 20px 60px;
+  background: var(--paper);
+}
+
+@media print {
+  body { font-size: 10.5pt; background: #fff; }
+  .no-print { display: none !important; }
+  h1, h2, h3 { page-break-after: avoid; }
+}
+
+/* ── Header ── */
+#exampass-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 6px 0; margin-bottom: 0;
+}
+.header-brand { font-size: 1.2em; font-weight: 700; color: #1a1a2e; letter-spacing: 0.3px; }
+.header-url  { font-size: 0.78em; color: #999; }
+.header-divider { border: none; border-top: 2px solid var(--divider); margin: 4px 0 20px 0; }
+
+/* ── Typography ── */
+h1 { font-size: 1.55em; text-align: center; border-bottom: 2px solid var(--divider); padding-bottom: 8px; margin-top: 0; }
+h2 { font-size: 1.25em; border-bottom: 1px solid var(--divider); padding-bottom: 4px; margin-top: 28px; }
+h3 { font-size: 1.08em; margin-top: 20px; color: var(--ink); }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Tables ── */
+table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 0.95em; }
+td, th { border: 1px solid var(--card-border); padding: 5px 9px; text-align: left; }
+th { background: var(--paper-dark); font-weight: 700; }
+
+/* ── Knowledge point vs explanation ── */
+.kp { font-weight: 700; color: var(--ink); }           /* key point: bold dark */
+.exp { font-weight: 400; color: var(--ink-light); }    /* explanation: lighter */
+.exp em, .exp strong { color: var(--ink); }             /* emphasis inside explanation */
+
+/* ── Block elements ── */
+blockquote {
+  border-left: 3px solid #c0392b; background: #fef9ef;
+  padding: 6px 14px; margin: 10px 0; font-size: 0.95em;
+}
+code { background: #f0ede0; padding: 2px 5px; border-radius: 3px; font-size: 0.92em; }
+pre { background: #f0ede0; padding: 10px; border-radius: var(--radius); overflow-x: auto; }
+
+/* ── TOC ── */
+div.toc {
+  background: var(--card-bg); padding: 14px 18px;
+  border: 1px solid var(--card-border); border-radius: var(--radius); margin-bottom: 22px;
+}
+div.toc ul { padding-left: 18px; }
+div.toc li { margin: 3px 0; font-size: 0.95em; }
+
+/* ── Priority tags ── */
+.tag-must   { background: #fee2e2; color: #991b1b; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-key    { background: #fef3c7; color: #92400e; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-freq   { background: #dbeafe; color: #1e40af; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-info   { background: #f0fdf4; color: #166534; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+
+
+</style>
+</head>
+<body>
+
+<header id="exampass-header">
+  <div class="header-left"><span class="header-brand">ExamPass Assistant</span></div>
+  <div class="header-right"><span class="header-url">github.com/WUBING2023/ExamPass-Assistant</span></div>
+</header>
+<hr class="header-divider">
+
+<h1>税收学</h1>
+<div class="toc">
+<h2>目录</h2>
+<ul>
+<li><a href="#s73485192">第一章 税收总论</a></li>
+  <li><a href="#s44757164">税收的概念与三性 必考</a></li>
+  <li><a href="#s24731975">税收分类 重点</a></li>
+<li><a href="#s22974122">第二章 税收原则与税收负担</a></li>
+  <li><a href="#s57428099">拉弗曲线 高频</a></li>
+  <li><a href="#s69271273">税负转嫁 重点</a></li>
+<li><a href="#s31967094">第三章 增值税</a></li>
+  <li><a href="#s86676255">增值税原理 必考</a></li>
+  <li><a href="#s29555150">税率体系 必考</a></li>
+  <li><a href="#s62971325">一般纳税人 vs 小规模纳税人 重点</a></li>
+<li><a href="#s33301222">第四章 消费税</a></li>
+  <li><a href="#s33816153">计税方法 重点</a></li>
+<li><a href="#s38689389">第五章 企业所得税</a></li>
+  <li><a href="#s67400853">应纳税所得额 必考</a></li>
+  <li><a href="#s35885143">扣除限额（考试重点） 必考</a></li>
+<li><a href="#s35694839">第六章 个人所得税</a></li>
+  <li><a href="#s51714828">综合所得 必考</a></li>
+<li><a href="#s37663043">第八章 国际税收</a></li>
+  <li><a href="#s33904225">国际重复征税消除 重点</a></li>
+</ul>
+</div>
+<h2 id="s73485192">第一章 税收总论</h2>
+
+<h3 id="s44757164">税收的概念与三性 <span class="tag-must">必考</span></h3>
+<p><strong>是什么</strong>：<span class="kp">税收是国家为满足社会公共需要，凭借政治权力，按照法律规定，强制、无偿地参与社会产品分配而取得财政收入的一种形式。</span></p>
+<p><strong>税收三性</strong>（基本特征）：</p>
+<ul>
+<li><span class="kp">强制性</span><span class="exp">：凭借政治权力征税，纳税是法定义务 -- "不交不行"</span></li>
+<li><span class="kp">无偿性</span><span class="exp">：国家征税后不直接偿还给具体纳税人（整体返还而非个体返还）-- "交了就交了"</span></li>
+<li><span class="kp">固定性</span><span class="exp">：征税前以法律形式规定征税对象和征收比例 -- "按规矩交"</span></li>
+</ul>
+<blockquote>易错：无偿性是指对"个体"不直接偿还，但税收整体上用于公共服务，是"整体有偿"。考试常考判断题--"税收是无偿的，所以纳税人没有得到任何回报"是错的。</blockquote>
+
+<h3 id="s24731975">税收分类 <span class="tag-key">重点</span></h3>
+<table>
+<tr><th>分类标准</th><th>类型</th><th>举例</th></tr>
+<tr><td>课税对象性质</td><td>流转税</td><td>增值税、消费税、关税</td></tr>
+<tr><td>课税对象性质</td><td>所得税</td><td>企业所得税、个人所得税</td></tr>
+<tr><td>课税对象性质</td><td>财产税</td><td>房产税、车船税</td></tr>
+<tr><td>课税对象性质</td><td>行为税</td><td>印花税、车辆购置税</td></tr>
+<tr><td>课税对象性质</td><td>资源税</td><td>资源税、城镇土地使用税</td></tr>
+<tr><td>税负能否转嫁</td><td>直接税</td><td>所得税（纳税人=负税人）</td></tr>
+<tr><td>税负能否转嫁</td><td>间接税</td><td>增值税（纳税人≠负税人）</td></tr>
+</table>
+
+<h2 id="s22974122">第二章 税收原则与税收负担</h2>
+
+<h3 id="s57428099">拉弗曲线 <span class="tag-freq">高频</span></h3>
+<p><strong>核心思想</strong>：<span class="kp">税率与税收收入呈倒U型关系。</span><span class="exp">税率从0开始提高时税收增加，但超过某一点后，税率太高会抑制经济活动，反而导致税收减少。</span></p>
+<p><strong>政策含义</strong>：降低税率不一定减少税收（如果当前税率在"禁区"范围内）。这为减税政策提供了理论基础。</p>
+<blockquote>易错：拉弗曲线不是说"税率越低越好"，而是说存在一个最优税率。考试常考图形选择题。</blockquote>
+
+<h3 id="s69271273">税负转嫁 <span class="tag-key">重点</span></h3>
+<ul>
+<li><span class="kp">前转</span>：通过提高售价将税负转嫁给买方 -- 最常见</li>
+<li><span class="kp">后转</span>：通过压低进价将税负转嫁给卖方</li>
+<li><span class="kp">混转</span>：前转后转同时进行</li>
+<li><span class="kp">消转</span>：通过改进技术提高效率自行消化税负</li>
+</ul>
+
+<h2 id="s31967094">第三章 增值税</h2>
+
+<h3 id="s86676255">增值税原理 <span class="tag-must">必考</span></h3>
+<p><strong>为什么叫"增值"税</strong>：只对商品在流转过程中产生的<span class="kp">增值额</span>征税，不是对全额征税。<span class="exp">-- 比如原材料100元加工后卖150元，只对增值的50元征税，避免重复征税。</span></p>
+<p><strong>核心公式</strong>：<span class="kp">应纳税额 = 当期销项税额 - 当期进项税额</span></p>
+<p>销项税额 = 不含税销售额 × 税率<br>进项税额 = 购进货物/服务取得的增值税专用发票上注明的税额</p>
+
+<h3 id="s29555150">税率体系 <span class="tag-must">必考</span></h3>
+<table>
+<tr><th>税率</th><th>适用范围</th></tr>
+<tr><td>13%</td><td>销售货物、加工修理修配劳务、有形动产租赁</td></tr>
+<tr><td>9%</td><td>农产品、自来水、图书、交通运输、邮政、建筑、不动产租赁、转让土地使用权</td></tr>
+<tr><td>6%</td><td>现代服务业、金融服务、生活服务、无形资产转让</td></tr>
+<tr><td>0%</td><td>出口货物、国际运输服务</td></tr>
+</table>
+<blockquote>易错：13%是"基本税率"不是"标准税率"。9%和6%都是"低税率"。不动产租赁9%，有形动产租赁13%--区别在于不动产vs动产。小规模纳税人征收率3%（另有减免政策）。</blockquote>
+
+<h3 id="s62971325">一般纳税人 vs 小规模纳税人 <span class="tag-key">重点</span></h3>
+<table>
+<tr><th>维度</th><th>一般纳税人</th><th>小规模纳税人</th></tr>
+<tr><td>标准</td><td>年销售额>500万</td><td>年销售额≤500万</td></tr>
+<tr><td>计税方法</td><td>一般计税（销项-进项）</td><td>简易计税（销售额×征收率）</td></tr>
+<tr><td>进项抵扣</td><td>可以抵扣</td><td>不可以抵扣</td></tr>
+</table>
+
+<h2 id="s33301222">第四章 消费税</h2>
+
+<h3 id="s33816153">计税方法 <span class="tag-key">重点</span></h3>
+<ul>
+<li><span class="kp">从价定率</span>：应纳税额 = 销售额 × 比例税率</li>
+<li><span class="kp">从量定额</span>：应纳税额 = 销售数量 × 定额税率</li>
+<li><span class="kp">复合计税</span>：应纳税额 = 销售额×比例税率 + 销售数量×定额税率（仅卷烟和白酒）</li>
+</ul>
+<blockquote>易错：只有卷烟和白酒实行复合计税，其他消费品要么从价要么从量。</blockquote>
+
+<h2 id="s38689389">第五章 企业所得税</h2>
+
+<h3 id="s67400853">应纳税所得额 <span class="tag-must">必考</span></h3>
+<p><strong>公式</strong>：<span class="kp">应纳税所得额 = 收入总额 - 不征税收入 - 免税收入 - 各项扣除 - 以前年度亏损弥补</span></p>
+
+<h3 id="s35885143">扣除限额（考试重点） <span class="tag-must">必考</span></h3>
+<table>
+<tr><th>项目</th><th>扣除标准</th></tr>
+<tr><td>业务招待费</td><td>发生额60% 与 销售收入5‰ 取孰低</td></tr>
+<tr><td>广告宣传费</td><td>不超过销售收入15%（化妆品/医药/饮料30%），超过部分结转以后年度</td></tr>
+<tr><td>公益性捐赠</td><td>不超过年度利润总额12%，超过部分结转3年</td></tr>
+<tr><td>职工福利费</td><td>不超过工资薪金总额14%</td></tr>
+<tr><td>工会经费</td><td>不超过工资薪金总额2%</td></tr>
+<tr><td>职工教育经费</td><td>不超过工资薪金总额8%</td></tr>
+</table>
+<blockquote>易错：业务招待费是"双限额取孰低"--先算发生额60%，再跟销售收入5‰比大小。广告费超过部分可以结转，不是永久不能扣除。公益性捐赠是"年度利润总额"的12%，不是"销售收入"。</blockquote>
+
+<h2 id="s35694839">第六章 个人所得税</h2>
+
+<h3 id="s51714828">综合所得 <span class="tag-must">必考</span></h3>
+<p><strong>四项并入综合所得</strong>：工资薪金、劳务报酬、稿酬（按70%计入）、特许权使用费</p>
+<p><strong>计算公式</strong>：<span class="kp">应纳税所得额 = 年收入额 - 6万元（基本减除）- 专项扣除 - 专项附加扣除</span></p>
+<p><strong>七项专项附加扣除</strong>：子女教育(每月2000/子女)、继续教育(每月400或每年3600)、大病医疗(超15000部分限额80000)、住房贷款利息(每月1000)、住房租金(800-1500按城市)、赡养老人(每月3000独生)、婴幼儿照护(每月2000/人)</p>
+<blockquote>易错：住房贷款利息和住房租金不能同时享受。稿酬按收入的70%计入综合所得。居民个人标准是居住满183天。</blockquote>
+
+<h2 id="s37663043">第八章 国际税收</h2>
+
+<h3 id="s33904225">国际重复征税消除 <span class="tag-key">重点</span></h3>
+<ul>
+<li><span class="kp">扣除法</span>：境外已纳税款作为费用扣除 -- 效果最差</li>
+<li><span class="kp">免税法</span>：对境外所得免于征税 -- 放弃税收管辖权</li>
+<li><span class="kp">抵免法</span>：境外已纳税款从应纳税额中抵扣（中国采用此法）-- 最常用</li>
+</ul>
+<p><strong>转让定价</strong>：关联企业间通过不合理价格转移利润。应对原则：<span class="kp">独立交易原则（Arm's Length Principle）</span></p>
+
+
+</body>
+</html>

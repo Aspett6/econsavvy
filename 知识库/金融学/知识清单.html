@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>金融学</title>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\(', '\)']],
+    displayMath: [['$$', '$$'], ['\[', '\]']]
+  }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"></script>
+<style>
+/* === ExamPass Shared Styles === */
+/* Paper-like warm background, clean typography, responsive */
+
+:root {
+  --paper: #fdf6e3;
+  --paper-dark: #f5ecd7;
+  --ink: #2c2c2c;
+  --ink-light: #555;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --divider: #d6c8a8;
+  --card-bg: #fef9ef;
+  --card-border: #e8dcc8;
+  --correct: #22c55e;
+  --correct-bg: #f0fdf4;
+  --wrong: #ef4444;
+  --wrong-bg: #fef2f2;
+  --tag-bg: #fef3c7;
+  --tag-text: #92400e;
+  --radius: 6px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: "Microsoft YaHei", "Noto Sans SC", "SimSun", sans-serif;
+  font-size: 12pt; line-height: 1.75; color: var(--ink);
+  max-width: 860px; margin: auto; padding: 24px 20px 60px;
+  background: var(--paper);
+}
+
+@media print {
+  body { font-size: 10.5pt; background: #fff; }
+  .no-print { display: none !important; }
+  h1, h2, h3 { page-break-after: avoid; }
+}
+
+/* ── Header ── */
+#exampass-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 6px 0; margin-bottom: 0;
+}
+.header-brand { font-size: 1.2em; font-weight: 700; color: #1a1a2e; letter-spacing: 0.3px; }
+.header-url  { font-size: 0.78em; color: #999; }
+.header-divider { border: none; border-top: 2px solid var(--divider); margin: 4px 0 20px 0; }
+
+/* ── Typography ── */
+h1 { font-size: 1.55em; text-align: center; border-bottom: 2px solid var(--divider); padding-bottom: 8px; margin-top: 0; }
+h2 { font-size: 1.25em; border-bottom: 1px solid var(--divider); padding-bottom: 4px; margin-top: 28px; }
+h3 { font-size: 1.08em; margin-top: 20px; color: var(--ink); }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Tables ── */
+table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 0.95em; }
+td, th { border: 1px solid var(--card-border); padding: 5px 9px; text-align: left; }
+th { background: var(--paper-dark); font-weight: 700; }
+
+/* ── Knowledge point vs explanation ── */
+.kp { font-weight: 700; color: var(--ink); }           /* key point: bold dark */
+.exp { font-weight: 400; color: var(--ink-light); }    /* explanation: lighter */
+.exp em, .exp strong { color: var(--ink); }             /* emphasis inside explanation */
+
+/* ── Block elements ── */
+blockquote {
+  border-left: 3px solid #c0392b; background: #fef9ef;
+  padding: 6px 14px; margin: 10px 0; font-size: 0.95em;
+}
+code { background: #f0ede0; padding: 2px 5px; border-radius: 3px; font-size: 0.92em; }
+pre { background: #f0ede0; padding: 10px; border-radius: var(--radius); overflow-x: auto; }
+
+/* ── TOC ── */
+div.toc {
+  background: var(--card-bg); padding: 14px 18px;
+  border: 1px solid var(--card-border); border-radius: var(--radius); margin-bottom: 22px;
+}
+div.toc ul { padding-left: 18px; }
+div.toc li { margin: 3px 0; font-size: 0.95em; }
+
+/* ── Priority tags ── */
+.tag-must   { background: #fee2e2; color: #991b1b; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-key    { background: #fef3c7; color: #92400e; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-freq   { background: #dbeafe; color: #1e40af; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-info   { background: #f0fdf4; color: #166534; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+
+
+</style>
+</head>
+<body>
+
+<header id="exampass-header">
+  <div class="header-left"><span class="header-brand">ExamPass Assistant</span></div>
+  <div class="header-right"><span class="header-url">github.com/WUBING2023/ExamPass-Assistant</span></div>
+</header>
+<hr class="header-divider">
+
+<h1>金融学</h1>
+<div class="toc">
+<h2>目录</h2>
+<ul>
+<li><a href="#s51389542">第一章 货币与货币制度</a></li>
+  <li><a href="#s66887849">货币层次 必考</a></li>
+  <li><a href="#s91527584">货币乘数 重点</a></li>
+<li><a href="#s27155995">第二章 金融市场与利率</a></li>
+  <li><a href="#s65828401">利率期限结构 重点</a></li>
+<li><a href="#s52931551">第三章 投资组合与CAPM</a></li>
+  <li><a href="#s82461219">Markowitz模型 必考</a></li>
+  <li><a href="#s49667541">CAPM 必考</a></li>
+  <li><a href="#s23911531">APT与Fama-French 高频</a></li>
+<li><a href="#s76850295">第四章 期权定价</a></li>
+  <li><a href="#s41096994">期权基础 重点</a></li>
+  <li><a href="#s67443096">Black-Scholes 高频</a></li>
+  <li><a href="#s40486376">Greeks 高频</a></li>
+<li><a href="#s68035264">第五章 风险管理与巴塞尔协议</a></li>
+  <li><a href="#s83823316">VaR 重点</a></li>
+  <li><a href="#s83072281">巴塞尔协议 必考</a></li>
+</ul>
+</div>
+<h2 id="s51389542">第一章 货币与货币制度</h2>
+<h3 id="s66887849">货币层次 <span class="tag-must">必考</span></h3>
+<table>
+<tr><th>层次</th><th>内容</th></tr>
+<tr><td>M0</td><td>流通中现金</td></tr>
+<tr><td>M1</td><td>M0 + 企业活期存款</td></tr>
+<tr><td>M2</td><td>M1 + 准货币（定期+储蓄+其他存款）</td></tr>
+</table>
+
+<h3 id="s91527584">货币乘数 <span class="tag-key">重点</span></h3>
+<p>m = (1+c)/(r+c+e)，c=现金漏损率，r=法定准备金率，e=超额准备金率。</p>
+<blockquote>货币乘数不是固定值 -- 危机时银行增持超额准备金、公众增持现金，乘数大幅下降。</blockquote>
+
+<h2 id="s27155995">第二章 金融市场与利率</h2>
+<h3 id="s65828401">利率期限结构 <span class="tag-key">重点</span></h3>
+<p><strong>预期理论</strong>：长期利率 = 预期短期利率的几何平均。无法解释收益率曲线通常上倾。</p>
+<p><strong>流动性偏好理论</strong>：长期利率 = 预期短期利率 + 流动性溢价。解释了收益率曲线上倾。</p>
+<p><strong>有效市场假说</strong>：弱式（历史价格已反映）、半强式（公开信息已反映）、强式（内幕信息已反映）。</p>
+
+<h2 id="s52931551">第三章 投资组合与CAPM</h2>
+<h3 id="s82461219">Markowitz模型 <span class="tag-must">必考</span></h3>
+<p><strong>核心</strong>：通过分散化降低非系统性风险。组合方差 = sum(wi*wj*Cov(i,j))。</p>
+<p><strong>有效边界</strong>：给定收益下风险最小的组合集。<strong>分离定理</strong>：引入无风险资产后，最优风险组合与风险偏好无关。</p>
+
+<h3 id="s49667541">CAPM <span class="tag-must">必考</span></h3>
+<p>E(Ri) = Rf + beta_i[E(Rm)-Rf]，beta = Cov(Ri,Rm)/sigma_m^2。</p>
+<table>
+<tr><th></th><th>CML</th><th>SML</th></tr>
+<tr><td>适用范围</td><td>仅有效组合</td><td>所有资产</td></tr>
+<tr><td>风险度量</td><td>总风险sigma</td><td>系统风险beta</td></tr>
+</table>
+<blockquote>CAPM只给系统性风险定价 -- 非系统性风险可通过分散化消除，不获得风险溢价。</blockquote>
+
+<h3 id="s23911531">APT与Fama-French <span class="tag-freq">高频</span></h3>
+<p>APT多因子模型：E(Ri) = Rf + beta_i1*RP1 + beta_i2*RP2 + ...。Fama-French三因子：市场+规模(SMB)+价值(HML)。</p>
+
+<h2 id="s76850295">第四章 期权定价</h2>
+<h3 id="s41096994">期权基础 <span class="tag-key">重点</span></h3>
+<p>C = max(S-K, 0)，P = max(K-S, 0)。平价关系（欧式）：C + Ke^{-rT} = P + S0。</p>
+<h3 id="s67443096">Black-Scholes <span class="tag-freq">高频</span></h3>
+<p>通过构建无风险对冲组合推导。关键参数：S0、K、sigma、T、r。N(d1)近似为期权被执行的风险中性概率。</p>
+<h3 id="s40486376">Greeks <span class="tag-freq">高频</span></h3>
+<table>
+<tr><th>Greek</th><th>含义</th></tr>
+<tr><td>Delta</td><td>标的价格变动对期权价格的影响</td></tr>
+<tr><td>Gamma</td><td>Delta的变化率</td></tr>
+<tr><td>Theta</td><td>时间衰减</td></tr>
+<tr><td>Vega</td><td>波动率敏感度</td></tr>
+</table>
+
+<h2 id="s68035264">第五章 风险管理与巴塞尔协议</h2>
+<h3 id="s83823316">VaR <span class="tag-key">重点</span></h3>
+<p>在置信水平alpha下持有期内的最大可能损失。方法：历史模拟、方差-协方差、蒙特卡洛。</p>
+<blockquote>VaR不满足次可加性 -- 组合VaR可能大于各部分VaR之和。CVaR满足次可加性。</blockquote>
+
+<h3 id="s83072281">巴塞尔协议 <span class="tag-must">必考</span></h3>
+<table>
+<tr><th>版本</th><th>核心</th></tr>
+<tr><td>Basel I</td><td>CAR>=8%</td></tr>
+<tr><td>Basel II</td><td>三大支柱（最低资本+监督检查+市场纪律）</td></tr>
+<tr><td>Basel III</td><td>LCR>=100%, NSFR>=100%, 杠杆率>=3%</td></tr>
+</table>
+
+
+</body>
+</html>

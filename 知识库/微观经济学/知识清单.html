@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>西方经济学-微观</title>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\(', '\)']],
+    displayMath: [['$$', '$$'], ['\[', '\]']]
+  }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"></script>
+<style>
+/* === ExamPass Shared Styles === */
+/* Paper-like warm background, clean typography, responsive */
+
+:root {
+  --paper: #fdf6e3;
+  --paper-dark: #f5ecd7;
+  --ink: #2c2c2c;
+  --ink-light: #555;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --divider: #d6c8a8;
+  --card-bg: #fef9ef;
+  --card-border: #e8dcc8;
+  --correct: #22c55e;
+  --correct-bg: #f0fdf4;
+  --wrong: #ef4444;
+  --wrong-bg: #fef2f2;
+  --tag-bg: #fef3c7;
+  --tag-text: #92400e;
+  --radius: 6px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: "Microsoft YaHei", "Noto Sans SC", "SimSun", sans-serif;
+  font-size: 12pt; line-height: 1.75; color: var(--ink);
+  max-width: 860px; margin: auto; padding: 24px 20px 60px;
+  background: var(--paper);
+}
+
+@media print {
+  body { font-size: 10.5pt; background: #fff; }
+  .no-print { display: none !important; }
+  h1, h2, h3 { page-break-after: avoid; }
+}
+
+/* ── Header ── */
+#exampass-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 6px 0; margin-bottom: 0;
+}
+.header-brand { font-size: 1.2em; font-weight: 700; color: #1a1a2e; letter-spacing: 0.3px; }
+.header-url  { font-size: 0.78em; color: #999; }
+.header-divider { border: none; border-top: 2px solid var(--divider); margin: 4px 0 20px 0; }
+
+/* ── Typography ── */
+h1 { font-size: 1.55em; text-align: center; border-bottom: 2px solid var(--divider); padding-bottom: 8px; margin-top: 0; }
+h2 { font-size: 1.25em; border-bottom: 1px solid var(--divider); padding-bottom: 4px; margin-top: 28px; }
+h3 { font-size: 1.08em; margin-top: 20px; color: var(--ink); }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Tables ── */
+table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 0.95em; }
+td, th { border: 1px solid var(--card-border); padding: 5px 9px; text-align: left; }
+th { background: var(--paper-dark); font-weight: 700; }
+
+/* ── Knowledge point vs explanation ── */
+.kp { font-weight: 700; color: var(--ink); }           /* key point: bold dark */
+.exp { font-weight: 400; color: var(--ink-light); }    /* explanation: lighter */
+.exp em, .exp strong { color: var(--ink); }             /* emphasis inside explanation */
+
+/* ── Block elements ── */
+blockquote {
+  border-left: 3px solid #c0392b; background: #fef9ef;
+  padding: 6px 14px; margin: 10px 0; font-size: 0.95em;
+}
+code { background: #f0ede0; padding: 2px 5px; border-radius: 3px; font-size: 0.92em; }
+pre { background: #f0ede0; padding: 10px; border-radius: var(--radius); overflow-x: auto; }
+
+/* ── TOC ── */
+div.toc {
+  background: var(--card-bg); padding: 14px 18px;
+  border: 1px solid var(--card-border); border-radius: var(--radius); margin-bottom: 22px;
+}
+div.toc ul { padding-left: 18px; }
+div.toc li { margin: 3px 0; font-size: 0.95em; }
+
+/* ── Priority tags ── */
+.tag-must   { background: #fee2e2; color: #991b1b; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-key    { background: #fef3c7; color: #92400e; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-freq   { background: #dbeafe; color: #1e40af; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-info   { background: #f0fdf4; color: #166534; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+
+
+</style>
+</head>
+<body>
+
+<header id="exampass-header">
+  <div class="header-left"><span class="header-brand">ExamPass Assistant</span></div>
+  <div class="header-right"><span class="header-url">github.com/WUBING2023/ExamPass-Assistant</span></div>
+</header>
+<hr class="header-divider">
+
+<h1>西方经济学-微观</h1>
+<div class="toc">
+<h2>目录</h2>
+<ul>
+<li><a href="#s51548150">第一章 需求、供给与均衡价格</a></li>
+  <li><a href="#s85364448">需求定律的数学基础 必考</a></li>
+  <li><a href="#s49772090">弹性理论 重点</a></li>
+  <li><a href="#s82496061">蛛网理论 高频</a></li>
+<li><a href="#s29075616">第二章 消费者选择理论</a></li>
+  <li><a href="#s51613483">基数效用 vs 序数效用 重点</a></li>
+  <li><a href="#s89533587">斯卢茨基方程（中级深度） 必考</a></li>
+  <li><a href="#s32695366">显示偏好理论 高频</a></li>
+<li><a href="#s64435572">第三章 生产者理论</a></li>
+  <li><a href="#s85389468">生产函数与规模报酬 必考</a></li>
+  <li><a href="#s48121313">成本理论与对偶性 重点</a></li>
+<li><a href="#s71327677">第四章 市场结构</a></li>
+  <li><a href="#s89295822">四种市场类型对比 必考</a></li>
+  <li><a href="#s46369167">价格歧视 重点</a></li>
+  <li><a href="#s63275767">寡头模型 必考</a></li>
+<li><a href="#s40561425">第五章 博弈论入门</a></li>
+  <li><a href="#s50382633">纳什均衡 必考</a></li>
+  <li><a href="#s33792277">子博弈精炼均衡 重点</a></li>
+<li><a href="#s36703534">第六章 一般均衡与福利经济学</a></li>
+  <li><a href="#s68092007">埃奇沃斯方盒 必考</a></li>
+  <li><a href="#s33327588">福利经济学两大定理 必考</a></li>
+  <li><a href="#s55778283">市场失灵 重点</a></li>
+</ul>
+</div>
+<h2 id="s51548150">第一章 需求、供给与均衡价格</h2>
+<h3 id="s85364448">需求定律的数学基础 <span class="tag-must">必考</span></h3>
+<p><strong>定义</strong>：<span class="kp">在其他条件不变时，商品价格与需求量反向变动。</span>这不仅是经验规律，更有严密的微观基础 -- 由消费者效用最大化推导而来。</p>
+<p><strong>为什么成立</strong>：价格变化产生<span class="kp">替代效应</span>（商品相对变贵，消费者转向替代品）和<span class="kp">收入效应</span>（实际购买力变化）。对正常商品，两种效应同向；对吉芬商品，收入效应反向且超过替代效应。</p>
+<blockquote>易错：吉芬商品需求曲线向上倾斜 -- 但极其罕见，需要满足：(1)低档商品 (2)在预算中占比极大 (3)替代品极少。1840年代爱尔兰土豆是经典案例。</blockquote>
+
+<h3 id="s49772090">弹性理论 <span class="tag-key">重点</span></h3>
+<table>
+<tr><th>弹性类型</th><th>公式</th><th>经济含义</th></tr>
+<tr><td>需求价格弹性</td><td>E = (dQ/Q)/(dP/P)</td><td>Ep&gt;1 富有弹性（薄利多销）；Ep&lt;1 缺乏弹性（谷贱伤农）</td></tr>
+<tr><td>需求收入弹性</td><td>Ei = (dQ/Q)/(dI/I)</td><td>Ei&gt;0正常品；Ei&lt;0低档品；Ei&gt;1奢侈品</td></tr>
+<tr><td>需求交叉弹性</td><td>Exy = (dQx/Qx)/(dPy/Py)</td><td>Exy&gt;0替代品；Exy&lt;0互补品</td></tr>
+</table>
+
+<h3 id="s82496061">蛛网理论 <span class="tag-freq">高频</span></h3>
+<p>当供给决策基于上期价格时，价格和产量围绕均衡点波动。<span class="kp">收敛条件：需求弹性 > 供给弹性</span>。发散型蛛网意味着市场不稳定，需要政府干预（如农产品价格支持）。</p>
+
+<h2 id="s29075616">第二章 消费者选择理论</h2>
+<h3 id="s51613483">基数效用 vs 序数效用 <span class="tag-key">重点</span></h3>
+<p><strong>基数效用论</strong>假设效用可量化，核心是<span class="kp">边际效用递减</span>。消费者均衡：MU1/P1 = MU2/P2 = lambda（等边际原则）。</p>
+<p><strong>序数效用论</strong>只需排序偏好，用<span class="kp">无差异曲线</span>和<span class="kp">预算线</span>分析。消费者均衡：MRS = P1/P2。</p>
+
+<h3 id="s89533587">斯卢茨基方程（中级深度） <span class="tag-must">必考</span></h3>
+<p><strong>核心公式</strong>：<span class="kp">总效应 = 替代效应 + 收入效应</span></p>
+<p><strong>斯卢茨基分解</strong>：价格下降时 -- 替代效应总是为负（需求量增）；收入效应对正常品为负，对低档品为正。</p>
+<p><strong>希克斯分解</strong>：保持效用不变（而非购买力不变）。对微小价格变化，两种分解近似相等。</p>
+<blockquote>考研常考：希克斯替代效应 vs 斯卢茨基替代效应的区别和大小关系。</blockquote>
+
+<h3 id="s32695366">显示偏好理论 <span class="tag-freq">高频</span></h3>
+<p><strong>WARP</strong>（显示偏好弱公理）：如果A被显示偏好于B，则B不能被显示偏好于A。<strong>SARP</strong>加入传递性。这是从可观察选择反推偏好的理论工具。</p>
+
+<h2 id="s64435572">第三章 生产者理论</h2>
+<h3 id="s85389468">生产函数与规模报酬 <span class="tag-must">必考</span></h3>
+<table>
+<tr><th>规模报酬</th><th>定义</th><th>原因</th></tr>
+<tr><td>递增</td><td>f(tL,tK) &gt; tf(L,K)</td><td>专业化分工、大规模采购</td></tr>
+<tr><td>不变</td><td>f(tL,tK) = tf(L,K)</td><td>Cobb-Douglas中alpha+beta=1</td></tr>
+<tr><td>递减</td><td>f(tL,tK) &lt; tf(L,K)</td><td>管理协调成本上升</td></tr>
+</table>
+
+<h3 id="s48121313">成本理论与对偶性 <span class="tag-key">重点</span></h3>
+<p><span class="kp">谢泼德引理</span>：成本函数对要素价格求偏导 = 条件要素需求。<span class="kp">Hotelling引理</span>：利润函数对产出价格求偏导 = 供给函数。对偶性原理：生产函数和成本函数包含相同信息。</p>
+
+<h2 id="s71327677">第四章 市场结构</h2>
+<h3 id="s89295822">四种市场类型对比 <span class="tag-must">必考</span></h3>
+<table>
+<tr><th>市场类型</th><th>厂商数量</th><th>长期利润</th><th>效率</th></tr>
+<tr><td>完全竞争</td><td>无数</td><td>0（P=minAC）</td><td>帕累托最优</td></tr>
+<tr><td>垄断竞争</td><td>多</td><td>0（P=AC但未达最低AC）</td><td>产能过剩</td></tr>
+<tr><td>寡头</td><td>少数</td><td>正（策略互动）</td><td>有DWL</td></tr>
+<tr><td>完全垄断</td><td>1</td><td>正（P&gt;AC）</td><td>DWL最大</td></tr>
+</table>
+
+<h3 id="s46369167">价格歧视 <span class="tag-key">重点</span></h3>
+<ul>
+<li><span class="kp">一级（完全歧视）</span>：按保留价格收费 -- 完全攫取消费者剩余，但产量达到有效水平</li>
+<li><span class="kp">二级</span>：按数量/质量分段定价（阶梯电价、软件版本）</li>
+<li><span class="kp">三级</span>：按群体定价（学生票） -- MR1=MR2=MC</li>
+</ul>
+
+<h3 id="s63275767">寡头模型 <span class="tag-must">必考</span></h3>
+<table>
+<tr><th>模型</th><th>策略变量</th><th>均衡</th><th>特征</th></tr>
+<tr><td>古诺</td><td>产量</td><td>纳什均衡</td><td>假定对手产量不变</td></tr>
+<tr><td>伯特兰</td><td>价格</td><td>纳什均衡</td><td>同质产品 P=MC（伯特兰悖论）</td></tr>
+<tr><td>斯塔克伯格</td><td>产量</td><td>子博弈精炼</td><td>先行者优势</td></tr>
+</table>
+<blockquote>易错：伯特兰悖论 -- 同质产品的价格竞争导致P=MC，只有两个企业也达到完全竞争结果。现实中通过产品差异化和产能约束缓解。</blockquote>
+
+<h2 id="s40561425">第五章 博弈论入门</h2>
+<h3 id="s50382633">纳什均衡 <span class="tag-must">必考</span></h3>
+<p><strong>定义</strong>：<span class="kp">给定其他参与者策略，没有人能通过单方面改变策略获得更好结果。</span></p>
+<p><strong>囚徒困境</strong>：占优策略是背叛，但双方合作才是集体最优 -- 个体理性与集体理性的冲突。</p>
+
+<h3 id="s33792277">子博弈精炼均衡 <span class="tag-key">重点</span></h3>
+<p>通过<span class="kp">逆向归纳法</span>排除不可信威胁。可信的承诺必须具有约束力或涉及沉没成本。</p>
+<p><strong>无名氏定理</strong>：无限次重复博弈中，只要贴现因子足够大，合作可以成为均衡。</p>
+
+<h2 id="s36703534">第六章 一般均衡与福利经济学</h2>
+<h3 id="s68092007">埃奇沃斯方盒 <span class="tag-must">必考</span></h3>
+<p><span class="kp">契约曲线</span>是双方无差异曲线切点的轨迹 -- 曲线上每一点都是帕累托有效的。瓦尔拉斯均衡是契约曲线上满足预算约束的点。</p>
+
+<h3 id="s33327588">福利经济学两大定理 <span class="tag-must">必考</span></h3>
+<p><strong>第一定理</strong>：完全竞争均衡是帕累托最优的。需要：完全竞争、无外部性、完全信息、无公共物品。</p>
+<p><strong>第二定理</strong>：任何帕累托最优配置可通过禀赋再分配 + 市场竞争实现 -- 公平和效率可以分开。</p>
+
+<h3 id="s55778283">市场失灵 <span class="tag-key">重点</span></h3>
+<table>
+<tr><th>类型</th><th>原因</th><th>解决方案</th></tr>
+<tr><td>外部性</td><td>私人成本不等于社会成本</td><td>庇古税、科斯定理</td></tr>
+<tr><td>公共物品</td><td>非竞争性+非排他性</td><td>政府提供、克拉克税</td></tr>
+<tr><td>信息不对称</td><td>逆向选择+道德风险</td><td>信号传递、甄别机制</td></tr>
+</table>
+<blockquote>易错：科斯定理说「只要产权明确且交易成本为零，私人谈判可解决外部性」-- 产权给谁不重要，关键是有明确产权。但现实交易成本很少为零。</blockquote>
+
+
+</body>
+</html>

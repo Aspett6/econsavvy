@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CFA Level I · 知识清单</title>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\(', '\)']],
+    displayMath: [['$$', '$$'], ['\[', '\]']]
+  }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"></script>
+<style>
+/* === ExamPass Shared Styles === */
+/* Paper-like warm background, clean typography, responsive */
+
+:root {
+  --paper: #fdf6e3;
+  --paper-dark: #f5ecd7;
+  --ink: #2c2c2c;
+  --ink-light: #555;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --divider: #d6c8a8;
+  --card-bg: #fef9ef;
+  --card-border: #e8dcc8;
+  --correct: #22c55e;
+  --correct-bg: #f0fdf4;
+  --wrong: #ef4444;
+  --wrong-bg: #fef2f2;
+  --tag-bg: #fef3c7;
+  --tag-text: #92400e;
+  --radius: 6px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: "Microsoft YaHei", "Noto Sans SC", "SimSun", sans-serif;
+  font-size: 12pt; line-height: 1.75; color: var(--ink);
+  max-width: 860px; margin: auto; padding: 24px 20px 60px;
+  background: var(--paper);
+}
+
+@media print {
+  body { font-size: 10.5pt; background: #fff; }
+  .no-print { display: none !important; }
+  h1, h2, h3 { page-break-after: avoid; }
+}
+
+/* ── Header ── */
+#exampass-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 6px 0; margin-bottom: 0;
+}
+.header-brand { font-size: 1.2em; font-weight: 700; color: #1a1a2e; letter-spacing: 0.3px; }
+.header-url  { font-size: 0.78em; color: #999; }
+.header-divider { border: none; border-top: 2px solid var(--divider); margin: 4px 0 20px 0; }
+
+/* ── Typography ── */
+h1 { font-size: 1.55em; text-align: center; border-bottom: 2px solid var(--divider); padding-bottom: 8px; margin-top: 0; }
+h2 { font-size: 1.25em; border-bottom: 1px solid var(--divider); padding-bottom: 4px; margin-top: 28px; }
+h3 { font-size: 1.08em; margin-top: 20px; color: var(--ink); }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Tables ── */
+table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 0.95em; }
+td, th { border: 1px solid var(--card-border); padding: 5px 9px; text-align: left; }
+th { background: var(--paper-dark); font-weight: 700; }
+
+/* ── Knowledge point vs explanation ── */
+.kp { font-weight: 700; color: var(--ink); }           /* key point: bold dark */
+.exp { font-weight: 400; color: var(--ink-light); }    /* explanation: lighter */
+.exp em, .exp strong { color: var(--ink); }             /* emphasis inside explanation */
+
+/* ── Block elements ── */
+blockquote {
+  border-left: 3px solid #c0392b; background: #fef9ef;
+  padding: 6px 14px; margin: 10px 0; font-size: 0.95em;
+}
+code { background: #f0ede0; padding: 2px 5px; border-radius: 3px; font-size: 0.92em; }
+pre { background: #f0ede0; padding: 10px; border-radius: var(--radius); overflow-x: auto; }
+
+/* ── TOC ── */
+div.toc {
+  background: var(--card-bg); padding: 14px 18px;
+  border: 1px solid var(--card-border); border-radius: var(--radius); margin-bottom: 22px;
+}
+div.toc ul { padding-left: 18px; }
+div.toc li { margin: 3px 0; font-size: 0.95em; }
+
+/* ── Priority tags ── */
+.tag-must   { background: #fee2e2; color: #991b1b; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-key    { background: #fef3c7; color: #92400e; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-freq   { background: #dbeafe; color: #1e40af; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+.tag-info   { background: #f0fdf4; color: #166534; padding: 1px 6px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+
+
+</style>
+</head>
+<body>
+
+<header id="exampass-header">
+  <div class="header-left"><span class="header-brand">ExamPass Assistant</span></div>
+  <div class="header-right"><span class="header-url">github.com/WUBING2023/ExamPass-Assistant</span></div>
+</header>
+<hr class="header-divider">
+
+<h1>CFA Level I · 知识清单</h1>
+<div class="toc">
+<h2>目录</h2>
+<ul>
+<li><a href="#s45253826">第一部分：道德与职业标准 必考</a></li>
+  <li><a href="#s45143468">CFA 职业行为准则七大标准</a></li>
+  <li><a href="#s12931331">GIPS 全球投资业绩标准 高频</a></li>
+<li><a href="#s51120223">第二部分：定量方法 重点</a></li>
+  <li><a href="#s79510732">货币时间价值 TVM 必考</a></li>
+  <li><a href="#s70543581">描述性统计与概率 重点</a></li>
+  <li><a href="#s27617653">概率分布 高频</a></li>
+  <li><a href="#s53991027">假设检验 必考</a></li>
+  <li><a href="#s38717212">回归分析 重点</a></li>
+  <li><a href="#s29696271">时间序列分析 高频</a></li>
+<li><a href="#s56202236">第三部分：财务报表分析 必考</a></li>
+  <li><a href="#s54351005">现金流量表分析</a></li>
+  <li><a href="#s75644905">杜邦分析</a></li>
+  <li><a href="#s42415738">存货计价方法对比 重点</a></li>
+<li><a href="#s64494614">第四部分：权益投资 重点</a></li>
+  <li><a href="#s90535628">戈登增长模型 GGM 必考</a></li>
+  <li><a href="#s69184486">市盈率 P/E 高频</a></li>
+  <li><a href="#s78038868">有效市场假说 EMH</a></li>
+<li><a href="#s21277901">第五部分：固定收益 重点</a></li>
+  <li><a href="#s50544473">债券定价</a></li>
+  <li><a href="#s10079270">久期与凸性 必考</a></li>
+<li><a href="#s38520233">第六部分：衍生品</a></li>
+  <li><a href="#s45875399">期权定价影响因素</a></li>
+  <li><a href="#s19793954">买卖权平价 必考</a></li>
+<li><a href="#s70893414">第七部分：投资组合管理</a></li>
+  <li><a href="#s70080605">CAPM 资本资产定价模型 必考</a></li>
+  <li><a href="#s81977752">夏普比率</a></li>
+</ul>
+</div>
+
+<h2 id="s45253826">第一部分：道德与职业标准 <span class="tag-must">必考</span></h2>
+
+<p><strong>本章核心问题</strong>：作为金融从业者，面对利益冲突和道德困境时，应该遵循什么原则？CFA 的道德框架如何帮助你做出正确决策？</p>
+
+<h3 id="s45143468">CFA 职业行为准则七大标准</h3>
+
+<p><span class="kp">Standard I: 专业性</span><span class="exp">——保持专业素养，了解并遵守所有适用法律，保持独立客观，不得从事不诚信、欺诈或欺骗行为</span></p>
+<p><span class="kp">Standard II: 资本市场诚信</span><span class="exp">——不得利用重大非公开信息（内幕交易），不得操纵市场价格</span></p>
+<p><span class="kp">Standard III: 对客户的责任</span><span class="exp">——忠诚审慎、公平对待所有客户、确保投资建议适合客户、如实陈述业绩、为客户保密</span></p>
+<p><span class="kp">Standard IV: 对雇主的责任</span><span class="exp">——忠诚于雇主、披露额外报酬、主管应确保下属合规</span></p>
+<p><span class="kp">Standard V: 投资分析与建议</span><span class="exp">——勤勉尽责、有合理基础、保存记录</span></p>
+<p><span class="kp">Standard VI: 利益冲突</span><span class="exp">——披露所有利益冲突、客户交易优先于自身交易、披露介绍费</span></p>
+<p><span class="kp">Standard VII: CFA 持证人/考生责任</span><span class="exp">——不得从事损害 CFA 声誉的行为</span></p>
+
+<blockquote>易错：Standard III(B) 公平对待要求的是「公平」而非「同等」——可以对不同客户提供差异化服务，但不能歧视性地选择对谁先披露投资建议。所有客户必须在同一时间获知你的投资建议。</blockquote>
+
+<h3 id="s12931331">GIPS 全球投资业绩标准 <span class="tag-freq">高频</span></h3>
+<p><span class="kp">GIPS 的目的</span><span class="exp">——建立全球统一的投资业绩计算和报告标准，让投资者能公平比较不同资产管理公司的业绩</span></p>
+<p>GIPS 适用于<span class="kp">资产管理公司</span>，不适用于个人投资者。九大核心条款涵盖合规基础、输入数据、计算方法、组合组构建、披露要求等。</p>
+
+
+
+<h2 id="s51120223">第二部分：定量方法 <span class="tag-key">重点</span></h2>
+
+<p><strong>本章核心问题</strong>：如何用统计工具描述和分析金融数据？如何建立模型预测未来收益？假设检验和回归分析在金融中有何应用？</p>
+
+<h3 id="s79510732">货币时间价值 TVM <span class="tag-must">必考</span></h3>
+<p><span class="kp">终值</span>：$$FV = PV \times (1+r)^n$$</p>
+<p><span class="kp">现值</span>：$$PV = \frac{FV}{(1+r)^n}$$</p>
+<p><span class="kp">年金现值</span>：$$PV_{\text{annuity}} = PMT \times \frac{1 - \frac{1}{(1+r)^n}}{r}$$</p>
+<p><span class="kp">永续年金</span>：$$PV = \frac{PMT}{r}$$</p>
+<p><span class="kp">有效年利率</span>：$$EAR = \left(1 + \frac{r}{m}\right)^m - 1$$</p>
+<p>其中 $r$ 为名义年利率，$m$ 为每年复利次数。</p>
+
+<h3 id="s70543581">描述性统计与概率 <span class="tag-key">重点</span></h3>
+<p><span class="kp">偏度</span><span class="exp">——分布不对称性，正偏（右偏）表示右侧尾部更长，均值 > 中位数。金融收益率通常呈现负偏（左偏），因为市场暴跌比暴涨更剧烈</span></p>
+<p><span class="kp">峰度</span><span class="exp">——分布尾部厚度，正态分布峰度为3，超额峰度>0表示厚尾（尖峰），金融数据通常厚尾</span></p>
+<p><span class="kp">贝叶斯公式</span>：$$P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B)}$$</p>
+<p><span class="kp">协方差</span>：$$Cov(X,Y) = E[(X-\mu_X)(Y-\mu_Y)]$$</p>
+<p><span class="kp">相关系数</span>：$$\rho_{XY} = \frac{Cov(X,Y)}{\sigma_X \sigma_Y}$$，取值范围 $[-1, 1]$</p>
+
+<h3 id="s27617653">概率分布 <span class="tag-freq">高频</span></h3>
+<p>金融中常用的分布及其应用场景：</p>
+<table>
+<tr><th>分布</th><th>应用场景</th><th>特征</th></tr>
+<tr><td>正态分布</td><td>资产收益率的粗略近似</td><td>对称、薄尾</td></tr>
+<tr><td>对数正态分布</td><td>资产价格建模</td><td>正值、右偏</td></tr>
+<tr><td>二项分布</td><td>违约/不违约的建模</td><td>离散结果</td></tr>
+<tr><td>泊松分布</td><td>操作风险损失发生次数</td><td>稀有事件</td></tr>
+<tr><td>t 分布</td><td>小样本均值检验</td><td>厚尾</td></tr>
+</table>
+<p><span class="kp">中心极限定理</span><span class="exp">——无论总体分布如何，当样本量足够大（n≥30），样本均值的分布近似正态分布。这是现代统计推断的基石</span></p>
+
+<h3 id="s53991027">假设检验 <span class="tag-must">必考</span></h3>
+<p><span class="kp">H₀（零假设）</span> vs <span class="kp">H₁（备择假设）</span></p>
+<p><span class="kp">第 I 类错误（α）</span><span class="exp">——拒绝真实的零假设（假阳性），显著性水平 α 即第 I 类错误概率</span></p>
+<p><span class="kp">第 II 类错误（β）</span><span class="exp">——未拒绝错误的零假设（假阴性），检验功效 = 1-β</span></p>
+<p><span class="kp">p 值</span><span class="exp">——假设 H₀ 为真时，观察到当前或更极端结果的概率。p < α 时拒绝 H₀</span></p>
+
+<blockquote>易错：不能接受 H₀，只能说「不拒绝 H₀」。p 值不是 H₀ 为真的概率！常见考试陷阱——说「p=0.03 意味着 H₀ 有 3% 概率为真」是错误的。</blockquote>
+
+<h3 id="s38717212">回归分析 <span class="tag-key">重点</span></h3>
+<p><span class="kp">简单线性回归</span>：$$Y = b_0 + b_1 X + \varepsilon$$</p>
+<p>$b_0$ 为截距，$b_1$ 为斜率（X 每变化 1 单位，Y 的预期变化），$\varepsilon$ 为误差项</p>
+<p><span class="kp">R²</span>：模型解释的变异占总变异的比例，取值范围 [0, 1]。</p>
+<p><span class="kp">回归诊断</span>：异方差（残差方差不是常数，用 White 检验）、多重共线性（自变量高度相关，用 VIF>10 诊断）</p>
+<p><span class="kp">BLUE</span><span class="exp">——最佳线性无偏估计量，OLS 在满足高斯-马尔可夫假设时是 BLUE：线性、无偏、方差最小</span></p>
+
+<h3 id="s29696271">时间序列分析 <span class="tag-freq">高频</span></h3>
+<p><span class="kp">平稳性</span><span class="exp">——时间序列的均值、方差、协方差随时间不变。非平稳序列（如有趋势或单位根）需差分处理后才可建模</span></p>
+<p><span class="kp">AR(1)</span>：$$Y_t = \phi_0 + \phi_1 Y_{t-1} + \varepsilon_t$$</p>
+<p><span class="kp">GARCH(1,1)</span>：$$\sigma_t^2 = \omega + \alpha \varepsilon_{t-1}^2 + \beta \sigma_{t-1}^2$$</p>
+<p>GARCH 捕捉金融波动率聚集现象：大的波动倾向于跟随大的波动。</p>
+<p><span class="kp">单位根检验</span>：Dickey-Fuller 检验，H₀: 存在单位根（非平稳）。若不能拒绝 H₀，需差分后建模。</p>
+
+
+
+<h2 id="s56202236">第三部分：财务报表分析 <span class="tag-must">必考</span></h2>
+
+<p><strong>本章核心问题</strong>：如何从三张财务报表中提取公司真实经营状况？如何通过比率分析发现潜在问题？</p>
+
+<h3 id="s54351005">现金流量表分析</h3>
+<p><span class="kp">三类现金流</span>：</p>
+<p><span class="kp">CFO（经营活动现金流）</span><span class="exp">——公司核心业务产生的现金，反映真实的经营质量。CFO 持续为负是大问题</span></p>
+<p><span class="kp">CFI（投资活动现金流）</span><span class="exp">——购买或出售长期资产的现金。快速增长期 CFI 通常为负（大量投资）</span></p>
+<p><span class="kp">CFF（筹资活动现金流）</span><span class="exp">——与投资者和债权人之间的现金流</span></p>
+
+<p><span class="kp">自由现金流</span>：</p>
+<p>$$FCFF = CFO + Int \times (1-t) - FCInv$$（企业自由现金流，可供所有资本提供者）</p>
+<p>$$FCFE = CFO - FCInv + Net\ Borrowing$$（股权自由现金流，可供股东）</p>
+
+<h3 id="s75644905">杜邦分析</h3>
+<p>$$ROE = \frac{\text{净利润}}{\text{收入}} \times \frac{\text{收入}}{\text{总资产}} \times \frac{\text{总资产}}{\text{权益}}$$</p>
+<p>$\quad\ = \text{净利率} \times \text{资产周转率} \times \text{权益乘数}$</p>
+<p>杜邦分析将 ROE 分解为三要素，帮助识别 ROE 变化的驱动因素。</p>
+
+<h3 id="s42415738">存货计价方法对比 <span class="tag-key">重点</span></h3>
+<table>
+<tr><th>方法</th><th>通胀环境中 COGS</th><th>通胀环境中期末存货</th><th>IFRS/US GAAP</th></tr>
+<tr><td>FIFO 先进先出</td><td>较低</td><td>较高（接近市价）</td><td>均允许</td></tr>
+<tr><td>LIFO 后进先出</td><td>较高（节税）</td><td>较低（被低估）</td><td>IFRS 禁止</td></tr>
+<tr><td>加权平均法</td><td>居中</td><td>居中</td><td>均允许</td></tr>
+</table>
+
+<blockquote>易错：IFRS 已禁止 LIFO。通��期间从 LIFO 转为 FIFO 会使存货增加、COGS 降低、利润增加。考试常见题型：给定期初期末存货和采购数据，分别用 FIFO/LIFO/加权平均计算 COGS 和期末存货。</blockquote>
+
+
+
+<h2 id="s64494614">第四部分：权益投资 <span class="tag-key">重点</span></h2>
+
+<p><strong>本章核心问题</strong>：如何判断一只股票是否值得投资？内在价值怎么算？</p>
+
+<h3 id="s90535628">戈登增长模型 GGM <span class="tag-must">必考</span></h3>
+<p>$$V_0 = \frac{D_1}{r - g} = \frac{D_0 \times (1+g)}{r - g}$$</p>
+<p>其中 $D_1$ 为下一期预期股利，$r$ 为要求回报率，$g$ 为永续增长率。</p>
+<p><strong>前提假设</strong>：$r > g > 0$（g 接近 r 时模型失效，g > r 时出现负值无经济意义）。公司以恒定增长率永续支付股利。</p>
+
+<h3 id="s69184486">市盈率 P/E <span class="tag-freq">高频</span></h3>
+<p>$$P/E = \frac{\text{每股价格}}{\text{每股收益 EPS}}$$</p>
+<p>P/E 解读：投资者愿意为公司每 1 元盈利支付多少价格。高 P/E 可能意味着高增长预期或估值过高。</p>
+<p><span class="kp">合理 P/E</span>（基于 GGM）：$$\frac{P_0}{E_1} = \frac{\text{股利支付率}}{r - g}$$</p>
+
+<h3 id="s78038868">有效市场假说 EMH</h3>
+<table>
+<tr><th>形式</th><th>价格反映的信息</th><th>含义</th></tr>
+<tr><td>弱式</td><td>历史交易信息（价格、成交量）</td><td>技术分析无效</td></tr>
+<tr><td>半强式</td><td>所有公开信息</td><td>基本面分析也无效</td></tr>
+<tr><td>强式</td><td>所有信息（含内幕信息）</td><td>内幕交易也无法获利</td></tr>
+</table>
+
+
+
+<h2 id="s21277901">第五部分：固定收益 <span class="tag-key">重点</span></h2>
+
+<h3 id="s50544473">债券定价</h3>
+<p>$$P = \sum_{t=1}^{n} \frac{C}{(1+y)^t} + \frac{FV}{(1+y)^n}$$</p>
+<p>其中 $C$ 为每期票息，$y$ 为到期收益率 YTM，$FV$ 为面值。</p>
+<p>溢价发行（$C > y$）：价格 > 面值。折价发行（$C < y$）：价格 < 面值。</p>
+
+<h3 id="s10079270">久期与凸性 <span class="tag-must">必考</span></h3>
+<p><span class="kp">修正久期</span>：$$MD = \frac{MacD}{1+y}$$，衡量利率变动 1% 导致债券价格变动的百分比。</p>
+<p><span class="kp">DV01</span>：收益率变动 1bp（0.01%）导致的债券价格变动金额。</p>
+<p><span class="kp">凸性调整</span>：$$\frac{\Delta P}{P} \approx -MD \times \Delta y + \frac{1}{2} \times C \times (\Delta y)^2$$</p>
+
+<blockquote>易错：久期仅对利率的小幅变动准确（一阶近似）。利率大幅变动时，必须考虑凸性（二阶近似）。凸性对债券持有者有利——利率下降时价格涨幅大于利率上升同等幅度时的跌幅。</blockquote>
+
+
+
+<h2 id="s38520233">第六部分：衍生品</h2>
+
+<h3 id="s45875399">期权定价影响因素</h3>
+<table>
+<tr><th>因素</th><th>看涨期权 Call</th><th>看跌期权 Put</th></tr>
+<tr><td>标的资产价格 $\uparrow$</td><td>+</td><td>-</td></tr>
+<tr><td>行权价 $\uparrow$</td><td>-</td><td>+</td></tr>
+<tr><td>波动率 $\uparrow$</td><td>+</td><td>+</td></tr>
+<tr><td>到期时间 $\uparrow$</td><td>+（通常）</td><td>+（通常）</td></tr>
+<tr><td>无风险利率 $\uparrow$</td><td>+</td><td>-</td></tr>
+</table>
+
+<h3 id="s19793954">买卖权平价 <span class="tag-must">必考</span></h3>
+<p>$$C + \frac{X}{(1+r)^T} = P + S$$（欧式，无股利）</p>
+<p>$C$ 为看涨期权费，$P$ 为看跌期权费，$X$ 为行权价，$S$ 为当前股价。</p>
+
+
+
+<h2 id="s70893414">第七部分：投资组合管理</h2>
+
+<h3 id="s70080605">CAPM 资本资产定价模型 <span class="tag-must">必考</span></h3>
+<p>$$E(R_i) = R_f + \beta_i \times [E(R_m) - R_f]$$</p>
+<p>$R_f$ 为无风险利率，$\beta_i$ 为证券 i 的系统性风险测度，$E(R_m)-R_f$ 为市场风险溢价。</p>
+<p>$\beta > 1$：进攻型（涨跌比市场更剧烈）。$\beta < 1$：防御型（比市场稳健）。$\beta = 0$：无风险资产。</p>
+
+<h3 id="s81977752">夏普比率</h3>
+<p>$$\text{Sharpe Ratio} = \frac{R_p - R_f}{\sigma_p}$$</p>
+<p>衡量单位总风险获得的超额回报。越高越好，可用于比较不同风险水平的组合。</p>
+
+
+
+</body>
+</html>
