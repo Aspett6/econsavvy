@@ -141,43 +141,43 @@ st.markdown("""
     }
 
     /* ========================================
-       侧边栏 — 桌面端永久展开，不可折叠
+       侧边栏 — 桌面端 (>=769px) 永久展开
        ======================================== */
-    section[data-testid="stSidebar"] {
-        display: flex !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        width: 280px !important;
-        min-width: 280px !important;
-        max-width: 280px !important;
-        flex-shrink: 0 !important;
-        transform: none !important;
-        position: relative !important;
-        left: 0 !important;
-        background: rgba(255,255,255,0.78) !important;
-        backdrop-filter: blur(24px) saturate(160%) !important;
-        -webkit-backdrop-filter: blur(24px) saturate(160%) !important;
-        border-right: 1px solid rgba(37,99,235,0.07) !important;
-        box-shadow: 2px 0 24px rgba(0,0,0,0.03) !important;
-    }
-    section[data-testid="stSidebar"][aria-expanded="false"] {
-        display: flex !important;
-        visibility: visible !important;
-        width: 280px !important;
-        min-width: 280px !important;
-        transform: none !important;
-    }
-
-    /* 隐藏折叠按钮 */
-    button[data-testid="collapsedControl"] {
-        display: none !important;
-        visibility: hidden !important;
-        opacity: 0 !important;
-        width: 0 !important;
-        height: 0 !important;
-        pointer-events: none !important;
-        position: absolute !important;
-        z-index: -9999 !important;
+    @media (min-width: 769px) {
+        section[data-testid="stSidebar"] {
+            display: flex !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            width: 280px !important;
+            min-width: 280px !important;
+            max-width: 280px !important;
+            flex-shrink: 0 !important;
+            transform: none !important;
+            position: relative !important;
+            left: 0 !important;
+            background: rgba(255,255,255,0.78) !important;
+            backdrop-filter: blur(24px) saturate(160%) !important;
+            -webkit-backdrop-filter: blur(24px) saturate(160%) !important;
+            border-right: 1px solid rgba(37,99,235,0.07) !important;
+            box-shadow: 2px 0 24px rgba(0,0,0,0.03) !important;
+        }
+        section[data-testid="stSidebar"][aria-expanded="false"] {
+            display: flex !important;
+            visibility: visible !important;
+            width: 280px !important;
+            min-width: 280px !important;
+            transform: none !important;
+        }
+        button[data-testid="collapsedControl"] {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            width: 0 !important;
+            height: 0 !important;
+            pointer-events: none !important;
+            position: absolute !important;
+            z-index: -9999 !important;
+        }
     }
 
     /* 主内容区 */
@@ -695,6 +695,8 @@ st.markdown("""
     }
 
     @media (max-width: 768px) {
+        /* 移动端：Streamlit 原生侧边栏行为（折叠 + overlay） */
+        /* 不做任何覆盖，让 Streamlit 自己管 */
         /* ========================================
            基础重置
            ======================================== */
@@ -894,7 +896,7 @@ st.markdown("""
     (function() {
         function getDoc() { try { return window.parent.document; } catch(e) { return document; } }
         function forceSidebar() {
-            if (window.innerWidth <= 768) return;
+            if (window.innerWidth < 769) return;
             var doc = getDoc();
             var sb = doc.querySelector('section[data-testid="stSidebar"]');
             if (sb) {
