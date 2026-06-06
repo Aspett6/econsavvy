@@ -1275,6 +1275,9 @@ def render_homepage():
     hour = datetime.datetime.now().hour
     greeting = "清晨好" if hour < 8 else "上午好" if hour < 12 else "中午好" if hour < 14 else "下午好" if hour < 18 else "晚上好"
 
+    # 移动端 EconSavvy 品牌标志（仅手机端可见）
+    st.markdown("""<div class="mobile-brand-header" style="display:none;align-items:center;gap:10px;margin-bottom:1rem;padding-bottom:0.8rem;border-bottom:1px solid rgba(37,99,235,0.06);"><div style="width:36px;height:36px;border-radius:13px;background:linear-gradient(135deg,#2563eb,#6366f1,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 4px 14px rgba(37,99,235,0.35);color:#fff;">ES</div><div style="line-height:1.2;"><div style="font-weight:700;font-size:1rem;color:#1e293b;letter-spacing:-0.01em;">EconSavvy</div><div style="font-size:0.65rem;color:#94a3b8;">AI Finance Tutor</div></div></div><style>@media(max-width:768px){.mobile-brand-header{display:flex!important}}</style>""", unsafe_allow_html=True)
+
     st.markdown(f"""
     <div style="margin-bottom:1.5rem;">
         <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.4rem;">
