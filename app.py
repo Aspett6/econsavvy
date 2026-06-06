@@ -695,8 +695,8 @@ st.markdown("""
     }
 
     @media (max-width: 768px) {
-        /* 移动端：Streamlit 原生侧边栏行为（折叠 + overlay） */
-        /* 不做任何覆盖，让 Streamlit 自己管 */
+        /* 移动端：Streamlit 原生侧边栏（默认隐藏，汉堡打开） */
+        /* 底部导航栏样式在 render_mobile_nav() 中内联定义 */
         /* ========================================
            基础重置
            ======================================== */
@@ -1802,7 +1802,73 @@ def render_exam_page(feature_key: str):
 # ============================================================
 # 主入口
 # ============================================================
+# ============================================================
+# 移动端底部导航栏（仿 lovable）
+# ============================================================
+def render_mobile_nav():
+    current = st.session_state.current_feature
+    nav_items = [
+        {"icon": "🏠", "label": "首页", "key": "🏠 首页"},
+        {"icon": "📖", "label": "概念", "key": "📖 概念讲解"},
+        {"icon": "📝", "label": "刷题", "key": "📝 智能刷题"},
+        {"icon": "🎯", "label": "备考", "key": "🎯 考试备考"},
+        {"icon": "⏱️", "label": "模考", "key": "⏱️ 模拟考试"},
+    ]
+
+    # 纯 HTML 底部导航栏
+    items_html = ""
+    for item in nav_items:
+        is_active = current == item["key"]
+        active_class = "mnav-active" if is_active else ""
+        items_html += f"""
+        <a href="?nav={item['key']}" class="mnav-item {active_class}">
+            <span class="mnav-icon">{item['icon']}</span>
+            <span class="mnav-label">{item['label']}</span>
+        </a>"""
+
+    st.markdown(f"""
+    <nav class="mobile-nav">{items_html}</nav>
+    <style>
+        .mobile-nav {{
+            display: none;
+            position: fixed; bottom: 0; left: 0; right: 0; z-index: 999;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            border-top: 1px solid rgba(37,99,235,0.08);
+            box-shadow: 0 -2px 20px rgba(0,0,0,0.06);
+            justify-content: space-around; align-items: center;
+            padding: 4px 0; padding-bottom: max(4px, env(safe-area-inset-bottom));
+        }}
+        .mnav-item {{
+            display: flex; flex-direction: column; align-items: center; gap: 1px;
+            padding: 4px 12px; min-width: 56px;
+            text-decoration: none !important; color: #94a3b8 !important;
+            font-size: 0.65rem; font-weight: 500;
+            border-radius: 12px; transition: all 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+        }}
+        .mnav-active {{
+            color: #2563eb !important; font-weight: 700;
+            background: rgba(37,99,235,0.06);
+        }}
+        .mnav-icon {{ font-size: 1.3rem; line-height: 1; }}
+        .mnav-label {{ margin-top: 1px; }}
+        @media (max-width: 768px) {{
+            .mobile-nav {{ display: flex !important; }}
+            section[data-testid="stMain"] {{ padding-bottom: 70px !important; }}
+        }}
+    </style>
+    """, unsafe_allow_html=True)
+
+
 def main():
+    # 移动端底部导航 URL 参数处理
+    qp = st.query_params
+    if "nav" in qp:
+        st.session_state.current_feature = str(qp["nav"])
+        st.session_state.exam_state = None
+
     if not st.session_state.api_key_configured:
         st.warning("""
         **⚡ API Key 未配置**
@@ -1838,6 +1904,9 @@ def main():
         render_exam_page(feature)
     else:
         render_conversation()
+
+    # 移动端底部导航栏
+    render_mobile_nav()
 
 if __name__ == "__main__":
     main()
