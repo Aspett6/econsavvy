@@ -236,10 +236,9 @@ toc = [
     ('五', '核心功能模块详解'),
     ('六', '知识库与检索系统'),
     ('七', 'AI 智能批改引擎'),
-    ('八', '关键技术实现'),
-    ('九', '版本演进'),
-    ('十', '部署与运维'),
-    ('十一', '未来规划'),
+    ('八', '版本演进'),
+    ('九', '部署与运维'),
+    ('十', '未来规划'),
 ]
 for num, title in toc:
     pdf.set_x(45)
@@ -363,7 +362,48 @@ pdf.ln(5)
 
 body('5. 移动端响应式适配')
 pdf.ln(2)
-body('768px 断点以下：侧边栏从永久展开变为 Streamlit 原生折叠模式（全屏覆盖式），JS 强制守卫仅在桌面端生效。首页和功能页的卡片从横排变为竖排堆叠，字体缩小 10-15%，按钮和触摸目标增大以确保手指点击友好。聊天输入框高度和气泡最大宽度自动调整。')
+body('v5 实现了全面的移动端响应式适配，768px 断点以下自动切换为移动端布局。核心设计原则：桌面端的侧边栏主导航在移动端完全隐藏，替换为仿原生 app 的底部标签栏，确保用户在手机上获得类原生应用的导航体验。')
+pdf.ln(3)
+
+body('(1) 侧边栏策略')
+body('桌面端（>=769px）：侧边栏 280px 永久展开，CSS min-width 强制 + JS 定时守卫 + localStorage 清理三重防御。移动端（<=768px）：侧边栏完全由 Streamlit 原生管理，默认隐藏，点击汉堡图标以 overlay 方式展开。initial_sidebar_state 设为 "auto"，Streamlit 根据视口宽度自动决策初始状态。', indent=24)
+pdf.ln(2)
+
+body('(2) 底部导航栏')
+body('移动端底部固定一个毛玻璃效果的导航栏，包含 5 个图标入口：首页、概念讲解、智能刷题、考试备考、模拟考试。点击图标通过 URL query parameter 触发页面切换，无需 Streamlit server round-trip。活跃项蓝色高亮，其余灰色。导航栏适配 iPhone 安全区域（env(safe-area-inset-bottom)），确保在刘海屏机型上不被遮挡。', indent=24)
+pdf.ln(2)
+
+body('(3) 移动端专属品牌标志')
+body('移动端首页顶部显示 EconSavvy 品牌标志（桌面端此标志位于侧边栏内）。包含渐变 Logo 图标 + 英文名 + 中文副标题，通过 CSS @media 查询控制仅在移动端显示。', indent=24)
+pdf.ln(2)
+
+body('(4) 布局与排版适配')
+bullet([
+    '多列布局（st.columns）在移动端自动堆叠为单列，flex: 1 0 100%',
+    '统计卡片、功能入口卡片、考试备考按钮均改为全宽竖排',
+    '标题 h1 字号从 2.2rem 缩至 1.5rem，正文从 0.92rem 缩至 0.88rem',
+    '聊天气泡最大宽度从 70%/85% 放宽至 88%/94%，充分利用窄屏空间',
+    '表格添加 overflow-x: auto，支持横向滑动查看',
+    '长代码块添加 white-space: pre-wrap + word-break: break-all',
+])
+pdf.ln(2)
+
+body('(5) 触摸与表单优化')
+bullet([
+    '所有可点击元素确保最小 44x44px 触摸区域（Apple HIG 标准）',
+    '输入框字体设为 16px，防止 iOS Safari 在聚焦时自动缩放页面',
+    '添加 -webkit-tap-highlight-color: transparent 去除点击灰色高亮',
+    'touch-action: manipulation 消除 300ms 点击延迟',
+    '背景光斑动画在移动端 opacity 降至 0.25，节省 GPU 资源',
+])
+pdf.ln(2)
+
+body('(6) 考试页面适配')
+bullet([
+    '知识清单和章节测试的 iframe 高度限制为 max-height: 80vh',
+    '模拟考试计时器字号从 2.5rem 缩至 1.8rem',
+    '分数卡片内边距从 2.5rem 缩至 1.5rem，分数字号从 5rem 缩至 3rem',
+])
 
 # ═══════════════════ PAGE 7: 系统架构 ═══════════════════
 pdf.add_page()
@@ -377,8 +417,8 @@ layers = [
     ('应用层', '8 大功能模块（首页/概念讲解/智能刷题/学习规划/论文辅助/考试备考/模拟考试/知识图谱）· 系统自动批改引擎 · 5 阶段考试状态机 · 对话路由'),
     ('AI 服务层', 'DeepSeek API (deepseek-chat) · OpenAI SDK 兼容接口 · 流式响应处理 · LRU + TTL 双层缓存（200 条/1h TTL） · 8 角色 System Prompts · 异常分类处理（401/429/网络）'),
     ('知识检索层', 'Jieba 中文分词（精确模式） · TF-IDF 向量化 · 余弦相似度 Top-K 检索 · 78 段落知识库（9 学科 + 4 证书考试） · 50+ 节点知识图谱关系网络 · 回退关键词匹配'),
-    ('持久化层', '5 个 JSON 文件：conversations.json（对话历史）/ wrong_answer_book.json（错题本）/ study_stats.json（学习统计）/ ai_cache.json（AI 缓存）/ _exam_cache.json（考试缓存）'),
-    ('基础设施层', 'Python 3.11 · Streamlit 1.28+ · Nginx 反向代理（80->8501） · Docker 容器 · 阿里云 ECS Windows Server · nssm 服务注册（开机自启）'),
+    ('持久化层', '5个JSON文件：conversations.json（对话历史）/ wrong_answer_book.json（错题本）/ study_stats.json（学习统计）/ ai_cache.json（AI 缓存）/ _exam_cache.json（考试缓存）'),
+    ('基础设施层', 'Python 3.11 · Streamlit 1.28+ · Nginx 反向代理 · Docker 容器 · Streamlit Cloud 部署 · GitHub Actions CI/CD'),
 ]
 for name, desc in layers:
     pdf.ln(1.5)
@@ -542,37 +582,9 @@ bullet([
     '答案解析位于出题者的文本末尾，不显示在 UI 中——即使学生打开浏览器开发者工具查看源代码才能看到，正常使用中完全不可见',
 ])
 
-# ═══════════════════ PAGE 12: 关键技术实现 ═══════════════════
+# ═══════════════════ PAGE 12: 版本演进 ═══════════════════
 pdf.add_page()
-section_title('关键技术实现', '八')
-
-body('1. 间隔重复算法 (Spaced Repetition)')
-pdf.ln(2)
-body('基于艾宾浩斯遗忘曲线实现 4 阶段复习模型。每道错题自动附带 review_stage 和 next_review_date 字段：Stage 0（待复习，次日）-> Stage 1（1 天后）-> Stage 2（3 天后）-> Stage 3（7 天后）-> Stage 4（已掌握，手动确认）。每次打开应用时 count_due_reviews() 扫描错题本，统计哪些题目到期需要复习，侧边栏角标提醒。mark_reviewed() 将题目逐级推进直到掌握。')
-pdf.ln(5)
-
-body('2. AI 响应缓存')
-pdf.ln(2)
-body('LRU + TTL 双层策略。缓存键 = SHA256(json.dumps(messages) + feature)，确保相同问题+相同功能模块的缓存精确命中。TTL 1 小时，最多 200 条。v5 新增持久化：cache.save() 将 OrderedDict 序列化为 data/ai_cache.json，应用启动时 _load() 自动恢复，过滤掉已过期的条目。')
-pdf.ln(5)
-
-body('3. 跨平台字体探测')
-pdf.ln(2)
-body('_find_cjk_font() 根据 sys.platform 分三路探测：Windows（SimHei/SimSun/SimKai/MSYH）、macOS（PingFang/STHeiti/Arial Unicode）、Linux（Noto Sans/Serif CJK/DroidSansFallback/AR PL UMing）。按角色（hei/sun/kai）分别匹配，缺省时复用第一个找到的字体。解决了 v4 中 FONT_DIR = r\'C:\\\\Windows\\\\Fonts\' 在 Linux/Docker 上直接崩溃的问题。')
-pdf.ln(5)
-
-body('4. 对话持久化')
-pdf.ln(2)
-body('v5 新增。load_conversations()/save_conversations() 操作 data/conversations.json。每次消息交换后、删除对话时、新建对话时自动保存。应用重启后 st.session_state.conversations 从 JSON 恢复，对话历史完整保留。')
-pdf.ln(5)
-
-body('5. Streamlit 侧边栏守卫（多重防御）')
-pdf.ln(2)
-body('Streamlit 默认允许用户折叠侧边栏，v5 需要侧边栏始终可见（作为主导航）。实现方案：CSS 层固定 width/display/transform + 隐藏 collapsedControl 按钮 + 删除关闭按钮；JS 层清除 localStorage/sessionStorage 中的 sidebar 状态 + 150ms 定时暴力重置 + MutationObserver 监听属性变化 + 捕获阶段拦截折叠按钮的 click 事件。桌面端六层防御，移动端自动放行允许原生折叠。')
-
-# ═══════════════════ PAGE 13: 版本演进 ═══════════════════
-pdf.add_page()
-section_title('版本演进', '九')
+section_title('版本演进', '八')
 
 body('从 v1 到 v5，EconSavvy 经历了完整的「概念验证 -> 架构升级 -> 功能深化 -> 产品化」的演进路径。每个版本都在上一版本的基础上解决了明确的痛点。')
 pdf.ln(4)
@@ -581,85 +593,31 @@ ver_table([
     ['v1-v2', '概念验证', '基础 AI 对话模块，学生可以提问财经问题并获得流式回复。8 科财经 txt 知识库作为 AI 回答的参考来源。系统自动批改 + AI 解析双引擎首次实现：系统比对答案保证正确，AI 只写解析。Streamlit 纯 Python 全栈，30 分钟可完成本地部署。'],
     ['v3',    '架构升级', '单文件 app.py 从 1500 行重构为 11 模块分层架构（core/ 目录下 10 个独立模块 + config.py），每个模块职责单一、不超过 300 行。知识检索从 n-gram 关键词匹配升级为 Jieba + TF-IDF 余弦相似度语义检索。数据存储从 Streamlit Session State（刷新即丢失）升级为 JSON 文件持久化（wrong_answer_book.json + study_stats.json）。API Key 改用 python-dotenv 管理，.env 文件加入 .gitignore，提供 .env.example 模板。'],
     ['v4',    '功能深化', '新增 LRU + TTL AI 响应缓存（SHA256 键 + 1h TTL + 200 条容量），大幅减少重复 API 调用。引入艾宾浩斯间隔重复算法（4 阶段：1 天 -> 3 天 -> 7 天 -> 已掌握），错题自动纳入复习队列。exampass 结构化知识殿堂上线：5 学科知识清单 HTML + 章节测试 HTML，支持双标签页（知识清单/章节测试）浏览。50+ 节点知识图谱实现 4 色掌握度可视化。A4 PDF 成绩单导出（fpdf2 + SimHei/SimSun/SimKai 中文字体）。学习数据看板（侧边栏统计卡片 + 每日刷题趋势图 + 知识点掌握标签）。'],
-    ['v5',    '产品化',   'UI 全面重构为蓝色玻璃拟态 (Blue Glass Morphism)：600+ 行 CSS + 12 个关键帧动画 + 10 个渐变/阴影变量。导航架构从顶部标签栏改为侧边栏主导航 + 首页仪表盘。新增 CFA/FRM/CPA/ACCA 四大证书考试知识库（+58 个 TF-IDF 段落 + 8 套知识清单 HTML + 8 套章节测试 HTML）。对话持久化（conversations.json）+ AI 缓存持久化（ai_cache.json）。10 项生产环境修复（PDF 跨平台字体、模型名可配置、硬编码路径消除等）。响应式移动端适配。Docker 容器化 + 阿里云 ECS 部署 + Nginx 反向代理。'],
+    ['v5',    '产品化',   'UI 全面重构为蓝色玻璃拟态 (Blue Glass Morphism)：600+行 CSS + 12 个关键帧动画 + 10 个渐变/阴影变量。导航架构从顶部标签栏改为侧边栏主导航 + 首页仪表盘 + 移动端底部导航栏（仿原生app体验）。新增 CFA/FRM/CPA/ACCA 四大证书考试知识库（+58 个 TF-IDF 段落 + 8 套知识清单 HTML + 8 套章节测试 HTML）。对话持久化（conversations.json）+ AI 缓存持久化（ai_cache.json）+ 跨平台 PDF 字体探测 + 模型名/Token数可配置（环境变量）。移动端全响应式适配：侧边栏自动折叠 + 底部5图标导航栏 + 44px触摸目标 + 16px防iOS缩放。Streamlit Cloud 一键部署（GitHub 同步）+ Docker 容器化 + Nginx 反向代理。'],
 ])
 
 pdf.ln(6)
-body('v5 生产环境修复清单（10 项）：')
-bullet([
-    'PDF 字体跨平台自动探测（Win / Mac / Linux），不再硬编码 C:\\\\Windows\\\\Fonts',
-    '对话自动持久化到 conversations.json，重启后完整恢复',
-    'AI 缓存持久化到 ai_cache.json，重启后有效缓存仍命中',
-    'AI 模型名改为可配置（DEEPSEEK_MODEL 环境变量），不再硬编码 "deepseek-chat"',
-    'exampass template_engine 本地化到 core/ 目录，消除外部 Claude 安装路径依赖',
-    '移除 generate_exampass.py 中的递归 exec() 调用',
-    'UI 文案修正：知识库支持格式如实标注（TXT），不再虚假声称支持 PDF/Word',
-    'System Prompts 完善：新增考试备考 + 知识图谱两个独立 prompt，概念讲解 prompt 增强为 7 步结构化框架',
-    '版本号全局统一：core/__init__.py(v3->v5)、PDF 页脚(v4->v5)、export.py 页眉同步更新',
-    'Dockerfile + .dockerignore + .env.example 三件套，一键构建 + 安全部署',
-])
-
-# ═══════════════════ PAGE 14: 部署 + 未来 ═══════════════════
+# ═══════════════════ PAGE 13: 部署 + 未来 ═══════════════════
 pdf.add_page()
-section_title('部署与运维', '十')
+section_title('部署与运维', '九')
 
-body('1. Docker 容器化部署')
+body('Streamlit Cloud 部署')
+body('v5 已部署至 Streamlit Cloud（share.streamlit.io），与 GitHub 仓库自动同步。推送代码即自动更新，无需手动运维。', indent=24)
 pdf.ln(2)
-code_block("""FROM python:3.11-slim
-RUN apt-get update && apt-get install -y fonts-noto-cjk
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-COPY . .
-RUN mkdir -p data
-EXPOSE 8501
-ENV STREAMLIT_SERVER_PORT=8501
-ENV STREAMLIT_SERVER_ADDRESS=0.0.0.0
-CMD ["streamlit", "run", "app.py"]""")
-pdf.ln(2)
-body('构建与运行：docker build -t econsavvy . && docker run -p 8501:8501 -e DEEPSEEK_API_KEY=sk-xxx econsavvy')
-pdf.ln(5)
-
-body('2. Nginx 反向代理')
-pdf.ln(2)
-body('Nginx 监听 80 端口，反向代理到本地 Streamlit 8501 端口。同时处理 WebSocket 升级（Streamlit 的实时通信依赖 WebSocket），配置了 proxy_read_timeout 86400 秒以支持长时间的 AI 流式响应。')
-pdf.ln(2)
-code_block("""server {
-    listen 80;
-    location / {
-        proxy_pass http://127.0.0.1:8501;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_set_header Host $host;
-        proxy_read_timeout 86400;
-    }
-    location /_stcore/stream {
-        proxy_pass http://127.0.0.1:8501/_stcore/stream;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-    }
-}""")
-pdf.ln(5)
-
-body('3. 当前生产环境')
+body('部署配置要点：')
 bullet([
-    '服务器：阿里云 ECS（Windows Server），北京机房',
-    '进程管理：nssm 将 Streamlit + Nginx 注册为 Windows 服务，开机自启',
-    '访问地址：http://39.97.244.228（Nginx 80 端口，已免去 :8501）',
-    '部署方式：本地编辑 -> 通过 VNC/RDP 上传文件到服务器 -> nssm restart JingshiApp',
+    'GitHub 仓库：Aspett6/econsavvy，main 分支，app.py 入口',
+    'Secrets 管理：DEEPSEEK_API_KEY 通过 Streamlit Cloud Secrets 注入，不存储在代码仓库中',
+    'Python 版本：3.11（兼容性最佳）',
+    '自动 HTTPS：Streamlit Cloud 提供 Let\'s Encrypt 证书和 econsavvy.streamlit.app 子域名',
+    '免备案：海外服务器，不受中国 ICP 备案管制',
 ])
 pdf.ln(2)
-body('4. 推荐部署路线（国际免备案）')
-bullet([
-    'Hugging Face Spaces：永久免费 16GB RAM，Streamlit 原生支持，适合 MVP 验证',
-    'Railway：$5/月起，自动 HTTPS + 自定义域名',
-    'Vercel + Supabase（需前端重写为 Next.js）：最完整方案',
-])
+body('4. Docker 自部署（可选）')
+body('对于需要私有化部署的场景，提供完整 Dockerfile：基于 python:3.11-slim，安装中文字体（fonts-noto-cjk），pip 安装依赖，COPY 应用代码，EXPOSE 8501。配合 Nginx 反向代理可实现 80 端口访问。', indent=24)
 
 pdf.ln(6)
-section_title('未来规划', '十一')
+section_title('未来规划', '十')
 
 future = [
     'PDF/Word 教材自动解析：PyMuPDF（MIT 协议）解析 PDF -> 纯文本 -> 自动分页 -> Jieba 分词 -> 纳入 TF-IDF 索引。python-docx 解析 Word。实现真正的「拖拽上传即纳入知识库」。',
