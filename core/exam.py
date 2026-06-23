@@ -194,13 +194,39 @@ def render_exam_ui():
         mins = int(remaining_sec // 60)
         secs = int(remaining_sec % 60)
 
-        # 悬浮时钟
+        # 悬浮时钟 + 内联倒计时脚本
         st.markdown(f"""
         <div id="exam-float-timer" class="exam-float-clock">
             <span class="clock-icon">⏱</span>
             <span id="exam-clock-digits">{mins}:{secs:02d}</span>
         </div>
         <div id="exam-end-time" style="display:none;">{end_time_ms}</div>
+        <script>
+        (function() {{
+            var endMs = {end_time_ms};
+            var digits = document.getElementById('exam-clock-digits');
+            var clock = document.getElementById('exam-float-timer');
+            if (!digits || !clock) return;
+            function tick() {{
+                var remaining = Math.max(0, Math.floor((endMs - Date.now()) / 1000));
+                var m = Math.floor(remaining / 60);
+                var s = remaining % 60;
+                digits.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+                if (remaining < 300) clock.classList.add('warning');
+                if (remaining <= 0) {{
+                    var btns = document.querySelectorAll('button');
+                    for (var i = 0; i < btns.length; i++) {{
+                        if (btns[i].textContent.indexOf('提交') !== -1) {{
+                            btns[i].click(); break;
+                        }}
+                    }}
+                    return;
+                }}
+                setTimeout(tick, 200);
+            }}
+            tick();
+        }})();
+        </script>
         """, unsafe_allow_html=True)
 
         # 超时自动交卷
