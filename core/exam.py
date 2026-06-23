@@ -191,18 +191,17 @@ def render_exam_ui():
         remaining_sec = max(0, duration_sec - elapsed)
         end_time_ms = int((time.time() + remaining_sec) * 1000)
 
-        st.markdown(
-            f'<div id="exam-end-time" style="display:none;">{end_time_ms}</div>',
-            unsafe_allow_html=True
-        )
-
         mins = int(remaining_sec // 60)
         secs = int(remaining_sec % 60)
-        timer_class = "exam-timer warning" if remaining_sec < 300 else "exam-timer"
-        st.markdown(
-            f'<div id="exam-timer-display" class="{timer_class}">{mins}:{secs:02d}</div>',
-            unsafe_allow_html=True
-        )
+
+        # 悬浮时钟
+        st.markdown(f"""
+        <div id="exam-float-timer" class="exam-float-clock">
+            <span class="clock-icon">⏱</span>
+            <span id="exam-clock-digits">{mins}:{secs:02d}</span>
+        </div>
+        <div id="exam-end-time" style="display:none;">{end_time_ms}</div>
+        """, unsafe_allow_html=True)
 
         # 超时自动交卷
         if remaining_sec <= 0:

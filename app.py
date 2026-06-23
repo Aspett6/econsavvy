@@ -648,23 +648,35 @@ st.markdown("""
     }
     .wrong-item .q { font-weight: 600; color: var(--slate-800); }
     .wrong-item .a { color: var(--slate-500); margin-top: 0.2rem; }
-    .exam-timer {
-        font-size: 2.5rem; font-weight: 700; text-align: center;
-        color: var(--blue-600); padding: 0.5rem;
+    .exam-float-clock {
+        position: fixed; top: 14px; right: 24px; z-index: 9999;
+        display: flex; align-items: center; gap: 8px;
+        padding: 10px 22px;
+        background: rgba(255,255,255,0.92);
+        backdrop-filter: blur(18px) saturate(140%);
+        -webkit-backdrop-filter: blur(18px) saturate(140%);
+        border-radius: 22px;
+        border: 1px solid rgba(37,99,235,0.08);
+        box-shadow: 0 4px 28px rgba(37,99,235,0.10), 0 1px 3px rgba(0,0,0,0.04);
+        font-family: 'SF Mono', 'JetBrains Mono', 'Consolas', monospace;
+        font-size: 1.35rem; font-weight: 700;
         font-variant-numeric: tabular-nums;
-        background: rgba(255,255,255,0.75);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-radius: 16px;
-        border: 1px solid rgba(37,99,235,0.07);
-        box-shadow: var(--shadow-sm);
-        letter-spacing: 0.02em;
+        color: #1e293b;
+        letter-spacing: 0.03em;
+        transition: all 0.4s ease;
+        pointer-events: none; user-select: none;
     }
-    .exam-timer.warning {
+    .exam-float-clock .clock-icon { font-size: 1.1rem; }
+    .exam-float-clock.warning {
         color: #ef4444;
-        animation: timerWarning 0.8s ease-in-out infinite;
-        box-shadow: 0 0 28px rgba(239,68,68,0.18);
-        border-color: rgba(239,68,68,0.25);
+        box-shadow: 0 4px 28px rgba(239,68,68,0.22), 0 1px 3px rgba(239,68,68,0.05);
+        border-color: rgba(239,68,68,0.18);
+        animation: floatClockPulse 0.9s ease-in-out infinite;
+    }
+    @keyframes floatClockPulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.04); }
+    }
     }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
     @keyframes timerWarning {
@@ -953,7 +965,7 @@ st.markdown("""
         /* ========================================
            计时器
            ======================================== */
-        .exam-timer { font-size: 1.8rem !important; }
+        .exam-float-clock { top: 8px; right: 10px; font-size: 1.1rem; padding: 8px 16px; }
 
         /* ========================================
            streamlit 列间距归零
@@ -1014,24 +1026,25 @@ st.markdown("""
     if(mainTarget) scrollObserver.observe(mainTarget, { childList: true, subtree: true, characterData: true });
 
     // =====================================================
-    // 考试倒计时
+    // 考试倒计时 — 悬浮时钟
     // =====================================================
     var examEndTime = document.getElementById('exam-end-time');
     if(examEndTime) {
         var endMs = parseInt(examEndTime.textContent);
-        var display = document.getElementById('exam-timer-display');
-        var submitBtn = window.parent.document.querySelector('button[kind="examSubmit"]');
+        var digits = document.getElementById('exam-clock-digits');
+        var clock = document.getElementById('exam-float-timer');
         function tick() {
-            var now = Date.now();
-            var remaining = Math.max(0, Math.floor((endMs - now) / 1000));
+            var remaining = Math.max(0, Math.floor((endMs - Date.now()) / 1000));
             var m = Math.floor(remaining / 60);
             var s = remaining % 60;
-            if(display) {
-                display.textContent = m + ':' + (s < 10 ? '0' : '') + s;
-                if(remaining < 300) display.classList.add('warning');
+            if(digits) digits.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+            if(remaining < 300 && clock) clock.classList.add('warning');
+            if(remaining <= 0) {
+                var btn = document.querySelector('button[kind="primary"]');
+                if(btn && btn.textContent.includes('提交')) btn.click();
+                return;
             }
-            if(remaining <= 0 && submitBtn) { submitBtn.click(); return; }
-            if(remaining > 0) setTimeout(tick, 1000);
+            if(remaining > 0) setTimeout(tick, 200);
         }
         tick();
     }
