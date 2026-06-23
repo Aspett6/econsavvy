@@ -128,7 +128,60 @@ def render_exam_ui():
             }
             st.rerun()
 
-    # ---- 阶段2：AI 生成试题（由 app.py 处理）----
+    # ---- 阶段2：AI 生成试题 ----
+    elif exam.get("phase") == "generating":
+        st.markdown("## ⏳ 正在生成试卷…")
+        st.caption(f"科目：{exam['subject']} · 题量：{exam['count']} 题")
+
+        # 构建 prompt
+        prompt = (
+            f"请为{exam['subject']}科目生成 {exam['count']} 道单选题，每题 4 个选项（A/B/C/D）。"
+            f"题目要有区分度：基础题约 40%、中等题约 40%、难题约 20%。"
+            f"覆盖核心知识点，不重复考察同一知识点。\n\n"
+            f"出题格式：\n"
+            f"**第 N 题**（知识点：xxx）\n"
+            f"题目内容\n"
+            f"A. xxx\n"
+            f"B. xxx\n"
+            f"C. xxx\n"
+            f"D. xxx\n\n"
+            f"最后单独一行列出所有正确答案：\n"
+            f"<!-- ANSWERS: 1:A,2:C,3:B,... -->"
+        )
+
+        from core.prompts import SYSTEM_PROMPTS
+        from core.ai_client import stream_ai
+        system_prompt = SYSTEM_PROMPTS.get("⏱️ 模拟考试", "")
+        api_messages = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": prompt},
+        ]
+
+        placeholder = st.empty()
+        full_response = ""
+        for token in stream_ai(api_messages, feature="⏱️ 模拟考试"):
+            full_response += token
+            placeholder.markdown(f"生成中… {len(full_response)} 字")
+
+        # 解析试题
+        questions = parse_exam_questions(full_response)
+        correct_answers = extract_exam_answers(full_response)
+
+        if not questions:
+            st.error("试题生成失败，请重试。")
+            if st.button("返回重试", use_container_width=True):
+                st.session_state.exam_state = None
+                st.rerun()
+        else:
+            st.session_state.exam_state.update({
+                "phase": "in_progress",
+                "questions": questions,
+                "correct_answers": correct_answers,
+                "answers": {},
+                "start_time": time.time(),
+                "raw_text": full_response,
+            })
+            st.rerun()
 
     # ---- 阶段3：答题中 ----
     elif exam.get("phase") == "in_progress":
