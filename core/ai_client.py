@@ -1,14 +1,14 @@
 """
 AI 客户端 — DeepSeek API 封装（流式 + 缓存）
-v4: 集成 TTL 缓存，相同 query 1 小时内命中直接返回
+v5: 支持运行时 API Key 覆盖
 """
 from openai import OpenAI
-from config import DEEPSEEK_API_KEY, DEEPSEEK_BASE_URL, DEEPSEEK_MODEL, DEEPSEEK_MAX_TOKENS
+from config import DEEPSEEK_BASE_URL, DEEPSEEK_MODEL, DEEPSEEK_MAX_TOKENS, get_active_api_key
 from core.cache import get_cache
 
 
 def get_client() -> OpenAI:
-    return OpenAI(api_key=DEEPSEEK_API_KEY, base_url=DEEPSEEK_BASE_URL)
+    return OpenAI(api_key=get_active_api_key(), base_url=DEEPSEEK_BASE_URL)
 
 
 def stream_ai(messages: list, max_tokens: int = None, feature: str = ""):

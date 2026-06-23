@@ -1109,10 +1109,14 @@ st.markdown("""
 # ============================================================
 # 会话状态初始化
 # ============================================================
+from config import get_active_api_key, set_runtime_api_key
+
 if "api_key_configured" not in st.session_state:
     st.session_state.api_key_configured = bool(
-        DEEPSEEK_API_KEY and DEEPSEEK_API_KEY != "your-api-key-here"
+        get_active_api_key() and get_active_api_key() != "your-api-key-here"
     )
+if "runtime_api_key" not in st.session_state:
+    st.session_state.runtime_api_key = ""
 if "conversations" not in st.session_state:
     st.session_state.conversations = load_conversations()
 if "current_conv_id" not in st.session_state:
@@ -1409,6 +1413,29 @@ def render_sidebar():
             chunk_count = len(kb.chunks) if kb else 0
             if chunk_count > 0:
                 st.caption(f"📚 知识库: {chunk_count} 段")
+
+            # API Key 输入（始终可见，运行时覆盖）
+            st.markdown("---")
+            st.caption("🔑 API Key 设置（输入后立即生效，优先于 .env / Secrets）")
+            current_key = st.session_state.get("runtime_api_key", "")
+            masked = ""
+            if current_key:
+                masked = current_key[:4] + "****" + current_key[-4:] if len(current_key) > 8 else "****"
+            new_key = st.text_input(
+                "DeepSeek API Key",
+                value=current_key if not current_key else "",
+                placeholder="sk-..." if not current_key else f"当前: {masked}",
+                type="password",
+                key="sidebar_api_key_input",
+                help="在此输入 Key 后立即生效，优先于 .env 和 Secrets。不留痕迹，刷新页面即清除。"
+            )
+            if new_key:
+                set_runtime_api_key(new_key)
+                st.session_state.runtime_api_key = new_key
+                st.session_state.api_key_configured = True
+                st.caption("✅ Key 已激活")
+            elif current_key:
+                st.caption("✅ Key 已激活")
         st.caption("EconSavvy · 经世智用 v5")
 
 # ============================================================
@@ -2038,19 +2065,13 @@ def main():
         st.warning("""
         **⚡ API Key 未配置**
 
-        请复制 `.env.example` 为 `.env`，填入 DeepSeek API Key。
+        请在左侧边栏底部「⚙️ 系统状态」中输入 DeepSeek API Key，或配置 `.env` / Streamlit Secrets。
 
         获取地址：[https://platform.deepseek.com/api_keys](https://platform.deepseek.com/api_keys)
         """)
-        with st.sidebar:
-            manual_key = st.text_input("或手动输入 API Key", type="password")
-            if manual_key:
-                import config
-                config.DEEPSEEK_API_KEY = manual_key
-                st.session_state.api_key_configured = True
-                st.rerun()
-        if not st.session_state.api_key_configured:
-            return
+    if not st.session_state.api_key_configured and not st.session_state.runtime_api_key:
+        render_sidebar()
+        st.stop()
 
     render_sidebar()
 
